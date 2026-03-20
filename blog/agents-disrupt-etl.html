@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>How AI Agents Will Disrupt Classical ETL — Ashok Tak</title>
+  <meta name="description" content="The rise of autonomous AI agents doesn't just optimize classical ETL — it makes much of it structurally obsolete." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .post-page { max-width: 640px; margin: 0 auto; padding: 112px 32px 100px; }
+
+    .post-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      margin-bottom: 52px;
+      transition: color 0.15s;
+    }
+    .post-back:hover { color: var(--fg); }
+
+    .post-header { margin-bottom: 48px; }
+
+    .post-header .post-date {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .post-header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: clamp(1.8rem, 5vw, 2.6rem);
+      font-weight: 400;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--fg);
+      margin-bottom: 20px;
+    }
+
+    .post-header .post-byline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    .post-header .post-byline span { color: var(--border); }
+
+    hr.post-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 40px 0;
+    }
+
+    .post-body { font-size: 1rem; line-height: 1.8; color: #333; font-weight: 300; }
+
+    .post-body p { margin-bottom: 1.5em; }
+
+    .post-body h2 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--fg);
+      margin: 2.4em 0 0.8em;
+      letter-spacing: -0.01em;
+    }
+
+    .post-body ul {
+      margin: 0 0 1.5em 0;
+      padding-left: 1.4em;
+    }
+
+    .post-body ul li {
+      margin-bottom: 0.55em;
+      line-height: 1.7;
+    }
+
+    .post-body strong { font-weight: 600; color: var(--fg); }
+
+    .post-body .callout {
+      border-left: 3px solid var(--border);
+      padding: 14px 20px;
+      margin: 2em 0;
+      background: var(--surface);
+      border-radius: 0 6px 6px 0;
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .post-footer {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .post-author { font-size: 0.82rem; color: var(--muted); }
+    .post-author strong { color: var(--fg); }
+
+    .post-share {
+      display: flex;
+      gap: 14px;
+    }
+
+    .post-share a {
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .post-share a:hover { color: var(--fg); }
+
+    @media (max-width: 600px) {
+      .post-page { padding: 100px 20px 64px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav id="nav">
+    <a href="../" class="nav-mark">AT</a>
+    <div class="nav-links">
+      <a href="../#writing">Writing</a>
+      <a href="../#work">Work</a>
+      <a href="../#education">Education</a>
+    </div>
+  </nav>
+
+  <main class="post-page">
+
+    <a href="../#writing" class="post-back">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M9.5 6H2.5M2.5 6L6 2.5M2.5 6L6 9.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Writing
+    </a>
+
+    <header class="post-header">
+      <span class="post-date">March 2026 · 6 min read</span>
+      <h1>How AI Agents Will Disrupt Classical ETL and Data Engineering</h1>
+      <div class="post-byline">
+        <span>Ashok Tak</span>
+        <span>·</span>
+        <span>GenAI Engineer, Lumenalta</span>
+      </div>
+    </header>
+
+    <hr class="post-divider" />
+
+    <article class="post-body">
+
+      <p>
+        For two decades, data engineering has followed roughly the same playbook:
+        extract data from sources, transform it to fit your schema, load it into a warehouse.
+        Rinse, repeat, debug at 2am when it breaks.
+      </p>
+
+      <p>
+        The rise of autonomous AI agents doesn't just optimize this workflow —
+        it makes much of it structurally obsolete.
+      </p>
+
+      <h2>The problem with classical ETL</h2>
+
+      <p>
+        Classical ETL pipelines are brittle by design. They're built on assumptions:
+        that your source schema stays fixed, that your transformation logic is
+        knowable in advance, that the orchestration DAG accurately reflects reality.
+        Every assumption is a future incident.
+      </p>
+
+      <p>
+        The result is a data engineering culture dominated by maintenance. By some
+        estimates, data engineers spend 60–70% of their time on pipeline upkeep
+        rather than building new value. Schema changes break ingestion. New data
+        sources require weeks of integration work. Data quality failures surface
+        quietly — sometimes only when a dashboard shows a CEO a wrong number.
+      </p>
+
+      <div class="callout">
+        "The most expensive bug in data engineering isn't the one that crashes your
+        pipeline. It's the one that silently passes wrong data downstream for six weeks."
+      </div>
+
+      <h2>What agents change</h2>
+
+      <p>
+        AI agents — systems that can perceive state, reason over it, and take
+        autonomous actions — break the core assumption of classical pipelines:
+        that transformation logic must be written by humans in advance.
+      </p>
+
+      <p>
+        Instead of a hardcoded pipeline, imagine a system that:
+      </p>
+
+      <ul>
+        <li>Observes a new source's schema and infers transformation rules automatically</li>
+        <li>Detects when upstream data drifts from expectations and heals or quarantines it</li>
+        <li>Generates and tests transformation code from a natural language specification</li>
+        <li>Replans its execution graph dynamically when upstream conditions change</li>
+      </ul>
+
+      <p>
+        This isn't speculative. These capabilities exist today in nascent form across
+        tools like dbt, Fivetran, Anomalo, and the emerging wave of AI-native data
+        platforms. The trend is clearly toward composing them into autonomous, self-managing
+        data workflows.
+      </p>
+
+      <h2>Where disruption hits hardest</h2>
+
+      <p>
+        <strong>Schema management.</strong> Classical pipelines break when schemas change.
+        Agents can monitor schema drift in real time, propose and apply migrations, and
+        validate that downstream consumers still receive what they expect — without human
+        intervention for routine changes.
+      </p>
+
+      <p>
+        <strong>Data quality.</strong> Rule-based quality checks — nulls, ranges,
+        referential integrity — are table stakes. Agents can apply semantic reasoning,
+        flagging that "revenue for January looks inconsistent with last year's trend"
+        and routing anomalies for review rather than silently passing bad data downstream.
+      </p>
+
+      <p>
+        <strong>Transformation logic.</strong> dbt models, Spark jobs, SQL transforms —
+        these are code artifacts that encode business logic. Agents can generate
+        first-draft transformations from plain-language specifications, iterate with
+        tests, and explain what they do in plain English. The human role shifts from
+        writing SQL to reviewing it.
+      </p>
+
+      <p>
+        <strong>Orchestration.</strong> Static DAGs assume a fixed execution graph.
+        Agents can determine dynamically what needs to run based on data availability,
+        freshness requirements, and downstream dependencies — closer to intent-based
+        orchestration than schedule-based cron jobs.
+      </p>
+
+      <h2>What doesn't change</h2>
+
+      <p>
+        Not everything is disrupted. <strong>Data contracts</strong> — formal agreements
+        between producers and consumers about what data looks like — become
+        <em>more</em> important, not less. Agents need clear interfaces to reason against.
+        Without well-defined contracts, autonomous agents will make reasonable-sounding
+        mistakes with confidence.
+      </p>
+
+      <p>
+        <strong>Data governance and lineage</strong> remain deeply human concerns.
+        Knowing where data came from, who can access it, and what decisions it influences
+        is a compliance and trust question, not a technical one. Agents can surface
+        lineage information, but humans must own the accountability.
+      </p>
+
+      <h2>The new data engineer</h2>
+
+      <p>
+        The data engineer's role doesn't disappear — it elevates. The work shifts from
+        pipeline plumbing to defining the systems and contracts that agents operate within.
+        Writing transformation logic gives way to reviewing agent-generated transformations.
+        Debugging broken pipelines gives way to auditing agent decisions.
+      </p>
+
+      <p>
+        The engineers who thrive in this shift understand both the data domain and the
+        AI systems operating on it — a combination that's rarer and more valuable than
+        either skill alone. The data engineer becomes part systems architect, part
+        AI auditor.
+      </p>
+
+      <p>
+        Classical ETL isn't dying today. But the economic pressure is real: when an
+        agent can onboard a new data source in minutes instead of weeks, the question
+        isn't whether to adopt this approach — it's how fast your organisation can.
+      </p>
+
+    </article>
+
+    <footer class="post-footer">
+      <p class="post-author">Written by <strong>Ashok Tak</strong> · GenAI Engineer</p>
+      <div class="post-share">
+        <a href="https://x.com/AshokTak10" target="_blank" rel="noopener">Follow on X</a>
+        <a href="https://www.linkedin.com/in/ashoktak" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </footer>
+
+  </main>
+
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 20);
+    }, { passive: true });
+  </script>
+
+</body>
+</html>
