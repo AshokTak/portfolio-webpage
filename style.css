@@ -291,11 +291,99 @@ body {
   letter-spacing: 0.02em;
 }
 
+/* ── Company logos (Work section) ─────────────────────────────────────── */
+
+.company-logo {
+  display: block;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  object-fit: contain;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 4px;
+  margin-bottom: 8px;
+}
+
+.company-logo-initials {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+/* ── Role entries within a company ────────────────────────────────────── */
+
+.role-entry {
+  margin-bottom: 16px;
+}
+
+.role-entry:last-of-type {
+  margin-bottom: 14px;
+}
+
+.role-title {
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+
+.role-period {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--muted);
+}
+
 /* ── University logos ────────────────────────────────────────────────────── */
 
 .uni-logo {
   display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
   filter: drop-shadow(0 1px 3px rgba(0,0,0,0.15));
+}
+
+/* ── Education detail text ───────────────────────────────────────────────── */
+
+.edu-detail {
+  margin-top: 6px;
+  font-size: 0.82rem;
+}
+
+/* ── Certifications ──────────────────────────────────────────────────────── */
+
+.cert-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cert-item {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+.cert-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--fg);
+  flex-shrink: 0;
 }
 
 /* ── Writing / Blog cards ─────────────────────────────────────────────────── */
@@ -427,6 +515,78 @@ body {
   color: var(--border);
   margin-left: auto;
 }
+
+/* ── Publications ─────────────────────────────────────────────────────────── */
+
+.pub-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 48px;
+}
+
+.pub-item {
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.pub-item:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.pub-title {
+  font-size: 0.92rem;
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.55;
+  margin-bottom: 4px;
+}
+
+.pub-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+.thesis-block {
+  padding: 24px 28px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+.thesis-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+
+.thesis-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--fg);
+  line-height: 1.4;
+  margin-bottom: 14px;
+}
+
+.thesis-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--fg);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: opacity 0.15s;
+}
+
+.thesis-link:hover { opacity: 0.6; }
 
 /* ── Animations ───────────────────────────────────────────────────────────── */
 
