@@ -79,23 +79,131 @@
   <section id="writing" class="section reveal">
     <div class="section-inner">
       <h2 class="section-label">Writing</h2>
-      <div class="post-list">
-        <a href="blog/agents-disrupt-etl.html" class="post-card">
+      <article class="inline-post">
+        <header class="inline-post-header">
           <div class="post-card-meta">
             <span class="post-date">Mar 2026</span>
             <span class="post-read">6 min read</span>
           </div>
-          <h3 class="post-title">How AI Agents Will Disrupt Classical ETL and Data Engineering</h3>
-          <p class="post-excerpt">
-            For two decades, data engineering has followed roughly the same playbook.
-            The rise of autonomous AI agents doesn't just optimize this workflow — it makes much of it structurally obsolete.
+          <h3 class="inline-post-title">How AI Agents Will Disrupt Classical ETL and Data Engineering</h3>
+          <p class="inline-post-byline">Ashok Tak &middot; GenAI Engineer, Lumenalta</p>
+          <a href="blog/agents-disrupt-etl.html" class="inline-post-permalink" target="_blank" rel="noopener">
+            Permalink
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </header>
+
+        <div class="inline-post-body">
+          <p>
+            For two decades, data engineering has followed roughly the same playbook:
+            extract data from sources, transform it to fit your schema, load it into a warehouse.
+            Rinse, repeat, debug at 2am when it breaks.
           </p>
-          <span class="post-cta">
-            Read
-            <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </span>
-        </a>
-      </div>
+          <p>
+            The rise of autonomous AI agents doesn't just optimize this workflow —
+            it makes much of it structurally obsolete.
+          </p>
+
+          <h4>The problem with classical ETL</h4>
+          <p>
+            Classical ETL pipelines are brittle by design. They're built on assumptions:
+            that your source schema stays fixed, that your transformation logic is
+            knowable in advance, that the orchestration DAG accurately reflects reality.
+            Every assumption is a future incident.
+          </p>
+          <p>
+            The result is a data engineering culture dominated by maintenance. By some
+            estimates, data engineers spend 60–70% of their time on pipeline upkeep
+            rather than building new value. Schema changes break ingestion. New data
+            sources require weeks of integration work. Data quality failures surface
+            quietly — sometimes only when a dashboard shows a CEO a wrong number.
+          </p>
+          <blockquote class="inline-post-callout">
+            "The most expensive bug in data engineering isn't the one that crashes your
+            pipeline. It's the one that silently passes wrong data downstream for six weeks."
+          </blockquote>
+
+          <h4>What agents change</h4>
+          <p>
+            AI agents — systems that can perceive state, reason over it, and take
+            autonomous actions — break the core assumption of classical pipelines:
+            that transformation logic must be written by humans in advance.
+          </p>
+          <p>Instead of a hardcoded pipeline, imagine a system that:</p>
+          <ul>
+            <li>Observes a new source's schema and infers transformation rules automatically</li>
+            <li>Detects when upstream data drifts from expectations and heals or quarantines it</li>
+            <li>Generates and tests transformation code from a natural language specification</li>
+            <li>Replans its execution graph dynamically when upstream conditions change</li>
+          </ul>
+          <p>
+            This isn't speculative. These capabilities exist today in nascent form across
+            tools like dbt, Fivetran, Anomalo, and the emerging wave of AI-native data
+            platforms. The trend is clearly toward composing them into autonomous, self-managing
+            data workflows.
+          </p>
+
+          <h4>Where disruption hits hardest</h4>
+          <p>
+            <strong>Schema management.</strong> Classical pipelines break when schemas change.
+            Agents can monitor schema drift in real time, propose and apply migrations, and
+            validate that downstream consumers still receive what they expect — without human
+            intervention for routine changes.
+          </p>
+          <p>
+            <strong>Data quality.</strong> Rule-based quality checks — nulls, ranges,
+            referential integrity — are table stakes. Agents can apply semantic reasoning,
+            flagging that "revenue for January looks inconsistent with last year's trend"
+            and routing anomalies for review rather than silently passing bad data downstream.
+          </p>
+          <p>
+            <strong>Transformation logic.</strong> dbt models, Spark jobs, SQL transforms —
+            these are code artifacts that encode business logic. Agents can generate
+            first-draft transformations from plain-language specifications, iterate with
+            tests, and explain what they do in plain English. The human role shifts from
+            writing SQL to reviewing it.
+          </p>
+          <p>
+            <strong>Orchestration.</strong> Static DAGs assume a fixed execution graph.
+            Agents can determine dynamically what needs to run based on data availability,
+            freshness requirements, and downstream dependencies — closer to intent-based
+            orchestration than schedule-based cron jobs.
+          </p>
+
+          <h4>What doesn't change</h4>
+          <p>
+            Not everything is disrupted. <strong>Data contracts</strong> — formal agreements
+            between producers and consumers about what data looks like — become
+            <em>more</em> important, not less. Agents need clear interfaces to reason against.
+            Without well-defined contracts, autonomous agents will make reasonable-sounding
+            mistakes with confidence.
+          </p>
+          <p>
+            <strong>Data governance and lineage</strong> remain deeply human concerns.
+            Knowing where data came from, who can access it, and what decisions it influences
+            is a compliance and trust question, not a technical one. Agents can surface
+            lineage information, but humans must own the accountability.
+          </p>
+
+          <h4>The new data engineer</h4>
+          <p>
+            The data engineer's role doesn't disappear — it elevates. The work shifts from
+            pipeline plumbing to defining the systems and contracts that agents operate within.
+            Writing transformation logic gives way to reviewing agent-generated transformations.
+            Debugging broken pipelines gives way to auditing agent decisions.
+          </p>
+          <p>
+            The engineers who thrive in this shift understand both the data domain and the
+            AI systems operating on it — a combination that's rarer and more valuable than
+            either skill alone. The data engineer becomes part systems architect, part AI auditor.
+          </p>
+          <p>
+            Classical ETL isn't dying today. But the economic pressure is real: when an
+            agent can onboard a new data source in minutes instead of weeks, the question
+            isn't whether to adopt this approach — it's how fast your organisation can.
+          </p>
+        </div>
+      </article>
     </div>
   </section>
 
@@ -143,7 +251,7 @@
         <!-- Learn AI Daily -->
         <div class="timeline-item">
           <div class="timeline-meta">
-            <div class="company-logo-initials">LA</div>
+            <img class="company-logo" src="https://www.learnaidaily.org/images/logo_learnaidaily.png" alt="Learn AI Daily" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'LA'}))">
             <span class="timeline-date">2023 — 2024</span>
           </div>
           <div class="timeline-body">
@@ -294,7 +402,7 @@
 
         <div class="timeline-item">
           <div class="timeline-meta">
-            <img class="uni-logo" src="images/iitr-logo.svg" alt="IIT Roorkee">
+            <img class="uni-logo" src="https://logo.clearbit.com/iitr.ac.in" alt="IIT Roorkee" onerror="this.src='images/iitr-logo.svg'">
             <span class="timeline-date" style="margin-top:8px">BTech</span>
           </div>
           <div class="timeline-body">
