@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="teal">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,6 +15,15 @@
   <!-- Nav -->
   <nav id="nav">
     <a href="#" class="nav-mark">AT</a>
+    <div class="theme-swatches" aria-label="Color theme">
+      <button class="swatch" data-theme=""         style="--swatch-color:#111111" title="Default"></button>
+      <button class="swatch" data-theme="teal"     style="--swatch-color:#0d9488" title="Teal"></button>
+      <button class="swatch" data-theme="purple"   style="--swatch-color:#7c3aed" title="Purple"></button>
+      <button class="swatch" data-theme="amber"    style="--swatch-color:#b45309" title="Amber"></button>
+      <button class="swatch" data-theme="rose"     style="--swatch-color:#e11d48" title="Rose"></button>
+      <button class="swatch" data-theme="dark"     style="--swatch-color:#818cf8" title="Dark"></button>
+      <button class="swatch" data-theme="dark-teal" style="--swatch-color:#2dd4bf" title="Dark Teal"></button>
+    </div>
     <div class="nav-links">
       <a href="#writing">Writing</a>
       <a href="#work">Work</a>
@@ -26,8 +35,13 @@
 
   <!-- Hero -->
   <section id="hero">
+    <canvas id="particle-canvas" aria-hidden="true"></canvas>
     <div class="hero-inner">
-      <p class="hero-eyebrow">Data &amp; AI Engineer &middot; Toronto, Canada</p>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Available for opportunities
+      </div>
+      <p class="hero-eyebrow"><span id="typewriter"></span><span class="tw-cursor"></span></p>
       <h1 class="hero-name">Ashok<br>Tak</h1>
       <p class="hero-bio">
         Building resilient data platforms and intelligent AI systems. Currently at

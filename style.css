@@ -7,8 +7,58 @@
   --muted:   #71717a;
   --border:  #e4e4e7;
   --accent:  #111111;
+  --ha:      #111111;
+  --ha-ring: rgba(17,17,17,0.06);
+  --nav-bg:  rgba(247,246,243,0.88);
   --radius:  6px;
   --max:     680px;
+}
+
+/* ── Themes ────────────────────────────────────────────────────────────────── */
+
+[data-theme="teal"] {
+  --ha: #0d9488;
+  --ha-ring: rgba(13,148,136,0.13);
+}
+[data-theme="purple"] {
+  --ha: #7c3aed;
+  --ha-ring: rgba(124,58,237,0.13);
+}
+[data-theme="amber"] {
+  --ha: #b45309;
+  --ha-ring: rgba(180,83,9,0.13);
+}
+[data-theme="rose"] {
+  --ha: #e11d48;
+  --ha-ring: rgba(225,29,72,0.13);
+}
+[data-theme="dark"] {
+  --bg:      #0c0c14;
+  --surface: #13131f;
+  --fg:      #ededf5;
+  --muted:   #7878a0;
+  --border:  #252535;
+  --accent:  #ededf5;
+  --ha:      #818cf8;
+  --ha-ring: rgba(129,140,248,0.15);
+  --nav-bg:  rgba(12,12,20,0.88);
+}
+[data-theme="dark-teal"] {
+  --bg:      #091210;
+  --surface: #0f1c1a;
+  --fg:      #e4f5f3;
+  --muted:   #7aaba7;
+  --border:  #1c3532;
+  --accent:  #e4f5f3;
+  --ha:      #2dd4bf;
+  --ha-ring: rgba(45,212,191,0.15);
+  --nav-bg:  rgba(9,18,16,0.88);
+}
+
+/* Smooth theme transitions */
+body, #nav, .post-card, .thesis-block, .tag, .link-pill, .timeline-body,
+.company-logo-initials, .cert-badge, .swatch {
+  transition: background 0.35s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.35s ease;
 }
 
 html { scroll-behavior: smooth; }
@@ -33,12 +83,36 @@ body {
   justify-content: space-between;
   padding: 0 32px;
   height: 56px;
-  background: rgba(247, 246, 243, 0.85);
+  background: var(--nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
-  transition: border-color 0.3s;
+  transition: border-color 0.3s, background 0.35s;
 }
+
+/* ── Theme swatches ─────────────────────────────────────────────────────────── */
+
+.theme-swatches {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.swatch {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 0;
+  background: var(--swatch-color, #ccc);
+  transition: transform 0.15s, border-color 0.15s;
+  outline: none;
+}
+
+.swatch:hover { transform: scale(1.25); }
+.swatch.active { border-color: var(--fg); }
+.swatch:focus-visible { box-shadow: 0 0 0 2px var(--ha); }
 
 #nav.scrolled { border-bottom-color: var(--border); }
 
@@ -74,6 +148,18 @@ body {
 
 /* ── Hero ─────────────────────────────────────────────────────────────────── */
 
+/* ── Hero canvas / grid bg ──────────────────────────────────────────────────── */
+
+#particle-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.6;
+}
+
 #hero {
   min-height: 100vh;
   display: flex;
@@ -81,6 +167,30 @@ body {
   padding: 100px 32px 80px;
   position: relative;
   overflow: hidden;
+}
+
+#hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--ha-ring) 1px, transparent 1px),
+    linear-gradient(90deg, var(--ha-ring) 1px, transparent 1px);
+  background-size: 52px 52px;
+  opacity: 0.55;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.35s;
+}
+
+#hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 55% 60% at 75% 50%, var(--ha-ring), transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+  transition: background 0.35s;
 }
 
 .hero-inner {
@@ -107,7 +217,6 @@ body {
   font-size: clamp(4rem, 12vw, 7.5rem);
   line-height: 0.95;
   letter-spacing: -0.02em;
-  color: var(--fg);
   margin-bottom: 32px;
   opacity: 0;
   animation: fadeUp 0.7s 0.2s ease forwards;
@@ -125,8 +234,9 @@ body {
 }
 
 .highlight {
-  color: var(--fg);
+  color: var(--ha);
   font-weight: 500;
+  transition: color 0.35s;
 }
 
 .hero-links {
@@ -165,19 +275,29 @@ body {
   top: 50%;
   transform: translateY(-50%);
   pointer-events: none;
+  z-index: 1;
 }
 
 .deco-ring {
   position: absolute;
   border-radius: 50%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--ha-ring);
   transform: translate(-50%, -50%);
   animation: pulse 6s ease-in-out infinite;
+  transition: border-color 0.35s, box-shadow 0.35s;
 }
 
-.deco-ring-1 { width: 320px; height: 320px; animation-delay: 0s; }
-.deco-ring-2 { width: 520px; height: 520px; animation-delay: 1s; opacity: 0.6; }
-.deco-ring-3 { width: 720px; height: 720px; animation-delay: 2s; opacity: 0.3; }
+.deco-ring-1 {
+  width: 320px; height: 320px; animation-delay: 0s;
+  box-shadow: 0 0 40px var(--ha-ring), inset 0 0 40px var(--ha-ring);
+}
+.deco-ring-2 {
+  width: 520px; height: 520px; animation-delay: 1s; opacity: 0.6;
+  box-shadow: 0 0 60px var(--ha-ring);
+}
+.deco-ring-3 {
+  width: 720px; height: 720px; animation-delay: 2s; opacity: 0.3;
+}
 
 @keyframes pulse {
   0%, 100% { transform: translate(-50%, -50%) scale(1); }
@@ -414,8 +534,9 @@ body {
 .cert-badge {
   font-size: 0.7rem;
   font-weight: 700;
-  color: var(--fg);
+  color: var(--ha);
   flex-shrink: 0;
+  transition: color 0.35s;
 }
 
 /* ── Writing / Blog cards ─────────────────────────────────────────────────── */
@@ -625,6 +746,79 @@ body {
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(16px); }
   to   { opacity: 1; transform: none; }
+}
+
+/* Typewriter cursor */
+.tw-cursor {
+  display: inline-block;
+  width: 2px;
+  height: 0.9em;
+  background: var(--ha);
+  vertical-align: middle;
+  margin-left: 2px;
+  border-radius: 1px;
+  animation: blink 1s step-end infinite;
+  transition: background 0.35s;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* Floating data badge in hero eyebrow area */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ha);
+  background: var(--ha-ring);
+  border: 1px solid var(--ha-ring);
+  border-radius: 99px;
+  padding: 3px 12px 3px 8px;
+  margin-bottom: 18px;
+  opacity: 0;
+  animation: fadeUp 0.5s 0s ease forwards;
+  transition: color 0.35s, background 0.35s, border-color 0.35s;
+}
+
+.hero-badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--ha);
+  animation: pulse-dot 2s ease-in-out infinite;
+  transition: background 0.35s;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50%       { transform: scale(1.4); opacity: 0.6; }
+}
+
+/* Hover shimmer on hero name */
+.hero-name {
+  background-image: linear-gradient(
+    120deg,
+    var(--fg) 0%,
+    var(--fg) 40%,
+    var(--ha) 50%,
+    var(--fg) 60%,
+    var(--fg) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  transition: background-position 0.6s ease;
+}
+
+.hero-name:hover {
+  background-position: right center;
 }
 
 /* ── Responsive ───────────────────────────────────────────────────────────── */
