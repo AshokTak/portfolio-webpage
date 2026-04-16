@@ -90,29 +90,37 @@ body {
   transition: border-color 0.3s, background 0.35s;
 }
 
-/* ── Theme swatches ─────────────────────────────────────────────────────────── */
+/* ── Theme toggle ───────────────────────────────────────────────────────────── */
 
-.theme-swatches {
+#theme-toggle {
   display: flex;
   align-items: center;
-  gap: 7px;
-}
-
-.swatch {
-  width: 13px;
-  height: 13px;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  border: 2px solid transparent;
+  border: 1.5px solid var(--border);
+  background: transparent;
+  color: var(--muted);
   cursor: pointer;
-  padding: 0;
-  background: var(--swatch-color, #ccc);
-  transition: transform 0.15s, border-color 0.15s;
-  outline: none;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  flex-shrink: 0;
 }
 
-.swatch:hover { transform: scale(1.25); }
-.swatch.active { border-color: var(--fg); }
-.swatch:focus-visible { box-shadow: 0 0 0 2px var(--ha); }
+#theme-toggle:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+  background: var(--ha-ring);
+}
+
+/* Show moon in light mode, sun in dark mode */
+#theme-toggle .icon-sun  { display: none; }
+#theme-toggle .icon-moon { display: block; }
+
+[data-theme="dark"] #theme-toggle .icon-sun  { display: block; }
+[data-theme="dark"] #theme-toggle .icon-moon { display: none; }
+[data-theme="dark-teal"] #theme-toggle .icon-sun  { display: block; }
+[data-theme="dark-teal"] #theme-toggle .icon-moon { display: none; }
 
 #nav.scrolled { border-bottom-color: var(--border); }
 

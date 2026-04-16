@@ -1,27 +1,29 @@
-// ── Theme switcher ─────────────────────────────────────────────────────────
+// ── Theme toggle (light / dark) ────────────────────────────────────────────
 (function initTheme() {
   const html = document.documentElement;
-  const swatches = document.querySelectorAll('.swatch');
-  const saved = localStorage.getItem('portfolio-theme');
+  const btn  = document.getElementById('theme-toggle');
+
+  // Light = 'teal', Dark = 'dark-teal'
+  const LIGHT = 'teal';
+  const DARK  = 'dark-teal';
+
+  function isDark() {
+    const t = html.getAttribute('data-theme');
+    return t === 'dark' || t === 'dark-teal';
+  }
 
   function applyTheme(theme) {
-    if (theme) {
-      html.setAttribute('data-theme', theme);
-    } else {
-      html.removeAttribute('data-theme');
-    }
-    swatches.forEach(s => s.classList.toggle('active', s.dataset.theme === theme));
+    html.setAttribute('data-theme', theme);
     localStorage.setItem('portfolio-theme', theme);
-    // Refresh particle colour on next frame
     window._particleThemeChanged = true;
   }
 
-  // Apply saved or initial theme
-  const initial = saved !== null ? saved : (html.getAttribute('data-theme') || 'teal');
-  applyTheme(initial);
+  // Restore saved preference, default to light teal
+  const saved = localStorage.getItem('portfolio-theme');
+  applyTheme(saved && saved !== '' ? saved : LIGHT);
 
-  swatches.forEach(s => {
-    s.addEventListener('click', () => applyTheme(s.dataset.theme));
+  btn && btn.addEventListener('click', () => {
+    applyTheme(isDark() ? LIGHT : DARK);
   });
 })();
 

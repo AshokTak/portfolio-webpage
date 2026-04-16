@@ -15,15 +15,6 @@
   <!-- Nav -->
   <nav id="nav">
     <a href="#" class="nav-mark">AT</a>
-    <div class="theme-swatches" aria-label="Color theme">
-      <button class="swatch" data-theme=""         style="--swatch-color:#111111" title="Default"></button>
-      <button class="swatch" data-theme="teal"     style="--swatch-color:#0d9488" title="Teal"></button>
-      <button class="swatch" data-theme="purple"   style="--swatch-color:#7c3aed" title="Purple"></button>
-      <button class="swatch" data-theme="amber"    style="--swatch-color:#b45309" title="Amber"></button>
-      <button class="swatch" data-theme="rose"     style="--swatch-color:#e11d48" title="Rose"></button>
-      <button class="swatch" data-theme="dark"     style="--swatch-color:#818cf8" title="Dark"></button>
-      <button class="swatch" data-theme="dark-teal" style="--swatch-color:#2dd4bf" title="Dark Teal"></button>
-    </div>
     <div class="nav-links">
       <a href="#writing">Writing</a>
       <a href="#work">Work</a>
@@ -31,6 +22,12 @@
       <a href="#skills">Skills</a>
       <a href="#publications">Research</a>
     </div>
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+      <!-- Sun icon (shown in dark mode) -->
+      <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <!-- Moon icon (shown in light mode) -->
+      <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
   </nav>
 
   <!-- Hero -->
