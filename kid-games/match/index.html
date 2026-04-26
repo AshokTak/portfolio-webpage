@@ -72,7 +72,7 @@
     <div id="app">
       <header>
         <h1>🎯 Find the matching pair!</h1>
-        <div class="sub">Tap two of the same to match</div>
+        <div id="themeTitle" class="sub">Tap two of the same to match</div>
         <div id="stars"></div>
       </header>
       <div class="grid" id="grid"></div>
@@ -92,28 +92,71 @@
       </div>
     </div>
     <script type="module">
-      const POOL = [
-        { e: "🐶", name: "dog" }, { e: "🐱", name: "cat" }, { e: "🐰", name: "rabbit" },
-        { e: "🦊", name: "fox" }, { e: "🐻", name: "bear" }, { e: "🦁", name: "lion" },
-        { e: "🐯", name: "tiger" }, { e: "🐼", name: "panda" }, { e: "🐸", name: "frog" },
-        { e: "🐵", name: "monkey" }, { e: "🐮", name: "cow" }, { e: "🐷", name: "pig" },
+      const THEMES = [
+        { title: "🐾 Animals", pool: [
+          { e: "🐶", name: "dog" }, { e: "🐱", name: "cat" }, { e: "🐰", name: "rabbit" },
+          { e: "🦊", name: "fox" }, { e: "🐻", name: "bear" }, { e: "🦁", name: "lion" },
+          { e: "🐯", name: "tiger" }, { e: "🐼", name: "panda" }, { e: "🐸", name: "frog" },
+          { e: "🐵", name: "monkey" }, { e: "🐮", name: "cow" }, { e: "🐷", name: "pig" },
+        ]},
+        { title: "🍎 Fruits", pool: [
+          { e: "🍎", name: "apple" }, { e: "🍌", name: "banana" }, { e: "🍇", name: "grapes" },
+          { e: "🍉", name: "watermelon" }, { e: "🍓", name: "strawberry" }, { e: "🍊", name: "orange" },
+          { e: "🍑", name: "peach" }, { e: "🍍", name: "pineapple" }, { e: "🥝", name: "kiwi" },
+          { e: "🥭", name: "mango" }, { e: "🍒", name: "cherry" }, { e: "🍐", name: "pear" },
+        ]},
+        { title: "🟦 Shapes", pool: [
+          { e: "⭕", name: "circle" }, { e: "🟦", name: "square" }, { e: "🟩", name: "rectangle" },
+          { e: "🔺", name: "triangle" }, { e: "⭐", name: "star" }, { e: "❤️", name: "heart" },
+          { e: "🟫", name: "diamond" }, { e: "🟣", name: "purple circle" }, { e: "🟧", name: "orange square" },
+          { e: "🟨", name: "yellow square" },
+        ]},
+        { title: "🚗 Vehicles", pool: [
+          { e: "🚗", name: "car" }, { e: "🚌", name: "bus" }, { e: "🚂", name: "train" },
+          { e: "✈️", name: "plane" }, { e: "🚀", name: "rocket" }, { e: "🚲", name: "bike" },
+          { e: "🚒", name: "fire truck" }, { e: "🚜", name: "tractor" }, { e: "⛵", name: "boat" },
+          { e: "🚁", name: "helicopter" }, { e: "🏍️", name: "motorcycle" }, { e: "🛵", name: "scooter" },
+        ]},
+        { title: "🍕 Food", pool: [
+          { e: "🍕", name: "pizza" }, { e: "🍔", name: "burger" }, { e: "🌭", name: "hot dog" },
+          { e: "🍟", name: "fries" }, { e: "🍩", name: "donut" }, { e: "🍪", name: "cookie" },
+          { e: "🎂", name: "cake" }, { e: "🍦", name: "ice cream" }, { e: "🍭", name: "lollipop" },
+          { e: "🥐", name: "croissant" }, { e: "🧁", name: "cupcake" }, { e: "🍿", name: "popcorn" },
+        ]},
+        { title: "🌞 Nature", pool: [
+          { e: "🌞", name: "sun" }, { e: "🌙", name: "moon" }, { e: "⭐", name: "star" },
+          { e: "🌈", name: "rainbow" }, { e: "☁️", name: "cloud" }, { e: "⚡", name: "lightning" },
+          { e: "🌸", name: "flower" }, { e: "🌳", name: "tree" }, { e: "🍄", name: "mushroom" },
+          { e: "🌊", name: "wave" }, { e: "❄️", name: "snowflake" }, { e: "🔥", name: "fire" },
+        ]},
       ];
       const grid = document.getElementById("grid");
       const starsEl = document.getElementById("stars");
       const overlay = document.getElementById("finishOverlay");
+      const themeTitle = document.getElementById("themeTitle");
 
       let first = null;
       let lock = false;
       let matched = 0;
       let total = 0;
+      let roundIdx = 0;
+      let order = [];
 
       function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
-      function newRound() {
+      function startGame() {
+        order = shuffle(THEMES.map((_, i) => i));
+        roundIdx = 0;
+        loadRound();
+      }
+
+      function loadRound() {
         overlay.classList.add("hidden");
-        starsEl.textContent = "";
+        starsEl.textContent = `Round ${roundIdx + 1} / ${order.length}`;
         first = null; lock = false; matched = 0;
-        const pairs = shuffle([...POOL]).slice(0, 4);
+        const theme = THEMES[order[roundIdx]];
+        themeTitle.textContent = theme.title;
+        const pairs = shuffle([...theme.pool]).slice(0, 4);
         total = pairs.length;
         const tiles = shuffle([...pairs, ...pairs]);
         grid.innerHTML = "";
@@ -147,7 +190,13 @@
           beep(880); speak(`${b.dataset.name}!`);
           if (matched === total) {
             starsEl.textContent = "⭐⭐⭐";
-            setTimeout(() => { overlay.classList.remove("hidden"); speak("Yay! You matched them all!"); }, 800);
+            const isLast = roundIdx >= order.length - 1;
+            if (isLast) {
+              setTimeout(() => { overlay.classList.remove("hidden"); speak("Yay! You matched them all!"); }, 1000);
+            } else {
+              speak("Great job! Next round!");
+              setTimeout(() => { roundIdx++; loadRound(); }, 1800);
+            }
           }
         } else {
           lock = true;
@@ -158,11 +207,11 @@
         }
       }
 
-      document.getElementById("reset").addEventListener("click", () => { primeSpeech(); newRound(); });
-      document.getElementById("overlayAgain").addEventListener("click", () => { primeSpeech(); newRound(); });
+      document.getElementById("reset").addEventListener("click", () => { primeSpeech(); startGame(); });
+      document.getElementById("overlayAgain").addEventListener("click", () => { primeSpeech(); startGame(); });
       document.getElementById("overlayMore").addEventListener("click", () => { location.href = "/kid-games/"; });
 
-      newRound();
+      startGame();
     </script>
   </body>
 </html>
