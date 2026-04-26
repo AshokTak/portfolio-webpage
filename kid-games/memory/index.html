@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+    <title>Memory 🧠</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --green: #58cc02; --green-shadow: #58a700;
+        --blue: #1cb0f6; --blue-shadow: #1899d6;
+        --purple: #ce82ff; --purple-shadow: #a560cc;
+        --ink: #3c3c3c; --grey: #e5e5e5;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0; min-height: 100%;
+        font-family: "Nunito", system-ui, sans-serif; font-weight: 800;
+        color: var(--ink); background: #fff;
+        -webkit-user-select: none; user-select: none;
+      }
+      #app { max-width: 720px; margin: 0 auto; padding: 16px; min-height: 100vh; display: flex; flex-direction: column; gap: 14px; }
+      header { padding: 12px 16px; border-bottom: 2px solid var(--grey); text-align: center; }
+      h1 { margin: 0; font-size: clamp(20px, 4vw, 28px); font-weight: 900; }
+      .sub { color: #888; font-size: 14px; margin-top: 4px; }
+      #stars { font-size: 22px; min-height: 28px; display: inline-block; margin-top: 6px; }
+
+      .grid {
+        display: grid; grid-template-columns: repeat(4, 1fr);
+        gap: 12px; padding: 16px;
+      }
+      .card {
+        aspect-ratio: 1 / 1; border-radius: 18px;
+        position: relative; cursor: pointer;
+        perspective: 800px;
+      }
+      .card-inner {
+        position: absolute; inset: 0;
+        transition: transform .45s;
+        transform-style: preserve-3d;
+      }
+      .card.flipped .card-inner, .card.matched .card-inner { transform: rotateY(180deg); }
+      .face {
+        position: absolute; inset: 0; border-radius: 18px;
+        display: flex; align-items: center; justify-content: center;
+        backface-visibility: hidden; -webkit-backface-visibility: hidden;
+        font-size: clamp(36px, 8vw, 60px);
+        border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey);
+      }
+      .back {
+        background: linear-gradient(135deg, var(--purple), var(--blue));
+        border-color: var(--purple-shadow);
+        box-shadow: 0 4px 0 var(--purple-shadow);
+        color: #fff; font-size: clamp(28px, 6vw, 40px);
+      }
+      .front {
+        background: #f7f7f7;
+        transform: rotateY(180deg);
+      }
+      .card.matched .front { background: #d8f4b3; border-color: var(--green); box-shadow: 0 4px 0 var(--green-shadow); }
+      .card.matched { pointer-events: none; }
+      .card.shake { animation: shake .35s ease; }
+      @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+
+      footer { display: flex; gap: 12px; justify-content: center; padding: 12px; border-top: 2px solid var(--grey); margin-top: auto; }
+      button {
+        font: inherit; font-weight: 800; font-size: 15px;
+        letter-spacing: .8px; text-transform: uppercase;
+        padding: 12px 22px; border: none; border-radius: 14px;
+        background: var(--green); color: #fff;
+        box-shadow: 0 4px 0 var(--green-shadow); cursor: pointer;
+      }
+      button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--green-shadow); }
+      button.secondary { background: #fff; color: var(--blue); border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey); }
+      button.secondary:active { box-shadow: 0 2px 0 var(--grey); }
+
+      .more-games { margin: 16px 0 8px; text-align: center; color: #777; font-size: 14px; font-weight: 700; }
+      .more-games a { color: var(--blue); border-bottom: 2px solid var(--blue); text-decoration: none; padding-bottom: 1px; }
+
+      .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; animation: fadein .25s ease; }
+      .overlay.hidden { display: none; }
+      .overlay-card { background: #fff; border-radius: 24px; padding: 32px 28px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.25); animation: pop-in .4s ease; }
+      @keyframes pop-in { 0% { transform: scale(.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+      @keyframes fadein { 0% { opacity: 0; } 100% { opacity: 1; } }
+      .big-emoji { font-size: 72px; margin-bottom: 8px; }
+      .overlay-card h2 { margin: 0 0 24px; font-size: 22px; font-weight: 900; }
+      .overlay-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header>
+        <h1>🧠 Remember the pairs!</h1>
+        <div class="sub">Flip two cards to find a match</div>
+        <div id="stars"></div>
+      </header>
+      <div class="grid" id="grid"></div>
+      <footer>
+        <button id="reset">↺ New round</button>
+      </footer>
+      <p class="more-games">Try other games at <a href="/kid-games/">ashoktak.com/kid-games</a> 🎈</p>
+      <div id="finishOverlay" class="overlay hidden">
+        <div class="overlay-card">
+          <div class="big-emoji">🎉</div>
+          <h2>Yay! You remembered them all!</h2>
+          <div class="overlay-buttons">
+            <button id="overlayAgain">↺ Play again</button>
+            <button id="overlayMore" class="secondary">🎈 More games</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      const POOL = [
+        { e: "🐶", name: "dog" }, { e: "🐱", name: "cat" }, { e: "🐰", name: "rabbit" },
+        { e: "🦊", name: "fox" }, { e: "🐻", name: "bear" }, { e: "🦁", name: "lion" },
+        { e: "🐯", name: "tiger" }, { e: "🐼", name: "panda" }, { e: "🐸", name: "frog" },
+        { e: "🐵", name: "monkey" }, { e: "🐮", name: "cow" }, { e: "🐷", name: "pig" },
+      ];
+      const grid = document.getElementById("grid");
+      const starsEl = document.getElementById("stars");
+      const overlay = document.getElementById("finishOverlay");
+
+      let first = null;
+      let lock = false;
+      let matched = 0;
+      let total = 0;
+
+      function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
+
+      function newRound() {
+        overlay.classList.add("hidden");
+        starsEl.textContent = "";
+        first = null; lock = false; matched = 0;
+        const pairs = shuffle([...POOL]).slice(0, 4);
+        total = pairs.length;
+        const cards = shuffle([...pairs, ...pairs]);
+        grid.innerHTML = "";
+        cards.forEach((p, i) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.dataset.name = p.name;
+          card.dataset.idx = String(i);
+          card.innerHTML = `
+            <div class="card-inner">
+              <div class="face back">❓</div>
+              <div class="face front">${p.e}</div>
+            </div>`;
+          card.addEventListener("click", () => onCard(card));
+          grid.appendChild(card);
+        });
+      }
+
+      let speechReady = false;
+      function primeSpeech() { if (speechReady) return; speechReady = true; try { const u = new SpeechSynthesisUtterance(""); u.volume = 0; speechSynthesis.speak(u); } catch {} }
+      function speak(t) { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.9; u.pitch = 1.2; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch {} }
+      let actx = null;
+      function beep(f) { try { actx ??= new AudioContext(); const o = actx.createOscillator(); const g = actx.createGain(); o.frequency.value = f; o.type = "sine"; g.gain.value = 0.08; o.connect(g).connect(actx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.25); o.stop(actx.currentTime + 0.26); } catch {} }
+
+      function onCard(card) {
+        primeSpeech();
+        if (lock) return;
+        if (card.classList.contains("matched") || card.classList.contains("flipped")) return;
+        card.classList.add("flipped");
+        if (!first) { first = card; return; }
+        if (first.dataset.name === card.dataset.name) {
+          const a = first; first = null;
+          beep(880); speak(`${card.dataset.name}!`);
+          setTimeout(() => {
+            a.classList.add("matched"); card.classList.add("matched");
+            a.classList.remove("flipped"); card.classList.remove("flipped");
+            matched++;
+            if (matched === total) {
+              starsEl.textContent = "⭐⭐⭐";
+              setTimeout(() => { overlay.classList.remove("hidden"); speak("Yay! You remembered them all!"); }, 800);
+            }
+          }, 400);
+        } else {
+          lock = true;
+          const a = first; first = null;
+          beep(220);
+          a.classList.add("shake"); card.classList.add("shake");
+          setTimeout(() => {
+            a.classList.remove("flipped", "shake"); card.classList.remove("flipped", "shake");
+            lock = false;
+          }, 1100);
+        }
+      }
+
+      document.getElementById("reset").addEventListener("click", () => { primeSpeech(); newRound(); });
+      document.getElementById("overlayAgain").addEventListener("click", () => { primeSpeech(); newRound(); });
+      document.getElementById("overlayMore").addEventListener("click", () => { location.href = "/kid-games/"; });
+
+      newRound();
+    </script>
+  </body>
+</html>
