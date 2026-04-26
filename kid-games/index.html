@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kid Games 🎈</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --green: #58cc02; --green-shadow: #58a700;
+        --blue: #1cb0f6; --blue-shadow: #1899d6;
+        --pink: #ff6fb5; --pink-shadow: #d65a93;
+        --yellow: #ffc800; --ink: #3c3c3c;
+      }
+      * { box-sizing: border-box; }
+      html, body {
+        margin: 0; padding: 0; min-height: 100%;
+        font-family: "Nunito", system-ui, sans-serif; font-weight: 800;
+        color: var(--ink); background: #fff;
+      }
+      .wrap {
+        max-width: 960px; margin: 0 auto; padding: 32px 20px 60px;
+      }
+      header { text-align: center; margin-bottom: 32px; }
+      h1 { font-size: clamp(32px, 6vw, 56px); margin: 0 0 8px; font-weight: 900; letter-spacing: -1px; }
+      .sub { color: #777; font-size: clamp(14px, 2.5vw, 18px); font-weight: 700; }
+      .grid {
+        display: grid; gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      }
+      .card {
+        display: block; text-decoration: none; color: inherit;
+        background: #fff; border: 2px solid #e5e5e5;
+        border-radius: 20px; padding: 28px 24px;
+        box-shadow: 0 6px 0 #e5e5e5;
+        transition: transform .12s, box-shadow .12s;
+      }
+      .card:hover { transform: translateY(-3px); box-shadow: 0 9px 0 #e5e5e5; }
+      .card:active { transform: translateY(2px); box-shadow: 0 2px 0 #e5e5e5; }
+      .emoji { font-size: 64px; line-height: 1; margin-bottom: 14px; }
+      .title { font-size: 26px; font-weight: 900; margin: 0 0 6px; }
+      .desc { color: #777; font-weight: 700; font-size: 15px; line-height: 1.45; }
+      .badge {
+        display: inline-block; margin-top: 14px;
+        background: var(--green); color: #fff;
+        padding: 8px 16px; border-radius: 999px;
+        font-size: 13px; letter-spacing: 1px; text-transform: uppercase;
+        box-shadow: 0 3px 0 var(--green-shadow);
+      }
+      .card.blue .badge { background: var(--blue); box-shadow: 0 3px 0 var(--blue-shadow); }
+      .card.pink .badge { background: var(--pink); box-shadow: 0 3px 0 var(--pink-shadow); }
+      footer { margin-top: 40px; text-align: center; color: #aaa; font-size: 13px; font-weight: 700; }
+      footer a { color: #888; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>🎈 Kid Games</h1>
+        <p class="sub">Tiny browser games for tiny humans (ages 2–5)</p>
+      </header>
+
+      <div class="grid">
+        <a class="card" href="/kid-games/alphabet/">
+          <div class="emoji">✏️</div>
+          <h2 class="title">Alphabet Tracer</h2>
+          <p class="desc">Trace A–Z by following dotted lines. Each letter speaks its name when you finish — A for Apple, B for Ball.</p>
+          <span class="badge">Play →</span>
+        </a>
+
+        <a class="card blue" href="/kid-games/drawme/">
+          <div class="emoji">🐾</div>
+          <h2 class="title">DrawMe</h2>
+          <p class="desc">Trace the animal — fish, cat, duck, butterfly, snail, bee. Watch them fill with color and hear their sound.</p>
+          <span class="badge">Play →</span>
+        </a>
+      </div>
+
+      <footer>
+        Made with ❤️ — <a href="https://ashoktak.com">ashoktak.com</a>
+      </footer>
+    </div>
+  </body>
+</html>
