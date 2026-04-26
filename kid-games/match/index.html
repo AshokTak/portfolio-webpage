@@ -80,6 +80,13 @@
         <button id="reset">↺ New round</button>
       </footer>
       <p class="more-games">Try other games at <a href="/kid-games/">ashoktak.com/kid-games</a> 🎈</p>
+      <div id="roundOverlay" class="overlay hidden">
+        <div class="overlay-card">
+          <div class="big-emoji" id="roundEmoji">🎯</div>
+          <h2 id="roundLabel">Round 1</h2>
+          <div class="sub" id="roundTheme" style="font-size:18px;color:#666;font-weight:800;"></div>
+        </div>
+      </div>
       <div id="finishOverlay" class="overlay hidden">
         <div class="overlay-card">
           <div class="big-emoji">🎉</div>
@@ -133,7 +140,12 @@
       const grid = document.getElementById("grid");
       const starsEl = document.getElementById("stars");
       const overlay = document.getElementById("finishOverlay");
+      const roundOverlay = document.getElementById("roundOverlay");
+      const roundLabel = document.getElementById("roundLabel");
+      const roundTheme = document.getElementById("roundTheme");
+      const roundEmoji = document.getElementById("roundEmoji");
       const themeTitle = document.getElementById("themeTitle");
+      const TOTAL_ROUNDS = 5;
 
       let first = null;
       let lock = false;
@@ -145,9 +157,20 @@
       function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
       function startGame() {
-        order = shuffle(THEMES.map((_, i) => i));
+        order = shuffle(THEMES.map((_, i) => i)).slice(0, TOTAL_ROUNDS);
         roundIdx = 0;
-        loadRound();
+        showRoundIntro();
+      }
+
+      function showRoundIntro() {
+        const theme = THEMES[order[roundIdx]];
+        roundLabel.textContent = `Round ${roundIdx + 1} of ${order.length}`;
+        roundTheme.textContent = theme.title;
+        roundEmoji.textContent = theme.title.split(" ")[0];
+        overlay.classList.add("hidden");
+        roundOverlay.classList.remove("hidden");
+        speak(`Round ${roundIdx + 1}. ${theme.title.replace(/[^a-zA-Z ]/g, "").trim()}!`);
+        setTimeout(() => { roundOverlay.classList.add("hidden"); loadRound(); }, 1800);
       }
 
       function loadRound() {
@@ -194,8 +217,8 @@
             if (isLast) {
               setTimeout(() => { overlay.classList.remove("hidden"); speak("Yay! You matched them all!"); }, 1000);
             } else {
-              speak("Great job! Next round!");
-              setTimeout(() => { roundIdx++; loadRound(); }, 1800);
+              speak("Great job!");
+              setTimeout(() => { roundIdx++; showRoundIntro(); }, 1500);
             }
           }
         } else {
