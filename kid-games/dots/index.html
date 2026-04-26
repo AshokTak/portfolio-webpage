@@ -96,6 +96,16 @@
         <button id="reset">↺ New game</button>
       </footer>
       <p class="more-games">Try other games at <a href="/kid-games/">ashoktak.com/kid-games</a> 🎈</p>
+      <div id="startOverlay" class="overlay">
+        <div class="overlay-card">
+          <div class="big-emoji">✨</div>
+          <h2>Ready to play?</h2>
+          <div class="sub" style="font-size:16px;color:#666;font-weight:800;margin-bottom:8px;">5 pictures to draw!</div>
+          <div class="overlay-buttons">
+            <button id="startBtn">▶ Start</button>
+          </div>
+        </div>
+      </div>
       <div id="roundOverlay" class="overlay hidden">
         <div class="overlay-card">
           <div class="big-emoji" id="roundEmoji">✨</div>
@@ -295,6 +305,7 @@
 
         const isLast = roundIdx >= order.length - 1;
         if (isLast) {
+          recordPlay();
           setTimeout(() => {
             finishOverlay.classList.remove("hidden");
             speak("Yay! You connected them all!");
@@ -304,11 +315,28 @@
         }
       }
 
+      const SLUG = "dots";
+      function recordPlay() {
+        try {
+          const today = new Date().toISOString().slice(0,10);
+          const total = (parseInt(localStorage.getItem(`kidgames:${SLUG}:total`) || "0") || 0) + 1;
+          localStorage.setItem(`kidgames:${SLUG}:total`, String(total));
+          const days = JSON.parse(localStorage.getItem(`kidgames:${SLUG}:days`) || "{}");
+          days[today] = (days[today] || 0) + 1;
+          const trimmed = {};
+          Object.keys(days).sort().slice(-30).forEach(k => trimmed[k] = days[k]);
+          localStorage.setItem(`kidgames:${SLUG}:days`, JSON.stringify(trimmed));
+        } catch {}
+      }
+
+      document.getElementById("startBtn").addEventListener("click", () => {
+        primeSpeech();
+        document.getElementById("startOverlay").classList.add("hidden");
+        startGame();
+      });
       document.getElementById("reset").addEventListener("click", () => { primeSpeech(); startGame(); });
       document.getElementById("overlayAgain").addEventListener("click", () => { primeSpeech(); startGame(); });
       document.getElementById("overlayMore").addEventListener("click", () => { location.href = "/kid-games/"; });
-
-      startGame();
     </script>
   </body>
 </html>

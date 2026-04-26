@@ -52,6 +52,22 @@
       .card.pink .badge { background: var(--pink); box-shadow: 0 3px 0 var(--pink-shadow); }
       footer { margin-top: 40px; text-align: center; color: #aaa; font-size: 13px; font-weight: 700; }
       footer a { color: #888; }
+      .summary {
+        background: linear-gradient(135deg, #fff8e1, #fff);
+        border: 2px solid #ffe28a; border-radius: 18px;
+        padding: 16px 20px; margin-bottom: 24px;
+        display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap;
+        box-shadow: 0 4px 0 #ffe28a;
+      }
+      .summary .stat { text-align: center; padding: 0 14px; }
+      .summary .num { font-size: 28px; font-weight: 900; color: #ff9600; line-height: 1; }
+      .summary .lbl { font-size: 11px; color: #888; letter-spacing: 1px; text-transform: uppercase; margin-top: 4px; }
+      .stats { margin-top: 12px; display: flex; gap: 10px; justify-content: flex-start; font-size: 12px; color: #888; font-weight: 800; }
+      .stats span.today { color: var(--green); }
+      .stats span.total { color: #888; }
+      .sparkline { display: flex; gap: 2px; align-items: flex-end; height: 18px; margin-top: 8px; }
+      .sparkline span { width: 6px; background: #e5e5e5; border-radius: 2px; min-height: 2px; }
+      .sparkline span.has { background: var(--green); }
     </style>
   </head>
   <body>
@@ -61,50 +77,52 @@
         <p class="sub">Tiny browser games for tiny humans (ages 2–5)</p>
       </header>
 
+      <div class="summary" id="summary"></div>
+
       <div class="grid">
-        <a class="card" href="/kid-games/alphabet/">
+        <a class="card" data-slug="alphabet" href="/kid-games/alphabet/">
           <div class="emoji">✏️</div>
           <h2 class="title">Alphabet Tracer</h2>
           <p class="desc">Trace A–Z by following dotted lines. Each letter speaks its name when you finish — A for Apple, B for Ball.</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card blue" href="/kid-games/drawme/">
+        <a class="card blue" data-slug="drawme" href="/kid-games/drawme/">
           <div class="emoji">🐾</div>
           <h2 class="title">DrawMe</h2>
           <p class="desc">Trace the animal — fish, cat, duck, butterfly, snail, bee. Watch them fill with color and hear their sound.</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card pink" href="/kid-games/numbers/">
+        <a class="card pink" data-slug="numbers" href="/kid-games/numbers/">
           <div class="emoji">🔢</div>
           <h2 class="title">Numbers</h2>
           <p class="desc">Trace the numbers 1–10 by following the dotted path. After each one, see and count that many cute animals!</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card" href="/kid-games/shapes/">
+        <a class="card" data-slug="shapes" href="/kid-games/shapes/">
           <div class="emoji">🟦</div>
           <h2 class="title">Shapes</h2>
           <p class="desc">Trace circles, squares, triangles, stars, hearts and more — each in its own bright color. Learn shapes and colors together.</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card blue" href="/kid-games/match/">
+        <a class="card blue" data-slug="match" href="/kid-games/match/">
           <div class="emoji">🎯</div>
           <h2 class="title">Matching</h2>
           <p class="desc">Tap two of the same animal to make a pair. A quick, friendly game of spot-the-match.</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card" href="/kid-games/dots/">
+        <a class="card" data-slug="dots" href="/kid-games/dots/">
           <div class="emoji">✨</div>
           <h2 class="title">Connect the Dots</h2>
           <p class="desc">Tap the numbered dots in order — 1, 2, 3 — to magically draw a house, star, fish and more!</p>
           <span class="badge">Play →</span>
         </a>
 
-        <a class="card pink" href="/kid-games/memory/">
+        <a class="card pink" data-slug="memory" href="/kid-games/memory/">
           <div class="emoji">🧠</div>
           <h2 class="title">Memory</h2>
           <p class="desc">Flip the cards and remember where each animal is hiding. Find all the pairs to win!</p>
@@ -116,5 +134,62 @@
         Made with ❤️ — <a href="https://ashoktak.com">ashoktak.com</a>
       </footer>
     </div>
+    <script>
+      (function () {
+        function todayStr() { return new Date().toISOString().slice(0,10); }
+        function getStats(slug) {
+          try {
+            const total = parseInt(localStorage.getItem("kidgames:" + slug + ":total") || "0") || 0;
+            const days = JSON.parse(localStorage.getItem("kidgames:" + slug + ":days") || "{}");
+            const today = days[todayStr()] || 0;
+            return { total, today, days };
+          } catch { return { total: 0, today: 0, days: {} }; }
+        }
+        function last7(days) {
+          const out = [];
+          const now = new Date();
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+            const k = d.toISOString().slice(0,10);
+            out.push(days[k] || 0);
+          }
+          return out;
+        }
+
+        let totalAll = 0, todayAll = 0;
+        const allDays = {};
+        document.querySelectorAll(".card[data-slug]").forEach((card) => {
+          const slug = card.dataset.slug;
+          const s = getStats(slug);
+          totalAll += s.total;
+          todayAll += s.today;
+          Object.entries(s.days).forEach(([k, v]) => { allDays[k] = (allDays[k] || 0) + v; });
+          if (s.total > 0) {
+            const stats = document.createElement("div");
+            stats.className = "stats";
+            stats.innerHTML =
+              '<span class="today">🌟 Today: ' + s.today + '</span>' +
+              '<span class="total">🏆 Total: ' + s.total + '</span>';
+            card.appendChild(stats);
+          }
+        });
+
+        const summary = document.getElementById("summary");
+        if (totalAll === 0) {
+          summary.innerHTML =
+            '<div class="stat"><div class="num">👋</div><div class="lbl">Pick a game to start!</div></div>';
+        } else {
+          const days7 = last7(allDays);
+          const max = Math.max(1, ...days7);
+          const bars = days7.map((v) =>
+            '<span class="' + (v > 0 ? "has" : "") + '" style="height:' + Math.max(2, Math.round((v / max) * 18)) + 'px"></span>'
+          ).join("");
+          summary.innerHTML =
+            '<div class="stat"><div class="num">' + todayAll + '</div><div class="lbl">Today</div></div>' +
+            '<div class="stat"><div class="num">' + totalAll + '</div><div class="lbl">All-time</div></div>' +
+            '<div class="stat"><div class="lbl" style="margin-top:0;margin-bottom:6px;">Last 7 days</div><div class="sparkline">' + bars + '</div></div>';
+        }
+      })();
+    </script>
   </body>
 </html>
