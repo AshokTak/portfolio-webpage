@@ -26,14 +26,15 @@
       #stars { font-size: 18px; min-height: 22px; display: inline-block; margin-top: 4px; color: #666; font-weight: 800; }
 
       .grid {
-        display: grid; grid-template-columns: repeat(4, 1fr);
-        gap: 8px; padding: 4px 0;
+        display: grid; grid-template-columns: repeat(2, 1fr);
+        gap: 10px; padding: 4px 0;
+        max-width: 420px; margin: 0 auto; width: 100%;
       }
       @media (max-width: 480px) {
-        .grid { gap: 6px; }
+        .grid { gap: 8px; }
       }
       .card {
-        aspect-ratio: 1 / 1; border-radius: 16px;
+        aspect-ratio: 1 / 1; border-radius: 18px;
         position: relative; cursor: pointer;
         perspective: 800px;
       }
@@ -44,17 +45,17 @@
       }
       .card.flipped .card-inner, .card.matched .card-inner { transform: rotateY(180deg); }
       .face {
-        position: absolute; inset: 0; border-radius: 16px;
+        position: absolute; inset: 0; border-radius: 18px;
         display: flex; align-items: center; justify-content: center;
         backface-visibility: hidden; -webkit-backface-visibility: hidden;
-        font-size: clamp(40px, 11vw, 60px);
+        font-size: clamp(56px, 18vw, 96px);
         border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey);
       }
       .back {
         background: linear-gradient(135deg, var(--purple), var(--blue));
         border-color: var(--purple-shadow);
         box-shadow: 0 4px 0 var(--purple-shadow);
-        color: #fff; font-size: clamp(28px, 6vw, 40px);
+        color: #fff; font-size: clamp(40px, 12vw, 64px);
       }
       .front {
         background: #f7f7f7;
