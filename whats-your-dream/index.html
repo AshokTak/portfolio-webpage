@@ -6,362 +6,435 @@
   <title>What's Your Dream? — Daily Inspiration</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --gold: #d4a843;
-      --gold-light: #f0c96a;
-      --cream: #fdf6e8;
-      --dark: #0d0a07;
-      --dark-card: #181410;
-      --text-muted: #8a7a62;
+      --yellow:  #FFE500;
+      --yellow2: #FFF176;
+      --pink:    #FF1D6C;
+      --pink2:   #FF5C96;
+      --cyan:    #00C8D4;
+      --cyan2:   #80E8EE;
+      --black:   #111111;
+      --white:   #FFFFFF;
+      --grey:    #F5F5F0;
+      --text2:   #555555;
+      --radius:  18px;
     }
 
     html { scroll-behavior: smooth; }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: var(--dark);
-      color: var(--cream);
+      background: var(--yellow);
+      color: var(--black);
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── Stars background ── */
-    #stars-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: 0;
+    /* ─── STICKY HEADER ─────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--black);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .9rem 1.75rem;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.15rem;
+      letter-spacing: .04em;
+      color: var(--yellow);
+      white-space: nowrap;
+    }
+
+    .logo span { color: var(--pink); }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+
+    .workbook-link {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,.25);
+      border-radius: 999px;
+      padding: .4rem .9rem;
+      transition: border-color .2s, color .2s;
+    }
+    .workbook-link:hover { border-color: var(--cyan); color: var(--cyan); }
+
+    /* ── Duolingo fire streak ── */
+    .fire-streak {
+      display: flex;
+      align-items: center;
+      gap: .35rem;
+      cursor: default;
+    }
+
+    .flame-svg {
+      width: 28px;
+      height: 28px;
+      animation: flicker 1.8s ease-in-out infinite alternate;
+      filter: drop-shadow(0 0 6px #ff6a00aa);
+    }
+
+    @keyframes flicker {
+      0%   { transform: scaleY(1)    rotate(-1deg); filter: drop-shadow(0 0 5px #ff6a00aa); }
+      30%  { transform: scaleY(1.04) rotate(1deg);  filter: drop-shadow(0 0 9px #ff4500cc); }
+      60%  { transform: scaleY(.97)  rotate(-2deg); filter: drop-shadow(0 0 6px #ff6a00aa); }
+      100% { transform: scaleY(1.06) rotate(1.5deg);filter: drop-shadow(0 0 10px #ff2200cc); }
+    }
+
+    .streak-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.35rem;
+      color: var(--white);
+      line-height: 1;
+      min-width: 24px;
+      text-align: center;
+      transition: transform .3s;
+    }
+
+    .streak-num.bump {
+      animation: bump .4s cubic-bezier(.36,.07,.19,.97);
+    }
+    @keyframes bump {
+      0%,100% { transform: scale(1); }
+      40%      { transform: scale(1.45); }
+      70%      { transform: scale(.9); }
+    }
+
+    /* ─── HERO ──────────────────────────────────────── */
+    .hero {
+      background: var(--yellow);
+      padding: 4rem 1.75rem 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Staircase decoration — bottom right */
+    .stair-deco {
+      position: absolute;
+      bottom: 0; right: 0;
+      display: flex;
+      align-items: flex-end;
+      gap: 4px;
+      padding: 0 16px;
       pointer-events: none;
     }
 
-    /* ── Layout ── */
-    .page-wrap {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    /* ── Header ── */
-    header {
-      text-align: center;
-      padding: 3rem 1.5rem 1.5rem;
+    .stair-step {
+      border-radius: 4px 4px 0 0;
+      width: 22px;
     }
 
     .book-tag {
       display: inline-flex;
       align-items: center;
       gap: .45rem;
-      font-size: .72rem;
-      font-weight: 500;
-      letter-spacing: .14em;
+      font-size: .7rem;
+      font-weight: 700;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--gold);
-      border: 1px solid rgba(212,168,67,.35);
+      color: var(--black);
+      background: rgba(0,0,0,.1);
       border-radius: 999px;
-      padding: .35rem .95rem;
-      margin-bottom: 1.4rem;
+      padding: .35rem 1rem;
+      margin-bottom: 1.5rem;
     }
-
-    .book-tag svg { flex-shrink: 0; }
 
     h1 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(2.2rem, 6vw, 4.2rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -.02em;
-      background: linear-gradient(135deg, #fff 30%, var(--gold-light));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(3rem, 10vw, 7rem);
+      line-height: .95;
+      letter-spacing: .01em;
+      color: var(--black);
+      margin-bottom: .5rem;
     }
 
-    .subtitle {
-      margin-top: .75rem;
-      font-size: .95rem;
-      font-weight: 300;
-      color: var(--text-muted);
-      letter-spacing: .02em;
+    h1 .dream-word {
+      color: var(--pink);
+      display: block;
     }
 
-    /* ── Date strip ── */
-    .date-strip {
-      text-align: center;
-      margin: 0 1.5rem 2.5rem;
+    .hero-sub {
+      font-size: 1rem;
+      color: var(--black);
+      opacity: .6;
+      font-weight: 500;
     }
 
-    .date-pill {
-      display: inline-block;
-      font-size: .78rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      border-top: 1px solid rgba(255,255,255,.08);
-      padding-top: 1rem;
-    }
-
-    /* ── Main grid ── */
+    /* ─── MAIN GRID ─────────────────────────────────── */
     main {
-      flex: 1;
-      width: min(960px, 100% - 3rem);
+      width: min(720px, 100% - 2.5rem);
       margin: 0 auto;
-      display: grid;
-      gap: 1.5rem;
+      padding: 2.5rem 0 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
     }
 
-    /* ── Cards ── */
+    /* ─── CARDS ─────────────────────────────────────── */
     .card {
-      background: var(--dark-card);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 1.25rem;
-      padding: 2.5rem 2.75rem;
-      position: relative;
-      overflow: hidden;
-      transition: border-color .3s;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      box-shadow: 4px 6px 0 var(--black);
+      border: 2px solid var(--black);
+      transition: transform .15s, box-shadow .15s;
     }
+    .card:hover { transform: translate(-2px,-2px); box-shadow: 6px 8px 0 var(--black); }
 
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      background: radial-gradient(ellipse at top left, rgba(212,168,67,.06), transparent 60%);
-      pointer-events: none;
-    }
-
-    .card:hover { border-color: rgba(212,168,67,.25); }
-
-    .card-label {
+    .card-eyebrow {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      margin-bottom: 1.1rem;
       display: flex;
       align-items: center;
       gap: .5rem;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.6rem;
     }
 
-    .card-label .dot {
-      width: 6px; height: 6px;
+    .eyebrow-dot {
+      width: 7px; height: 7px;
       border-radius: 50%;
-      background: var(--gold);
       animation: pulse 2s ease-in-out infinite;
     }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.65)} }
 
-    @keyframes pulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: .4; transform: scale(.7); }
-    }
+    /* quote card */
+    .quote-card .card-eyebrow { color: var(--pink); }
+    .quote-card .eyebrow-dot  { background: var(--pink); }
 
-    /* ── Quote card ── */
-    .quote-card .quote-text {
+    .quote-text {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1.25rem, 3.2vw, 1.75rem);
+      font-size: clamp(1.2rem, 3vw, 1.65rem);
       line-height: 1.55;
-      color: #fff;
+      color: var(--black);
       position: relative;
-      padding-left: 1.5rem;
-    }
-
-    .quote-card .quote-text::before {
-      content: '\201C';
-      position: absolute;
-      left: -.1rem;
-      top: -.3rem;
-      font-size: 3.5rem;
-      line-height: 1;
-      color: var(--gold);
-      font-style: normal;
-      opacity: .7;
+      padding-left: 1.25rem;
+      border-left: 4px solid var(--pink);
     }
 
     .quote-author {
-      margin-top: 1.5rem;
-      padding-left: 1.5rem;
-      font-size: .82rem;
-      color: var(--text-muted);
-      letter-spacing: .05em;
+      margin-top: 1.25rem;
+      font-size: .78rem;
+      color: var(--text2);
+      padding-left: 1.25rem;
+      font-weight: 500;
     }
 
-    /* ── Action card ── */
-    .action-card .action-intro {
-      font-size: .9rem;
-      color: var(--text-muted);
-      margin-bottom: 1rem;
-      line-height: 1.6;
-    }
+    /* action card */
+    .action-card { background: var(--pink); border-color: var(--black); }
+    .action-card .card-eyebrow { color: var(--white); }
+    .action-card .eyebrow-dot  { background: var(--white); }
 
     .action-text {
-      font-size: clamp(1rem, 2.5vw, 1.18rem);
+      font-size: clamp(.95rem, 2.2vw, 1.1rem);
       line-height: 1.65;
-      color: #e8dcc8;
+      color: var(--white);
+      margin-bottom: 1.5rem;
     }
 
-    .action-cta {
-      margin-top: 1.75rem;
+    .done-btn {
       display: inline-flex;
       align-items: center;
-      gap: .6rem;
-      background: linear-gradient(135deg, var(--gold), #b8892e);
-      color: var(--dark);
-      font-weight: 600;
-      font-size: .85rem;
-      letter-spacing: .05em;
-      padding: .75rem 1.5rem;
+      gap: .5rem;
+      background: var(--black);
+      color: var(--yellow);
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      letter-spacing: .06em;
+      padding: .75rem 1.6rem;
       border-radius: 999px;
       border: none;
       cursor: pointer;
-      transition: opacity .2s, transform .2s;
-      text-decoration: none;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 3px 3px 0 rgba(0,0,0,.35);
+    }
+    .done-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(0,0,0,.35); }
+    .done-btn:active { transform: translate(1px,1px); box-shadow: 1px 1px 0 rgba(0,0,0,.35); }
+    .done-btn.completed {
+      background: var(--white);
+      color: var(--pink);
     }
 
-    .action-cta:hover { opacity: .88; transform: translateY(-1px); }
-
-    /* ── Streak / day counter ── */
-    .meta-row {
+    /* stats row */
+    .stats-row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      grid-template-columns: repeat(3, 1fr);
       gap: 1rem;
-      margin-top: .5rem;
     }
 
-    .meta-tile {
-      background: rgba(255,255,255,.03);
-      border: 1px solid rgba(255,255,255,.06);
-      border-radius: .85rem;
-      padding: 1.25rem 1.4rem;
+    .stat-tile {
+      border-radius: var(--radius);
+      padding: 1.4rem 1rem;
       text-align: center;
+      border: 2px solid var(--black);
+      box-shadow: 3px 4px 0 var(--black);
+      transition: transform .15s, box-shadow .15s;
+      cursor: default;
     }
+    .stat-tile:hover { transform: translate(-2px,-2px); box-shadow: 5px 6px 0 var(--black); }
 
-    .meta-tile .value {
-      font-family: 'Playfair Display', serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: var(--gold-light);
+    .stat-tile.yellow { background: var(--yellow2); }
+    .stat-tile.cyan   { background: var(--cyan); }
+    .stat-tile.pink   { background: var(--pink2); }
+
+    .stat-val {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.4rem;
       line-height: 1;
+      display: block;
+      color: var(--black);
     }
 
-    .meta-tile .label {
-      margin-top: .35rem;
-      font-size: .72rem;
-      letter-spacing: .1em;
+    .fire-stat {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .25rem;
+    }
+
+    .fire-stat .fire-icon { font-size: 1.8rem; line-height: 1; }
+    .fire-stat .fire-num {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.4rem;
+      line-height: 1;
+      color: var(--black);
+    }
+
+    .stat-label {
+      display: block;
+      margin-top: .4rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
       text-transform: uppercase;
-      color: var(--text-muted);
+      color: var(--black);
+      opacity: .6;
     }
 
-    /* ── Share row ── */
+    /* share card */
+    .share-card { background: var(--grey); }
+    .share-card .card-eyebrow { color: var(--text2); }
+
     .share-row {
       display: flex;
       align-items: center;
-      gap: .75rem;
+      gap: .65rem;
       flex-wrap: wrap;
-    }
-
-    .share-label {
-      font-size: .78rem;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      color: var(--text-muted);
     }
 
     .share-btn {
       display: inline-flex;
       align-items: center;
       gap: .4rem;
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.12);
-      color: #c8b998;
-      border-radius: .5rem;
+      background: var(--white);
+      border: 2px solid var(--black);
+      color: var(--black);
+      border-radius: .6rem;
       padding: .45rem .9rem;
       font-size: .8rem;
+      font-weight: 600;
       cursor: pointer;
-      transition: border-color .2s, background .2s;
       font-family: inherit;
+      transition: background .15s, color .15s;
+      box-shadow: 2px 2px 0 var(--black);
     }
+    .share-btn:hover { background: var(--black); color: var(--yellow); }
 
-    .share-btn:hover {
-      border-color: var(--gold);
-      background: rgba(212,168,67,.06);
-      color: var(--gold-light);
-    }
-
-    /* ── Progress ring ── */
-    .progress-wrap {
+    /* workbook CTA card */
+    .workbook-cta-card {
+      background: var(--cyan);
       display: flex;
-      justify-content: center;
       align-items: center;
-      padding: 1.5rem 0 0;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1.5rem;
     }
 
-    .ring-label {
-      font-size: .7rem;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: var(--text-muted);
-      text-align: center;
-      margin-top: .6rem;
+    .workbook-cta-card .card-eyebrow { color: var(--black); opacity: .7; }
+
+    .cta-left h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(1.4rem, 3.5vw, 1.9rem);
+      line-height: 1.1;
+      color: var(--black);
+      margin-bottom: .4rem;
     }
 
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 2.5rem 1.5rem;
-      font-size: .75rem;
-      color: var(--text-muted);
-      letter-spacing: .04em;
+    .cta-left p {
+      font-size: .88rem;
+      color: var(--black);
+      opacity: .65;
+      line-height: 1.5;
     }
 
-    footer a { color: var(--gold); text-decoration: none; }
-    footer a:hover { text-decoration: underline; }
-
-    /* ── Fade-in animation ── */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(16px);
-      animation: fadeUp .6s ease forwards;
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      background: var(--black);
+      color: var(--yellow);
+      font-family: 'Anton', sans-serif;
+      font-size: .95rem;
+      letter-spacing: .06em;
+      padding: .85rem 1.75rem;
+      border-radius: 999px;
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: transform .15s, box-shadow .15s;
+      box-shadow: 3px 3px 0 rgba(0,0,0,.4);
     }
+    .cta-btn:hover { transform: translate(-2px,-2px); box-shadow: 5px 5px 0 rgba(0,0,0,.4); }
 
-    .fade-in:nth-child(2) { animation-delay: .15s; }
-    .fade-in:nth-child(3) { animation-delay: .3s; }
-    .fade-in:nth-child(4) { animation-delay: .45s; }
-
-    @keyframes fadeUp {
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* ── Slideshow ── */
+    /* ─── SLIDESHOW ──────────────────────────────────── */
     .slideshow-section {
-      width: min(960px, 100% - 3rem);
-      margin: 2.5rem auto 0;
-      padding-bottom: 1rem;
+      width: min(720px, 100% - 2.5rem);
+      margin: 1.5rem auto 0;
+      padding-bottom: .5rem;
     }
 
     .slideshow-label {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: .45rem;
-      font-size: .7rem;
-      font-weight: 500;
-      letter-spacing: .14em;
+      gap: .5rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .16em;
       text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 1.5rem;
+      color: var(--black);
+      opacity: .5;
+      margin-bottom: 1.25rem;
     }
 
     .slideshow-track {
       position: relative;
       overflow: hidden;
-      border-radius: 1.25rem;
-      min-height: 220px;
+      border-radius: var(--radius);
+      border: 2px solid var(--black);
+      box-shadow: 4px 6px 0 var(--black);
+      min-height: 200px;
+      background: var(--white);
     }
 
     .slide {
@@ -372,54 +445,46 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 3rem 3.5rem;
-      background: var(--dark-card);
-      border: 1px solid rgba(255,255,255,.07);
-      border-radius: 1.25rem;
+      padding: 2.5rem 3rem;
       opacity: 0;
-      transform: translateX(40px);
-      transition: opacity .55s ease, transform .55s ease;
+      transform: translateX(50px);
+      transition: opacity .45s ease, transform .45s ease;
       pointer-events: none;
     }
+    .slide.active  { opacity:1; transform:none; pointer-events:auto; position:relative; }
+    .slide.exit    { opacity:0; transform:translateX(-50px); position:absolute; }
 
-    .slide.active {
-      opacity: 1;
-      transform: translateX(0);
-      pointer-events: auto;
-      position: relative;
-    }
-
-    .slide.exit {
-      opacity: 0;
-      transform: translateX(-40px);
-      position: absolute;
-    }
+    .slide-bg-0  { background: var(--white); }
+    .slide-bg-1  { background: var(--yellow2); }
+    .slide-bg-2  { background: #FFE0EC; }
+    .slide-bg-3  { background: #DFFAFC; }
 
     .slide-quote {
       font-family: 'Playfair Display', serif;
       font-style: italic;
-      font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+      font-size: clamp(1.05rem, 2.6vw, 1.35rem);
       line-height: 1.6;
-      color: #fff;
-      max-width: 680px;
+      color: var(--black);
+      max-width: 580px;
     }
 
     .slide-quote::before {
       content: '\201C';
-      color: var(--gold);
+      color: var(--pink);
       font-size: 2.5rem;
       line-height: .5;
       vertical-align: -.3em;
-      margin-right: .15em;
+      margin-right: .1em;
       font-style: normal;
-      opacity: .7;
     }
 
     .slide-author {
-      margin-top: 1.25rem;
-      font-size: .78rem;
-      color: var(--text-muted);
-      letter-spacing: .06em;
+      margin-top: 1rem;
+      font-size: .75rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text2);
     }
 
     .slideshow-controls {
@@ -427,546 +492,427 @@
       align-items: center;
       justify-content: center;
       gap: 1rem;
-      margin-top: 1.25rem;
+      margin-top: 1.1rem;
     }
 
     .slide-arrow {
-      background: transparent;
-      border: 1px solid rgba(255,255,255,.12);
-      color: var(--text-muted);
+      background: var(--white);
+      border: 2px solid var(--black);
       border-radius: 50%;
-      width: 34px; height: 34px;
+      width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
       cursor: pointer;
-      transition: border-color .2s, color .2s;
-      flex-shrink: 0;
+      box-shadow: 2px 2px 0 var(--black);
+      transition: background .15s, color .15s, transform .15s;
+      color: var(--black);
     }
+    .slide-arrow:hover { background: var(--black); color: var(--yellow); transform: scale(1.05); }
 
-    .slide-arrow:hover { border-color: var(--gold); color: var(--gold-light); }
-
-    .slide-dots {
-      display: flex;
-      gap: .45rem;
-      align-items: center;
-    }
+    .slide-dots { display: flex; gap: .4rem; align-items: center; }
 
     .slide-dot {
-      width: 6px; height: 6px;
+      width: 8px; height: 8px;
       border-radius: 50%;
-      background: rgba(255,255,255,.2);
+      background: rgba(0,0,0,.2);
       cursor: pointer;
-      transition: background .3s, transform .3s;
       border: none;
-      padding: 0;
+      transition: background .25s, transform .25s;
+    }
+    .slide-dot.active { background: var(--pink); transform: scale(1.35); }
+
+    /* ─── FOOTER ─────────────────────────────────────── */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2.5rem;
+      font-size: .78rem;
+      font-weight: 500;
+      color: var(--black);
+      opacity: .55;
+    }
+    footer a { color: var(--black); font-weight: 700; }
+
+    /* ─── CONFETTI ────────────────────────────────────── */
+    .confetti-piece {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      border-radius: 2px;
+      pointer-events: none;
+      z-index: 9999;
+      animation: confettiFall 1.2s ease-in forwards;
+    }
+    @keyframes confettiFall {
+      0%   { transform: translateY(0) rotate(0deg);   opacity: 1; }
+      100% { transform: translateY(280px) rotate(540deg); opacity: 0; }
     }
 
-    .slide-dot.active {
-      background: var(--gold);
-      transform: scale(1.3);
-    }
-
-    /* ── Responsive ── */
+    /* ─── RESPONSIVE ─────────────────────────────────── */
     @media (max-width: 600px) {
-      .card { padding: 1.75rem 1.5rem; }
-      .share-row { flex-direction: column; align-items: flex-start; }
+      .card { padding: 1.5rem 1.25rem; }
+      .stats-row { grid-template-columns: repeat(3,1fr); gap:.6rem; }
+      .stat-val, .fire-stat .fire-num { font-size: 1.8rem; }
       .slide { padding: 2rem 1.5rem; }
+      .workbook-cta-card { flex-direction: column; }
+      header { padding: .8rem 1.1rem; }
+      .logo { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 
-<canvas id="stars-canvas"></canvas>
-
-<div class="page-wrap">
-
-  <header class="fade-in">
-    <div class="book-tag">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-      What's Your Dream · Simon Squib
+<!-- ── STICKY HEADER ─────────────────────────────────── -->
+<header>
+  <div class="logo">What's Your <span>Dream?</span></div>
+  <div class="header-right">
+    <a href="workbook.html" class="workbook-link">7-Day Workbook</a>
+    <div class="fire-streak" title="Your current streak">
+      <svg class="flame-svg" viewBox="0 0 40 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20 2C20 2 28 10 28 20C28 24 26 27 23 29C24 25 22 21 20 19C20 19 18 25 14 27C10 29 8 26 8 22C8 14 14 8 20 2Z" fill="#FF6B00"/>
+        <path d="M20 2C20 2 28 10 28 20C28 24 26 27 23 29C24 25 22 21 20 19C20 19 18 25 14 27C10 29 8 26 8 22C8 14 14 8 20 2Z" fill="url(#flameTop)"/>
+        <path d="M10 28C10 28 8 32 10 37C12 42 16 44 20 44C24 44 28 42 30 37C32 32 30 28 28 26C28 30 26 33 22 34C23 30 21 26 20 24C20 24 18 30 16 33C13 31 11 29 10 28Z" fill="#FF9500"/>
+        <path d="M10 28C10 28 8 32 10 37C12 42 16 44 20 44C24 44 28 42 30 37C32 32 30 28 28 26C28 30 26 33 22 34C23 30 21 26 20 24C20 24 18 30 16 33C13 31 11 29 10 28Z" fill="url(#flameBottom)"/>
+        <ellipse cx="20" cy="37" rx="7" ry="7" fill="#FFD000" opacity=".7"/>
+        <defs>
+          <linearGradient id="flameTop" x1="20" y1="2" x2="20" y2="29" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF2D00"/>
+            <stop offset="100%" stop-color="#FF6B00" stop-opacity="0"/>
+          </linearGradient>
+          <linearGradient id="flameBottom" x1="20" y1="24" x2="20" y2="44" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#FF9500"/>
+            <stop offset="100%" stop-color="#FFD000"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <span class="streak-num" id="header-streak">0</span>
     </div>
-    <h1>Your dream is<br/>calling today.</h1>
-    <p class="subtitle">One quote. One action. Every single day.</p>
-  </header>
+  </div>
+</header>
 
-  <div class="date-strip fade-in">
-    <span class="date-pill" id="today-date"></span>
+<!-- ── HERO ──────────────────────────────────────────── -->
+<section class="hero">
+  <!-- Staircase decoration (book motif) -->
+  <div class="stair-deco" id="stair-deco"></div>
+
+  <div class="book-tag">
+    <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    Simon Squibb · Daily Inspiration
+  </div>
+  <h1>What's Your<span class="dream-word">Dream?</span></h1>
+  <p class="hero-sub" id="today-date"></p>
+</section>
+
+<!-- ── MAIN ───────────────────────────────────────────── -->
+<main>
+
+  <div class="card quote-card">
+    <div class="card-eyebrow"><span class="eyebrow-dot"></span>Today's Quote</div>
+    <p class="quote-text" id="quote-text"></p>
+    <p class="quote-author" id="quote-author"></p>
   </div>
 
-  <main>
+  <div class="card action-card">
+    <div class="card-eyebrow"><span class="eyebrow-dot"></span>Today's Action</div>
+    <p class="action-text" id="action-text"></p>
+    <button class="done-btn" id="done-btn" onclick="markDone()">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      I did it today!
+    </button>
+  </div>
 
-    <div class="card quote-card fade-in">
-      <div class="card-label"><span class="dot"></span> Today's Quote</div>
-      <p class="quote-text" id="quote-text"></p>
-      <p class="quote-author" id="quote-author"></p>
+  <div class="stats-row">
+    <div class="stat-tile yellow">
+      <span class="stat-val" id="day-number">—</span>
+      <span class="stat-label">Day of Year</span>
     </div>
-
-    <div class="card action-card fade-in">
-      <div class="card-label"><span class="dot"></span> Today's Action</div>
-      <p class="action-intro">Your dream doesn't build itself. Here's one thing you can do right now:</p>
-      <p class="action-text" id="action-text"></p>
-      <a href="#" class="action-cta" id="done-btn" onclick="markDone(event)">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        I did it today
-      </a>
-    </div>
-
-    <div class="meta-row fade-in">
-      <div class="meta-tile">
-        <div class="value" id="day-number"></div>
-        <div class="label">Day of the Year</div>
+    <div class="stat-tile pink">
+      <div class="fire-stat">
+        <span class="fire-icon">🔥</span>
+        <span class="fire-num" id="streak-tile">0</span>
       </div>
-      <div class="meta-tile">
-        <div class="value" id="streak-count">0</div>
-        <div class="label">Day Streak</div>
-      </div>
-      <div class="meta-tile">
-        <div class="value" id="done-count">0</div>
-        <div class="label">Actions Done</div>
-      </div>
+      <span class="stat-label">Day Streak</span>
     </div>
+    <div class="stat-tile cyan">
+      <span class="stat-val" id="done-count">0</span>
+      <span class="stat-label">Actions Done</span>
+    </div>
+  </div>
 
-    <div class="card fade-in" style="padding: 1.75rem 2.75rem;">
-      <div class="share-row">
-        <span class="share-label">Share today's spark</span>
-        <button class="share-btn" onclick="shareTwitter()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          Post on X
-        </button>
-        <button class="share-btn" onclick="copyLink()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-          Copy link
-        </button>
-        <button class="share-btn" onclick="shareNative()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
-          Share
-        </button>
-      </div>
-    </div>
-
-    <!-- ── Workbook CTA ── -->
-    <div class="card fade-in workbook-cta-card" style="background: linear-gradient(135deg, rgba(212,168,67,.12), rgba(212,168,67,.04)); border-color: rgba(212,168,67,.3);">
-      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;">
-        <div>
-          <div class="card-label" style="margin-bottom:.75rem;"><span class="dot"></span> 7-Day Dream Workbook</div>
-          <p style="font-family:'Playfair Display',serif; font-size:clamp(1.1rem,2.5vw,1.4rem); color:#fff; line-height:1.4; margin-bottom:.5rem;">Turn your dream into a<br/>daily practice.</p>
-          <p style="font-size:.88rem; color:var(--text-muted); line-height:1.6;">Journal, track, and build momentum — one day at a time.</p>
-        </div>
-        <a href="workbook.html" class="action-cta" style="flex-shrink:0; font-size:.9rem; padding:.85rem 1.75rem;">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-          Start your workbook
-        </a>
-      </div>
-    </div>
-
-  </main>
-
-  <!-- ── Quote Slideshow ── -->
-  <section class="slideshow-section">
-    <div class="slideshow-label">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-      Wisdom from the book
-    </div>
-    <div class="slideshow-track" id="slideshow-track">
-      <!-- slides injected by JS -->
-    </div>
-    <div class="slideshow-controls">
-      <button class="slide-arrow" id="slide-prev" aria-label="Previous">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+  <div class="card share-card">
+    <div class="card-eyebrow" style="color:var(--text2);">Share Today's Spark</div>
+    <div class="share-row">
+      <button class="share-btn" onclick="shareTwitter()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+        Post on X
       </button>
-      <div class="slide-dots" id="slide-dots"></div>
-      <button class="slide-arrow" id="slide-next" aria-label="Next">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      <button class="share-btn" onclick="copyLink()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+        Copy Link
+      </button>
+      <button class="share-btn" onclick="shareNative()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+        Share
       </button>
     </div>
-  </section>
+  </div>
 
-  <footer>
-    Inspired by <em>What's Your Dream?</em> by Simon Squib &nbsp;·&nbsp;
-    Built with intention &nbsp;·&nbsp;
-    <a href="https://ashoktak.com" target="_blank" rel="noopener">ashoktak.com</a>
-  </footer>
+  <div class="card workbook-cta-card">
+    <div class="cta-left">
+      <div class="card-eyebrow" style="color:rgba(0,0,0,.6);margin-bottom:.6rem;"><span class="eyebrow-dot" style="background:var(--black);opacity:.5"></span>7-Day Dream Workbook</div>
+      <h3>Turn your dream into<br/>a daily practice.</h3>
+      <p>Journal, track & build momentum — one day at a time.</p>
+    </div>
+    <a href="workbook.html" class="cta-btn">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+      Start Workbook
+    </a>
+  </div>
 
-</div>
+</main>
+
+<!-- ── SLIDESHOW ──────────────────────────────────────── -->
+<section class="slideshow-section">
+  <div class="slideshow-label">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+    Wisdom from Simon Squibb
+  </div>
+  <div class="slideshow-track" id="slideshow-track"></div>
+  <div class="slideshow-controls">
+    <button class="slide-arrow" id="slide-prev" aria-label="Previous">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <div class="slide-dots" id="slide-dots"></div>
+    <button class="slide-arrow" id="slide-next" aria-label="Next">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</section>
+
+<footer>
+  Inspired by <em>What's Your Dream?</em> by <strong>Simon Squibb</strong> &nbsp;·&nbsp;
+  <a href="https://ashoktak.com" target="_blank" rel="noopener">ashoktak.com</a>
+</footer>
 
 <script>
-  // ── Content ──────────────────────────────────────────────────────────────
-  const entries = [
-    {
-      quote: "Your dream is not a luxury — it is the most important work of your life.",
-      action: "Write down your dream in one clear sentence. Not a paragraph, not a list — one sentence. Read it aloud three times."
-    },
-    {
-      quote: "Every morning you wake up is a vote for the life you're building. Make it count.",
-      action: "Before you check your phone, spend 5 minutes journaling about one specific step toward your dream you will take today."
-    },
-    {
-      quote: "The gap between where you are and where you want to be is filled only by action.",
-      action: "Identify the single biggest obstacle between you and your dream. Write it down, then write one thing you can do to shrink it."
-    },
-    {
-      quote: "Courage is not the absence of fear — it is deciding your dream matters more than your doubt.",
-      action: "Do the one thing you've been putting off because it feels scary. Send that email, make that call, post that first piece of work."
-    },
-    {
-      quote: "Comparison is the thief of dreams. Run your own race, on your own track, at your own pace.",
-      action: "Unfollow or mute three accounts that make you feel behind. Replace them with one account that genuinely inspires your path."
-    },
-    {
-      quote: "A dream without a deadline is just a wish. Give yours a date.",
-      action: "Pick one milestone in your dream journey and set a specific deadline. Put it in your calendar right now."
-    },
-    {
-      quote: "The world doesn't need a perfect version of your dream — it needs the real, honest, messy version of it.",
-      action: "Share your dream with one person today — a friend, a mentor, or even a stranger online. Say it out loud."
-    },
-    {
-      quote: "Small steps taken consistently outrun giant leaps taken rarely.",
-      action: "Commit to a 15-minute daily practice toward your dream. Schedule it. Same time, every day, starting today."
-    },
-    {
-      quote: "You don't have to see the whole staircase. You just need to take the next step.",
-      action: "What is the very next step toward your dream? Not step five or ten — step one. Do it before the day ends."
-    },
-    {
-      quote: "Rest is not retreat. Recovering so you can keep building is part of the dream.",
-      action: "Schedule genuine rest today — not scrolling, not half-working. Rest so tomorrow you can show up fully."
-    },
-    {
-      quote: "The people who live their dreams are not luckier than you. They are more committed.",
-      action: "Find someone who is living a version of your dream. Study what they do daily. Adopt one of their habits this week."
-    },
-    {
-      quote: "Rejection is not the end of your story. It is often the first chapter of the real one.",
-      action: "Think of your last rejection or setback. Write down one thing it taught you and one door it may have opened."
-    },
-    {
-      quote: "Your environment either feeds your dream or starves it. Choose carefully.",
-      action: "Look at your immediate workspace. Remove one thing that distracts and add one thing that reminds you of your dream."
-    },
-    {
-      quote: "The version of you that achieves the dream is forged in the ordinary, unremarkable days.",
-      action: "On this ordinary day, do one extraordinary thing: go one percent further than yesterday on your dream."
-    },
-    {
-      quote: "Ask not if you are ready. Ask if you are willing.",
-      action: "Start the project, business, song, run, or conversation you've been waiting to feel 'ready' for. Start today, imperfectly."
-    },
-    {
-      quote: "Dreams grow in community. You were never meant to build yours alone.",
-      action: "Reach out to one person who shares your passion. Coffee, a voice note, a DM — make a human connection around your dream."
-    },
-    {
-      quote: "Your past has given you the exact tools you need to build your future.",
-      action: "List three experiences — good or hard — that have uniquely equipped you for your dream. These are your assets."
-    },
-    {
-      quote: "The loudest voice in the room is often the one in your own head. Train it well.",
-      action: "Notice one negative thought pattern that shows up when you work toward your dream. Replace it with a specific, honest counter-statement."
-    },
-    {
-      quote: "What you practice in private, you perform in public. Build the craft when no one is watching.",
-      action: "Spend 20 focused minutes today improving the core skill your dream requires. No distractions, no shortcuts."
-    },
-    {
-      quote: "A running club, a startup, a stage — every big dream began with one ridiculous first step.",
-      action: "Take the most ridiculous, beginner first step toward your dream today. Embrace looking like a beginner — that's where it begins."
-    },
-    {
-      quote: "Money follows value. Build something genuinely useful first, and the means will follow.",
-      action: "Think about what problem your dream solves for others. Write down who your dream serves and how it changes their life."
-    },
-    {
-      quote: "The singer who never performs, the athlete who never races — they have dreams, not lives. Step onto the stage.",
-      action: "Find one opportunity to perform, present, compete, or show your work — this week. Sign up. Commit to it publicly."
-    },
-    {
-      quote: "You are not too late. The best time was ten years ago. The second best time is today.",
-      action: "Stop waiting for the perfect moment. Pick one thing you've been delaying and give yourself a 24-hour deadline to start."
-    },
-    {
-      quote: "Your energy is a finite resource. Spend it on what moves you closer to your dream.",
-      action: "Audit your time from yesterday. Identify the one activity that consumed time without serving your dream. Reduce it by half tomorrow."
-    },
-    {
-      quote: "Discipline is just choosing your future self over your present self, again and again.",
-      action: "Choose your future self today: sleep earlier, skip the distraction, do the work. One disciplined choice. That's all."
-    },
-    {
-      quote: "The entrepreneur, the runner, the singer — they all share one thing: they decided to begin.",
-      action: "If you haven't started yet, today is the day. Name your dream aloud and take one physical action — any action — toward it."
-    },
-    {
-      quote: "Every expert was once a beginner who refused to quit.",
-      action: "Recall a moment when you wanted to quit. Write down what kept you going — and use that same reason to push forward today."
-    },
-    {
-      quote: "Your dream is too important to be left to motivation. Make it a ritual.",
-      action: "Design a simple ritual around your dream: a specific time, place, and trigger. Do it at the same time for the next 7 days."
-    },
-    {
-      quote: "Gratitude and ambition are not opposites. Be grateful for where you are and hungry for where you're going.",
-      action: "Write three things you're grateful for on this journey, and one thing you are boldly reaching for. Hold both at once."
-    },
-    {
-      quote: "The world will conspire to make you ordinary. Your job is to resist — gently, daily, persistently.",
-      action: "Say no to one obligation today that is pulling you away from your dream. Protect that time fiercely."
-    },
-    {
-      quote: "A dream realized is not the finish line — it is the launching pad for the next one.",
-      action: "Celebrate one win — big or small — from your dream journey this week. Acknowledge the distance you've already covered."
-    },
-    {
-      quote: "Clarity is the compass. Without knowing exactly what you want, effort goes in circles.",
-      action: "Spend 10 minutes getting specific: Where do you want to be with your dream in exactly 12 months? Write the details."
-    },
-    {
-      quote: "Failure is tuition. The lessons are expensive and worth every penny.",
-      action: "Think of your biggest recent failure on the way to your dream. Extract one specific lesson and write how you will apply it."
-    },
-    {
-      quote: "Other people's opinions of your dream are none of your business — unless they're paying your bills.",
-      action: "Identify one person whose doubt has been slowing you down. Consciously decide to pursue your dream without their approval today."
-    },
-    {
-      quote: "Build a life so authentic that people who meet you later can't believe you once doubted yourself.",
-      action: "Write a letter from your future self — 5 years from now, living your dream — back to you today. What does that person say?"
-    },
-    {
-      quote: "Dreams don't wait for the right season. They bloom in whatever season you plant them.",
-      action: "Plant something today. A habit, a conversation, a skill, a project. Something you'll harvest in a season you can't see yet."
-    },
-    {
-      quote: "The running club starts with a single lap. The business with a single sale. The song with a single note.",
-      action: "Identify the smallest possible version of your dream you could create or do today. Do just that — the smallest version."
-    },
-    {
-      quote: "Accountability is not pressure. It is the gift you give yourself when motivation fades.",
-      action: "Tell someone specific what you will accomplish toward your dream by end of this week. Ask them to check in on you."
-    },
-    {
-      quote: "Your dream isn't competing with other people's dreams. There is room enough for all of it.",
-      action: "Support someone else's dream today — a share, a comment, an introduction. Give freely, knowing your own dream has room."
-    },
-    {
-      quote: "The gap between who you are and who you need to become is the adventure.",
-      action: "Identify one skill you need to develop to live your dream fully. Spend 30 minutes today learning about or practicing that skill."
-    },
-    {
-      quote: "You don't find your dream by looking. You find it by building, and building, and building.",
-      action: "Stop waiting for inspiration. Open the document, lace the shoes, pick up the instrument. Begin before you feel ready."
-    },
-    {
-      quote: "The most dangerous comfort zone is the one that feels almost like your dream.",
-      action: "Examine where you are playing it safe within your dream. What would you do if you knew you wouldn't fail? Do that."
-    },
-    {
-      quote: "Legacy is not built in a single moment. It is assembled from a thousand ordinary days.",
-      action: "Think about the legacy you want your dream to leave. Write down who you are serving and why it matters beyond yourself."
-    },
-    {
-      quote: "The world needs more people who have come alive. Go be one of them.",
-      action: "Do one thing today that makes you feel completely alive — a thing that reminds you exactly why your dream is worth it."
-    }
+// ── Content ───────────────────────────────────────────────────────────────────
+const entries = [
+  { quote: "Your dream is not a luxury — it is the most important work of your life.", action: "Write your dream in one clear sentence. Not a paragraph, not a list — one sentence. Read it aloud three times." },
+  { quote: "Every morning you wake up is a vote for the life you're building. Make it count.", action: "Before you check your phone, spend 5 minutes journaling about one specific step toward your dream you will take today." },
+  { quote: "The gap between where you are and where you want to be is filled only by action.", action: "Identify the single biggest obstacle between you and your dream. Write it down, then write one thing you can do to shrink it." },
+  { quote: "Courage is not the absence of fear — it is deciding your dream matters more than your doubt.", action: "Do the one thing you've been putting off because it feels scary. Send that email, make that call, post that first piece of work." },
+  { quote: "Comparison is the thief of dreams. Run your own race, on your own track, at your own pace.", action: "Unfollow or mute three accounts that make you feel behind. Replace them with one account that genuinely inspires your path." },
+  { quote: "A dream without a deadline is just a wish. Give yours a date.", action: "Pick one milestone in your dream journey and set a specific deadline. Put it in your calendar right now." },
+  { quote: "The world doesn't need a perfect version of your dream — it needs the real, honest, messy version of it.", action: "Share your dream with one person today — a friend, a mentor, or even a stranger online. Say it out loud." },
+  { quote: "Small steps taken consistently outrun giant leaps taken rarely.", action: "Commit to a 15-minute daily practice toward your dream. Schedule it. Same time, every day, starting today." },
+  { quote: "You don't have to see the whole staircase. You just need to take the next step.", action: "What is the very next step toward your dream? Not step five or ten — step one. Do it before the day ends." },
+  { quote: "Rest is not retreat. Recovering so you can keep building is part of the dream.", action: "Schedule genuine rest today — not scrolling, not half-working. Rest so tomorrow you can show up fully." },
+  { quote: "The people who live their dreams are not luckier than you. They are more committed.", action: "Find someone who is living a version of your dream. Study what they do daily. Adopt one of their habits this week." },
+  { quote: "Rejection is not the end of your story. It is often the first chapter of the real one.", action: "Think of your last rejection or setback. Write down one thing it taught you and one door it may have opened." },
+  { quote: "Your environment either feeds your dream or starves it. Choose carefully.", action: "Look at your immediate workspace. Remove one thing that distracts and add one thing that reminds you of your dream." },
+  { quote: "The version of you that achieves the dream is forged in the ordinary, unremarkable days.", action: "On this ordinary day, do one extraordinary thing: go one percent further than yesterday on your dream." },
+  { quote: "Ask not if you are ready. Ask if you are willing.", action: "Start the project, business, song, run, or conversation you've been waiting to feel 'ready' for. Start today, imperfectly." },
+  { quote: "Dreams grow in community. You were never meant to build yours alone.", action: "Reach out to one person who shares your passion. Coffee, a voice note, a DM — make a human connection around your dream." },
+  { quote: "Your past has given you the exact tools you need to build your future.", action: "List three experiences — good or hard — that have uniquely equipped you for your dream. These are your assets." },
+  { quote: "The loudest voice in the room is often the one in your own head. Train it well.", action: "Notice one negative thought pattern that shows up when you work toward your dream. Replace it with a specific, honest counter-statement." },
+  { quote: "What you practice in private, you perform in public. Build the craft when no one is watching.", action: "Spend 20 focused minutes today improving the core skill your dream requires. No distractions, no shortcuts." },
+  { quote: "A running club, a startup, a stage — every big dream began with one ridiculous first step.", action: "Take the most ridiculous, beginner first step toward your dream today. Embrace looking like a beginner — that's where it begins." },
+  { quote: "Money follows value. Build something genuinely useful first, and the means will follow.", action: "Think about what problem your dream solves for others. Write down who your dream serves and how it changes their life." },
+  { quote: "The singer who never performs, the athlete who never races — step onto the stage.", action: "Find one opportunity to perform, present, compete, or show your work — this week. Sign up. Commit to it publicly." },
+  { quote: "You are not too late. The best time was ten years ago. The second best time is today.", action: "Stop waiting for the perfect moment. Pick one thing you've been delaying and give yourself a 24-hour deadline to start." },
+  { quote: "Your energy is a finite resource. Spend it on what moves you closer to your dream.", action: "Audit your time from yesterday. Identify the one activity that consumed time without serving your dream. Reduce it by half tomorrow." },
+  { quote: "Discipline is just choosing your future self over your present self, again and again.", action: "Choose your future self today: sleep earlier, skip the distraction, do the work. One disciplined choice. That's all." },
+  { quote: "The entrepreneur, the runner, the singer — they all share one thing: they decided to begin.", action: "If you haven't started yet, today is the day. Name your dream aloud and take one physical action — any action — toward it." },
+  { quote: "Every expert was once a beginner who refused to quit.", action: "Recall a moment when you wanted to quit. Write down what kept you going — and use that same reason to push forward today." },
+  { quote: "Your dream is too important to be left to motivation. Make it a ritual.", action: "Design a simple ritual around your dream: a specific time, place, and trigger. Do it at the same time for the next 7 days." },
+  { quote: "Gratitude and ambition are not opposites. Be grateful for where you are and hungry for where you're going.", action: "Write three things you're grateful for on this journey, and one thing you are boldly reaching for. Hold both at once." },
+  { quote: "The world will conspire to make you ordinary. Your job is to resist — gently, daily, persistently.", action: "Say no to one obligation today that is pulling you away from your dream. Protect that time fiercely." },
+  { quote: "A dream realized is not the finish line — it is the launching pad for the next one.", action: "Celebrate one win — big or small — from your dream journey this week. Acknowledge the distance you've already covered." },
+  { quote: "Clarity is the compass. Without knowing exactly what you want, effort goes in circles.", action: "Spend 10 minutes getting specific: Where do you want to be with your dream in exactly 12 months? Write the details." },
+  { quote: "Failure is tuition. The lessons are expensive and worth every penny.", action: "Think of your biggest recent failure on the way to your dream. Extract one specific lesson and write how you will apply it." },
+  { quote: "Other people's opinions of your dream are none of your business.", action: "Identify one person whose doubt has been slowing you down. Consciously decide to pursue your dream without their approval today." },
+  { quote: "Build a life so authentic that people who meet you later can't believe you once doubted yourself.", action: "Write a letter from your future self — 5 years from now, living your dream — back to you today. What does that person say?" },
+  { quote: "Dreams don't wait for the right season. They bloom in whatever season you plant them.", action: "Plant something today. A habit, a conversation, a skill, a project. Something you'll harvest in a season you can't see yet." },
+  { quote: "The running club starts with a single lap. The business with a single sale. The song with a single note.", action: "Identify the smallest possible version of your dream you could create or do today. Do just that — the smallest version." },
+  { quote: "Accountability is not pressure. It is the gift you give yourself when motivation fades.", action: "Tell someone specific what you will accomplish toward your dream by end of this week. Ask them to check in on you." },
+  { quote: "Your dream isn't competing with other people's dreams. There is room enough for all of it.", action: "Support someone else's dream today — a share, a comment, an introduction. Give freely, knowing your own dream has room." },
+  { quote: "The gap between who you are and who you need to become is the adventure.", action: "Identify one skill you need to develop to live your dream fully. Spend 30 minutes today learning about or practicing that skill." },
+  { quote: "You don't find your dream by looking. You find it by building, and building, and building.", action: "Stop waiting for inspiration. Open the document, lace the shoes, pick up the instrument. Begin before you feel ready." },
+  { quote: "The most dangerous comfort zone is the one that feels almost like your dream.", action: "Examine where you are playing it safe within your dream. What would you do if you knew you wouldn't fail? Do that." },
+  { quote: "Legacy is not built in a single moment. It is assembled from a thousand ordinary days.", action: "Think about the legacy you want your dream to leave. Write down who you are serving and why it matters beyond yourself." },
+  { quote: "The world needs more people who have come alive. Go be one of them.", action: "Do one thing today that makes you feel completely alive — a thing that reminds you exactly why your dream is worth it." }
+];
+
+// ── Utilities ─────────────────────────────────────────────────────────────────
+function getDayOfYear(d) {
+  return Math.floor((d - new Date(d.getFullYear(),0,0)) / 86400000);
+}
+function todayKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function prevDay(k) {
+  const d = new Date(k+'T12:00:00'); d.setDate(d.getDate()-1);
+  return d.toISOString().slice(0,10);
+}
+
+// ── Populate ──────────────────────────────────────────────────────────────────
+const now = new Date();
+const dayNum = getDayOfYear(now);
+const entry = entries[(dayNum - 1) % entries.length];
+
+document.getElementById('today-date').textContent = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+document.getElementById('quote-text').textContent = entry.quote;
+document.getElementById('quote-author').textContent = '— What\'s Your Dream?, Simon Squibb';
+document.getElementById('action-text').textContent = entry.action;
+document.getElementById('day-number').textContent = dayNum;
+
+// ── Staircase deco ────────────────────────────────────────────────────────────
+(function buildStairs() {
+  const wrap = document.getElementById('stair-deco');
+  const colors = ['#FF1D6C','#00C8D4','#FF1D6C','#00C8D4','#FF1D6C','#00C8D4','#FF1D6C','#00C8D4'];
+  const heights = [20,34,50,68,88,110,135,160];
+  colors.forEach((c,i) => {
+    const s = document.createElement('div');
+    s.className = 'stair-step';
+    s.style.cssText = `background:${c};height:${heights[i]}px;opacity:.7;`;
+    wrap.appendChild(s);
+  });
+})();
+
+// ── Streak / done ─────────────────────────────────────────────────────────────
+const STORE = 'wyd_done_dates';
+function getDates() { try { return JSON.parse(localStorage.getItem(STORE)) || []; } catch { return []; } }
+
+function calcStreak(dates) {
+  if (!dates.length) return 0;
+  const sorted = [...new Set(dates)].sort().reverse();
+  const today = todayKey();
+  if (sorted[0] !== today && sorted[0] !== prevDay(today)) return 0;
+  let streak = 0, cursor = today;
+  for (const d of sorted) { if (d === cursor) { streak++; cursor = prevDay(cursor); } else break; }
+  return streak;
+}
+
+function refreshStats() {
+  const dates = getDates();
+  const streak = calcStreak(dates);
+  document.getElementById('done-count').textContent = dates.length;
+  document.getElementById('streak-tile').textContent = streak;
+  document.getElementById('header-streak').textContent = streak;
+
+  const doneToday = dates.includes(todayKey());
+  const btn = document.getElementById('done-btn');
+  if (doneToday) {
+    btn.classList.add('completed');
+    btn.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Done for today ✓';
+  }
+}
+
+window.markDone = function() {
+  const dates = getDates();
+  const key = todayKey();
+  const wasNew = !dates.includes(key);
+  if (wasNew) { dates.push(key); localStorage.setItem(STORE, JSON.stringify(dates)); }
+  refreshStats();
+  if (wasNew) {
+    launchConfetti();
+    const n = document.getElementById('header-streak');
+    n.classList.remove('bump');
+    void n.offsetWidth;
+    n.classList.add('bump');
+  }
+};
+refreshStats();
+
+// ── Confetti ──────────────────────────────────────────────────────────────────
+function launchConfetti() {
+  const colors = ['#FFE500','#FF1D6C','#00C8D4','#FFFFFF','#FF9500'];
+  const btn = document.getElementById('done-btn');
+  const rect = btn.getBoundingClientRect();
+  for (let i = 0; i < 40; i++) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    const size = 6 + Math.random() * 8;
+    el.style.cssText = `
+      left:${rect.left + rect.width/2 + (Math.random()-0.5)*120}px;
+      top:${rect.top}px;
+      width:${size}px; height:${size}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${0.8+Math.random()*0.8}s;
+      animation-delay:${Math.random()*0.2}s;
+    `;
+    document.body.appendChild(el);
+    el.addEventListener('animationend', () => el.remove());
+  }
+}
+
+// ── Share ─────────────────────────────────────────────────────────────────────
+const shareText = `"${entry.quote}" — What's Your Dream?, Simon Squibb\n\n👉 ashoktak.com/whats-your-dream`;
+window.shareTwitter = () => window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText),'_blank');
+window.copyLink = function() {
+  navigator.clipboard.writeText('https://ashoktak.com/whats-your-dream').then(() => {
+    const btn = event.currentTarget; const orig = btn.innerHTML;
+    btn.textContent = 'Copied!';
+    setTimeout(() => btn.innerHTML = orig, 1800);
+  });
+};
+window.shareNative = function() {
+  if (navigator.share) navigator.share({title:"What's Your Dream?", text:shareText, url:'https://ashoktak.com/whats-your-dream'});
+  else window.copyLink();
+};
+
+// ── Slideshow ─────────────────────────────────────────────────────────────────
+(function initSlideshow() {
+  const quotes = [
+    "Your dream is not a luxury — it is the most important work of your life.",
+    "Every morning you wake up is a vote for the life you're building.",
+    "Courage is not the absence of fear — it is deciding your dream matters more than your doubt.",
+    "Small steps taken consistently outrun giant leaps taken rarely.",
+    "The gap between who you are and who you need to become is the adventure.",
+    "You don't find your dream by looking. You find it by building.",
+    "The world needs more people who have come alive. Go be one of them.",
+    "A dream without a deadline is just a wish. Give yours a date.",
+    "Discipline is just choosing your future self over your present self.",
+    "You are not too late. The best time was ten years ago. The second best time is today.",
+    "Build a life so authentic that people who meet you later can't believe you once doubted yourself.",
+    "What you practice in private, you perform in public.",
+    "Rejection is not the end of your story. It is often the first chapter of the real one.",
+    "Rest is not retreat. Recovering so you can keep building is part of the dream.",
+    "The world will conspire to make you ordinary. Your job is to resist — gently, daily, persistently."
   ];
+  const bgClasses = ['slide-bg-0','slide-bg-1','slide-bg-2','slide-bg-3'];
+  const track = document.getElementById('slideshow-track');
+  const dotsEl = document.getElementById('slide-dots');
+  let current = 0, timer;
 
-  // ── Utilities ─────────────────────────────────────────────────────────────
-  function getDayOfYear(date) {
-    const start = new Date(date.getFullYear(), 0, 0);
-    const diff = date - start + (start.getTimezoneOffset() - date.getTimezoneOffset()) * 60 * 1000;
-    return Math.floor(diff / 86400000);
-  }
-
-  function todayKey() {
-    const d = new Date();
-    return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
-  }
-
-  // ── Populate page ──────────────────────────────────────────────────────────
-  const now = new Date();
-  const dayNum = getDayOfYear(now);
-  const entry = entries[(dayNum - 1) % entries.length];
-
-  document.getElementById('today-date').textContent = now.toLocaleDateString('en-US', {
-    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+  quotes.forEach((q,i) => {
+    const s = document.createElement('div');
+    s.className = `slide ${bgClasses[i%bgClasses.length]}${i===0?' active':''}`;
+    s.innerHTML = `<p class="slide-quote">${q}</p><p class="slide-author">— What's Your Dream?, Simon Squibb</p>`;
+    track.appendChild(s);
+    const d = document.createElement('button');
+    d.className = 'slide-dot'+(i===0?' active':'');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
   });
 
-  document.getElementById('quote-text').textContent = entry.quote;
-  document.getElementById('quote-author').textContent = '— What\'s Your Dream?, Simon Squib';
-  document.getElementById('action-text').textContent = entry.action;
-  document.getElementById('day-number').textContent = dayNum;
-
-  // ── Streak & done ──────────────────────────────────────────────────────────
-  const STORAGE_KEY = 'wyd_done_dates';
-
-  function getStoredDates() {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; } catch { return []; }
+  function goTo(n) {
+    const slides = track.querySelectorAll('.slide');
+    const dots = dotsEl.querySelectorAll('.slide-dot');
+    slides[current].classList.add('exit');
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    setTimeout(() => slides[current < n ? current : current].classList.remove('exit'), 500);
+    current = (n + quotes.length) % quotes.length;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+    clearTimeout(timer);
+    timer = setTimeout(() => goTo(current+1), 5000);
   }
-
-  function computeStreak(dates) {
-    if (!dates.length) return 0;
-    const sorted = [...new Set(dates)].sort().reverse();
-    const today = todayKey();
-    if (sorted[0] !== today && sorted[0] !== prevDay(today)) return 0;
-    let streak = 0;
-    let cursor = today;
-    for (const d of sorted) {
-      if (d === cursor) { streak++; cursor = prevDay(cursor); }
-      else break;
-    }
-    return streak;
-  }
-
-  function prevDay(key) {
-    const d = new Date(key + 'T12:00:00');
-    d.setDate(d.getDate() - 1);
-    return d.toISOString().slice(0, 10);
-  }
-
-  function refreshStats() {
-    const dates = getStoredDates();
-    document.getElementById('done-count').textContent = dates.length;
-    document.getElementById('streak-count').textContent = computeStreak(dates);
-
-    const doneToday = dates.includes(todayKey());
-    const btn = document.getElementById('done-btn');
-    if (doneToday) {
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Done for today ✓';
-      btn.style.background = 'linear-gradient(135deg, #3a7d44, #2a5c32)';
-      btn.style.color = '#d4f5da';
-    }
-  }
-
-  window.markDone = function(e) {
-    e.preventDefault();
-    const dates = getStoredDates();
-    const key = todayKey();
-    if (!dates.includes(key)) {
-      dates.push(key);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(dates));
-    }
-    refreshStats();
-  };
-
-  refreshStats();
-
-  // ── Share ──────────────────────────────────────────────────────────────────
-  const shareText = `"${entry.quote}" — What's Your Dream?, Simon Squib\n\nToday's action: ${entry.action}\n\nWhat's your dream? 👉 ashoktak.com/whats-your-dream`;
-
-  window.shareTwitter = function() {
-    window.open('https://twitter.com/intent/tweet?text=' + encodeURIComponent(`"${entry.quote}" — What's Your Dream?\n\nWhat's yours? 👉 ashoktak.com/whats-your-dream`), '_blank');
-  };
-
-  window.copyLink = function() {
-    navigator.clipboard.writeText('https://ashoktak.com/whats-your-dream').then(() => {
-      const btn = event.currentTarget;
-      const orig = btn.innerHTML;
-      btn.textContent = 'Copied!';
-      setTimeout(() => { btn.innerHTML = orig; }, 1800);
-    });
-  };
-
-  window.shareNative = function() {
-    if (navigator.share) {
-      navigator.share({ title: "What's Your Dream?", text: shareText, url: 'https://ashoktak.com/whats-your-dream' });
-    } else {
-      window.copyLink();
-    }
-  };
-
-  // ── Slideshow ─────────────────────────────────────────────────────────────
-  (function initSlideshow() {
-    const slides = [
-      "Your dream is not a luxury — it is the most important work of your life.",
-      "Every morning you wake up is a vote for the life you're building.",
-      "Courage is not the absence of fear — it is deciding your dream matters more than your doubt.",
-      "Small steps taken consistently outrun giant leaps taken rarely.",
-      "The gap between who you are and who you need to become is the adventure.",
-      "You don't find your dream by looking. You find it by building, and building, and building.",
-      "The world needs more people who have come alive. Go be one of them.",
-      "A dream without a deadline is just a wish. Give yours a date.",
-      "Discipline is just choosing your future self over your present self, again and again.",
-      "You are not too late. The best time was ten years ago. The second best time is today.",
-      "Build a life so authentic that people who meet you later can't believe you once doubted yourself.",
-      "The singer who never performs, the athlete who never races — step onto the stage.",
-      "What you practice in private, you perform in public. Build the craft when no one is watching.",
-      "Rejection is not the end of your story. It is often the first chapter of the real one.",
-      "Rest is not retreat. Recovering so you can keep building is part of the dream."
-    ];
-
-    const track = document.getElementById('slideshow-track');
-    const dotsEl = document.getElementById('slide-dots');
-    let current = 0, timer;
-
-    slides.forEach((q, i) => {
-      const s = document.createElement('div');
-      s.className = 'slide' + (i === 0 ? ' active' : '');
-      s.innerHTML = `<p class="slide-quote">${q}</p><p class="slide-author">— What's Your Dream?, Simon Squib</p>`;
-      track.appendChild(s);
-      const d = document.createElement('button');
-      d.className = 'slide-dot' + (i === 0 ? ' active' : '');
-      d.setAttribute('aria-label', `Go to slide ${i + 1}`);
-      d.onclick = () => goTo(i);
-      dotsEl.appendChild(d);
-    });
-
-    function goTo(n) {
-      const els = track.querySelectorAll('.slide');
-      const dots = dotsEl.querySelectorAll('.slide-dot');
-      els[current].classList.remove('active');
-      els[current].classList.add('exit');
-      setTimeout(() => els[current < n ? current : current].classList.remove('exit'), 600);
-      dots[current].classList.remove('active');
-      current = (n + slides.length) % slides.length;
-      els[current].classList.add('active');
-      dots[current].classList.add('active');
-      clearTimeout(timer);
-      timer = setTimeout(() => goTo(current + 1), 5000);
-    }
-
-    document.getElementById('slide-prev').onclick = () => goTo(current - 1);
-    document.getElementById('slide-next').onclick = () => goTo(current + 1);
-    timer = setTimeout(() => goTo(1), 5000);
-  })();
-
-  // ── Stars ──────────────────────────────────────────────────────────────────
-  (function initStars() {
-    const canvas = document.getElementById('stars-canvas');
-    const ctx = canvas.getContext('2d');
-    let stars = [];
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    function createStars(n) {
-      stars = Array.from({ length: n }, () => ({
-        x: Math.random() * canvas.width,
-        y: Math.random() * canvas.height,
-        r: Math.random() * 1.2 + .2,
-        alpha: Math.random() * .6 + .1,
-        speed: Math.random() * .0004 + .0002,
-        phase: Math.random() * Math.PI * 2
-      }));
-    }
-
-    function draw(t) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (const s of stars) {
-        const a = s.alpha * (.6 + .4 * Math.sin(s.phase + t * s.speed * 1000));
-        ctx.beginPath();
-        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,245,220,${a})`;
-        ctx.fill();
-      }
-      requestAnimationFrame(draw);
-    }
-
-    resize();
-    createStars(180);
-    window.addEventListener('resize', () => { resize(); createStars(180); });
-    requestAnimationFrame(draw);
-  })();
+  document.getElementById('slide-prev').onclick = () => goTo(current-1);
+  document.getElementById('slide-next').onclick = () => goTo(current+1);
+  timer = setTimeout(() => goTo(1), 5000);
+})();
 </script>
 </body>
 </html>
