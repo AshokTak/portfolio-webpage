@@ -337,10 +337,139 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ── Slideshow ── */
+    .slideshow-section {
+      width: min(960px, 100% - 3rem);
+      margin: 2.5rem auto 0;
+      padding-bottom: 1rem;
+    }
+
+    .slideshow-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .45rem;
+      font-size: .7rem;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 1.5rem;
+    }
+
+    .slideshow-track {
+      position: relative;
+      overflow: hidden;
+      border-radius: 1.25rem;
+      min-height: 220px;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 3rem 3.5rem;
+      background: var(--dark-card);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 1.25rem;
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity .55s ease, transform .55s ease;
+      pointer-events: none;
+    }
+
+    .slide.active {
+      opacity: 1;
+      transform: translateX(0);
+      pointer-events: auto;
+      position: relative;
+    }
+
+    .slide.exit {
+      opacity: 0;
+      transform: translateX(-40px);
+      position: absolute;
+    }
+
+    .slide-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.1rem, 2.8vw, 1.5rem);
+      line-height: 1.6;
+      color: #fff;
+      max-width: 680px;
+    }
+
+    .slide-quote::before {
+      content: '\201C';
+      color: var(--gold);
+      font-size: 2.5rem;
+      line-height: .5;
+      vertical-align: -.3em;
+      margin-right: .15em;
+      font-style: normal;
+      opacity: .7;
+    }
+
+    .slide-author {
+      margin-top: 1.25rem;
+      font-size: .78rem;
+      color: var(--text-muted);
+      letter-spacing: .06em;
+    }
+
+    .slideshow-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+
+    .slide-arrow {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,.12);
+      color: var(--text-muted);
+      border-radius: 50%;
+      width: 34px; height: 34px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+      flex-shrink: 0;
+    }
+
+    .slide-arrow:hover { border-color: var(--gold); color: var(--gold-light); }
+
+    .slide-dots {
+      display: flex;
+      gap: .45rem;
+      align-items: center;
+    }
+
+    .slide-dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      cursor: pointer;
+      transition: background .3s, transform .3s;
+      border: none;
+      padding: 0;
+    }
+
+    .slide-dot.active {
+      background: var(--gold);
+      transform: scale(1.3);
+    }
+
     /* ── Responsive ── */
     @media (max-width: 600px) {
       .card { padding: 1.75rem 1.5rem; }
       .share-row { flex-direction: column; align-items: flex-start; }
+      .slide { padding: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -414,7 +543,42 @@
       </div>
     </div>
 
+    <!-- ── Workbook CTA ── -->
+    <div class="card fade-in workbook-cta-card" style="background: linear-gradient(135deg, rgba(212,168,67,.12), rgba(212,168,67,.04)); border-color: rgba(212,168,67,.3);">
+      <div style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;">
+        <div>
+          <div class="card-label" style="margin-bottom:.75rem;"><span class="dot"></span> 7-Day Dream Workbook</div>
+          <p style="font-family:'Playfair Display',serif; font-size:clamp(1.1rem,2.5vw,1.4rem); color:#fff; line-height:1.4; margin-bottom:.5rem;">Turn your dream into a<br/>daily practice.</p>
+          <p style="font-size:.88rem; color:var(--text-muted); line-height:1.6;">Journal, track, and build momentum — one day at a time.</p>
+        </div>
+        <a href="workbook.html" class="action-cta" style="flex-shrink:0; font-size:.9rem; padding:.85rem 1.75rem;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Start your workbook
+        </a>
+      </div>
+    </div>
+
   </main>
+
+  <!-- ── Quote Slideshow ── -->
+  <section class="slideshow-section">
+    <div class="slideshow-label">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      Wisdom from the book
+    </div>
+    <div class="slideshow-track" id="slideshow-track">
+      <!-- slides injected by JS -->
+    </div>
+    <div class="slideshow-controls">
+      <button class="slide-arrow" id="slide-prev" aria-label="Previous">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <div class="slide-dots" id="slide-dots"></div>
+      <button class="slide-arrow" id="slide-next" aria-label="Next">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+  </section>
 
   <footer>
     Inspired by <em>What's Your Dream?</em> by Simon Squib &nbsp;·&nbsp;
@@ -708,6 +872,61 @@
       window.copyLink();
     }
   };
+
+  // ── Slideshow ─────────────────────────────────────────────────────────────
+  (function initSlideshow() {
+    const slides = [
+      "Your dream is not a luxury — it is the most important work of your life.",
+      "Every morning you wake up is a vote for the life you're building.",
+      "Courage is not the absence of fear — it is deciding your dream matters more than your doubt.",
+      "Small steps taken consistently outrun giant leaps taken rarely.",
+      "The gap between who you are and who you need to become is the adventure.",
+      "You don't find your dream by looking. You find it by building, and building, and building.",
+      "The world needs more people who have come alive. Go be one of them.",
+      "A dream without a deadline is just a wish. Give yours a date.",
+      "Discipline is just choosing your future self over your present self, again and again.",
+      "You are not too late. The best time was ten years ago. The second best time is today.",
+      "Build a life so authentic that people who meet you later can't believe you once doubted yourself.",
+      "The singer who never performs, the athlete who never races — step onto the stage.",
+      "What you practice in private, you perform in public. Build the craft when no one is watching.",
+      "Rejection is not the end of your story. It is often the first chapter of the real one.",
+      "Rest is not retreat. Recovering so you can keep building is part of the dream."
+    ];
+
+    const track = document.getElementById('slideshow-track');
+    const dotsEl = document.getElementById('slide-dots');
+    let current = 0, timer;
+
+    slides.forEach((q, i) => {
+      const s = document.createElement('div');
+      s.className = 'slide' + (i === 0 ? ' active' : '');
+      s.innerHTML = `<p class="slide-quote">${q}</p><p class="slide-author">— What's Your Dream?, Simon Squib</p>`;
+      track.appendChild(s);
+      const d = document.createElement('button');
+      d.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', `Go to slide ${i + 1}`);
+      d.onclick = () => goTo(i);
+      dotsEl.appendChild(d);
+    });
+
+    function goTo(n) {
+      const els = track.querySelectorAll('.slide');
+      const dots = dotsEl.querySelectorAll('.slide-dot');
+      els[current].classList.remove('active');
+      els[current].classList.add('exit');
+      setTimeout(() => els[current < n ? current : current].classList.remove('exit'), 600);
+      dots[current].classList.remove('active');
+      current = (n + slides.length) % slides.length;
+      els[current].classList.add('active');
+      dots[current].classList.add('active');
+      clearTimeout(timer);
+      timer = setTimeout(() => goTo(current + 1), 5000);
+    }
+
+    document.getElementById('slide-prev').onclick = () => goTo(current - 1);
+    document.getElementById('slide-next').onclick = () => goTo(current + 1);
+    timer = setTimeout(() => goTo(1), 5000);
+  })();
 
   // ── Stars ──────────────────────────────────────────────────────────────────
   (function initStars() {
