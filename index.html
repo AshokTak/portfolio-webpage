@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ashok Tak — Data & AI Engineer</title>
-  <meta name="description" content="Ashok Tak — Senior Data & GenAI Engineer at Lumenalta. Ex-Scotiabank, UofT, IIT Roorkee. 2× Databricks Certified." />
+  <title>Ashok Tak — AI Engineer, Educator & Builder</title>
+  <meta name="description" content="AI Engineer, Entrepreneur, Educator and YouTuber. Building intelligent systems, teaching what I learn, sharing ideas every Sunday." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
@@ -14,18 +14,15 @@
 
   <!-- Nav -->
   <nav id="nav">
-    <a href="#" class="nav-mark">AT</a>
+    <a href="/" class="nav-mark">AT</a>
     <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="projects.html">Projects</a>
       <a href="#writing">Writing</a>
-      <a href="#work">Work</a>
-      <a href="#education">Education</a>
-      <a href="#skills">Skills</a>
-      <a href="#publications">Research</a>
+      <a href="#newsletter">Newsletter</a>
     </div>
     <button id="theme-toggle" aria-label="Toggle dark mode">
-      <!-- Sun icon (shown in dark mode) -->
       <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
-      <!-- Moon icon (shown in light mode) -->
       <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
     </button>
   </nav>
@@ -33,368 +30,111 @@
   <!-- Hero -->
   <section id="hero">
     <canvas id="particle-canvas" aria-hidden="true"></canvas>
-    <div class="hero-inner">
-      <div class="hero-badge">
-        <span class="hero-badge-dot"></span>
-        Available for opportunities
+    <div class="landing-hero-inner">
+      <div class="landing-hero-text">
+        <div class="hero-badge">
+          <span class="hero-badge-dot"></span>
+          AI Engineer · Educator · Builder
+        </div>
+        <h1 class="hero-name">Ashok<br>Tak</h1>
+        <p class="hero-bio">
+          I build intelligent AI systems, teach what I learn, and share ideas every Sunday.
+          <span class="highlight">Senior Data &amp; AI Engineer</span> by day —
+          entrepreneur, YouTuber, and educator by calling.
+        </p>
+        <div class="hero-links">
+          <a href="#newsletter" class="link-pill link-pill-accent">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            Subscribe — Free
+          </a>
+          <a href="https://www.youtube.com/@AshokTak" target="_blank" rel="noopener" class="link-pill">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            YouTube
+          </a>
+          <a href="about.html" class="link-pill">
+            About Me
+            <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+        </div>
       </div>
-      <p class="hero-eyebrow"><span id="typewriter"></span><span class="tw-cursor"></span></p>
-      <h1 class="hero-name">Ashok<br>Tak</h1>
-      <p class="hero-bio">
-        Building resilient data platforms and intelligent AI systems. Currently at
-        <span class="highlight">Lumenalta</span> as Senior Data &amp; GenAI Engineer —
-        architecting data lakehouses and RAG-powered applications across finance,
-        agriculture, energy and e-commerce. 2&times; Databricks Certified.
+      <div class="landing-hero-photo">
+        <div class="photo-frame">
+          <video class="headshot" autoplay loop muted playsinline>
+            <source src="images/ProfileAnimation.mp4" type="video/mp4">
+          </video>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- What I do -->
+  <section id="pillars" class="section reveal">
+    <div class="section-inner section-inner-wide">
+      <h2 class="section-label">What I do</h2>
+      <div class="pillar-grid">
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M9 1v3M15 1v3M9 20v3M15 20v3M1 9h3M1 15h3M20 9h3M20 15h3"/></svg>
+          </div>
+          <h3 class="pillar-title">AI Engineer</h3>
+          <p class="pillar-desc">Building intelligent data systems and GenAI applications that power real businesses — from data lakehouses to RAG pipelines.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+          </div>
+          <h3 class="pillar-title">Entrepreneur</h3>
+          <p class="pillar-desc">Building products at the intersection of AI and human potential — from educational tools to family apps. Shipping ideas that matter.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <h3 class="pillar-title">YouTuber</h3>
+          <p class="pillar-desc">Creating content that demystifies AI for builders and learners — practical tutorials, honest takes, and behind-the-scenes of shipping.</p>
+        </div>
+
+        <div class="pillar-card">
+          <div class="pillar-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          </div>
+          <h3 class="pillar-title">Educator</h3>
+          <p class="pillar-desc">Teaching AI, data engineering, and building in public — every Sunday in your inbox. Because the best way to learn is to share.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Newsletter -->
+  <section id="newsletter" class="section newsletter-section reveal">
+    <div class="newsletter-inner">
+      <p class="newsletter-eyebrow">Every Sunday</p>
+      <h2 class="newsletter-title">The Sunday AI Brief</h2>
+      <p class="newsletter-desc">
+        Weekly insights on AI engineering, building products, and the ideas shaping our future.
+        Honest, practical, and written for builders — not hype.
       </p>
-      <div class="hero-links">
-        <a href="https://github.com/AshokTak" target="_blank" rel="noopener" class="link-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
-        </a>
-        <a href="https://www.linkedin.com/in/ashoktak" target="_blank" rel="noopener" class="link-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://x.com/AshokTak10" target="_blank" rel="noopener" class="link-pill">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.73-8.835L1.254 2.25H8.08l4.259 5.632 5.905-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-          X
-        </a>
-        <a href="mailto:ashoktak95@gmail.com" class="link-pill">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-          Email
-        </a>
-      </div>
-    </div>
-    <div class="hero-deco" aria-hidden="true">
-      <div class="deco-ring deco-ring-1"></div>
-      <div class="deco-ring deco-ring-2"></div>
-      <div class="deco-ring deco-ring-3"></div>
-    </div>
-  </section>
-
-  <!-- Work -->
-  <section id="work" class="section reveal">
-    <div class="section-inner">
-      <h2 class="section-label">Work</h2>
-      <div class="timeline">
-
-        <!-- Lumenalta -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="https://logo.clearbit.com/lumenalta.com" alt="Lumenalta" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'LU'}))">
-            <span class="timeline-date">2024 — Now</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>Lumenalta</h3>
-              <span class="timeline-company">formerly Clevertech</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Senior Data Engineer <span class="role-period">&middot; Mar 2024 — Present</span></p>
-              <p class="timeline-desc">Architected and developed data lakehouses for companies in finance, agriculture, energy and e-commerce using cloud partners, Databricks and open-source data stack.</p>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Generative AI Engineer <span class="role-period">&middot; May 2024 — Apr 2025</span></p>
-              <p class="timeline-desc">Built RAG-enabled GenAI applications automating knowledge-based enterprise workflows. Developed context retrieval systems, skills and tool use in an enterprise chatbot.</p>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Python</span>
-              <span class="tag">Spark</span>
-              <span class="tag">Kafka</span>
-              <span class="tag">Delta Lake</span>
-              <span class="tag">Iceberg</span>
-              <span class="tag">LangChain</span>
-              <span class="tag">LangGraph</span>
-              <span class="tag">pgVector</span>
-              <span class="tag">AWS</span>
-              <span class="tag">GCP</span>
-              <span class="tag">Databricks</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Learn AI Daily -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="https://www.learnaidaily.org/images/logo_learnaidaily.png" alt="Learn AI Daily" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'LA'}))">
-            <span class="timeline-date">2023 — 2024</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>Learn AI Daily</h3>
-              <span class="timeline-company">Toronto, ON</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Machine Learning Engineer <span class="role-period">&middot; Oct 2023 — Mar 2024</span></p>
-              <p class="timeline-desc">Created a Generative AI application for a personalized tutoring start-up. Built the backend using open-source GenAI stack.</p>
-            </div>
-            <div class="tag-row">
-              <span class="tag">LangChain</span>
-              <span class="tag">llama-index</span>
-              <span class="tag">Python</span>
-              <span class="tag">GenAI</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Scotiabank -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="https://logo.clearbit.com/scotiabank.com" alt="Scotiabank" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'BNS'}))">
-            <span class="timeline-date">2021 — 2024</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>Scotiabank</h3>
-              <span class="timeline-company">Toronto, Canada</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Data &amp; Machine Learning Engineer <span class="role-period">&middot; May 2022 — Feb 2024</span></p>
-              <p class="timeline-desc">Built Data Profiling and Data Quality Engines as part of Enterprise Governance Initiatives. Developed ML-based approaches to detect data issues in production pipelines.</p>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Software Engineer, Data Engineering <span class="role-period">&middot; Jun 2021 — May 2022</span></p>
-              <p class="timeline-desc">Enterprise Data Lake (EDL) enhancement team in Global Technology Solutions.</p>
-            </div>
-            <div class="tag-row">
-              <span class="tag">PySpark</span>
-              <span class="tag">Hadoop / Hive</span>
-              <span class="tag">Python</span>
-              <span class="tag">SQL</span>
-              <span class="tag">Machine Learning</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- University of Toronto -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="images/uoft-logo.png" alt="University of Toronto">
-            <span class="timeline-date">2018 — 2021</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>University of Toronto</h3>
-              <span class="timeline-company">Research &amp; Teaching</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Machine Learning Researcher <span class="role-period">&middot; Sep 2018 — Dec 2020</span></p>
-              <p class="timeline-desc">Cyber-Physical Security and Smart Grid Security under Prof. Deepa Kundur. Developed ML models for fault detection and explored adversarial attacks on LSTM-based classifiers.</p>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Teaching Assistant <span class="role-period">&middot; Jan 2019 — Apr 2021</span></p>
-              <p class="timeline-desc">Computer Networks (ECE 361), Programming Fundamentals (ECE 244), Probability &amp; Statistics (ECE 286), Computer Fundamentals (APS 105).</p>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Deep Learning</span>
-              <span class="tag">TensorFlow</span>
-              <span class="tag">Keras</span>
-              <span class="tag">LSTM</span>
-              <span class="tag">Adversarial ML</span>
-              <span class="tag">Python</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Tata Steel -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="https://logo.clearbit.com/tatasteel.com" alt="Tata Steel" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'TS'}))">
-            <span class="timeline-date">2016 — 2018</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>Tata Steel</h3>
-              <span class="timeline-company">Jamshedpur, India</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Project Manager, Utilities <span class="role-period">&middot; Jul 2017 — Jul 2018</span></p>
-              <p class="timeline-desc">Led a team of 22 electrical engineers and technicians at the power station to achieve reliability through digital improvements and automation.</p>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Management Trainee <span class="role-period">&middot; Jul 2016 — Jun 2017</span></p>
-              <p class="timeline-desc">Load Dispatch Center — designed and evaluated U/F settings for load shedding schemes for power network stability (Grid Islanding contingencies).</p>
-            </div>
-            <div class="tag-row">
-              <span class="tag">Power Systems</span>
-              <span class="tag">Automation</span>
-              <span class="tag">Team Leadership</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Carnegie Mellon -->
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="company-logo" src="https://logo.clearbit.com/cmu.edu" alt="Carnegie Mellon University" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'company-logo-initials',textContent:'CMU'}))">
-            <span class="timeline-date">2015</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>Carnegie Mellon University</h3>
-              <span class="timeline-company">Kigali, Rwanda</span>
-            </div>
-            <div class="role-entry">
-              <p class="role-title">Summer Research Assistant <span class="role-period">&middot; May — Jul 2015</span></p>
-              <p class="timeline-desc">Designed a smart microgrid testbed integrating renewable energy sources for developing countries. Modelled IEC 61850 communication for Solar Home Systems and developed advanced DC protection schemes.</p>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Education -->
-  <section id="education" class="section reveal">
-    <div class="section-inner">
-      <h2 class="section-label">Education</h2>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="uni-logo" src="images/uoft-logo.png" alt="University of Toronto">
-            <span class="timeline-date" style="margin-top:8px">MASc</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>University of Toronto</h3>
-            </div>
-            <p class="timeline-desc">Master of Applied Science &middot; Electrical and Computer Engineering</p>
-            <p class="timeline-desc edu-detail">Research focus on applied machine learning to power infrastructure protection and security. Thesis on adversarial machine learning applied to LSTM-based smart grid classifiers.</p>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-meta">
-            <img class="uni-logo" src="https://logo.clearbit.com/iitr.ac.in" alt="IIT Roorkee" onerror="this.src='images/iitr-logo.svg'">
-            <span class="timeline-date" style="margin-top:8px">BTech</span>
-          </div>
-          <div class="timeline-body">
-            <div class="timeline-title-row">
-              <h3>IIT Roorkee</h3>
-            </div>
-            <p class="timeline-desc">Bachelor of Technology &middot; Electrical Engineering &middot; Indian Institute of Technology</p>
-            <p class="timeline-desc edu-detail">Gold Medalist &middot; Merit-Cum-Means Scholarship &middot; Summer Undergraduate Research Award &middot; Best Paper Certificate</p>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Skills -->
-  <section id="skills" class="section reveal">
-    <div class="section-inner">
-      <h2 class="section-label">Skills</h2>
-      <div class="skills-grid">
-
-        <div class="skill-group">
-          <p class="skill-group-label">Data Engineering</p>
-          <div class="tag-row">
-            <span class="tag">Databricks</span>
-            <span class="tag">Apache Spark</span>
-            <span class="tag">Kafka</span>
-            <span class="tag">Delta Lake</span>
-            <span class="tag">Apache Iceberg</span>
-            <span class="tag">Apache Airflow</span>
-            <span class="tag">Hadoop / Hive</span>
-            <span class="tag">dbt</span>
-            <span class="tag">SQL</span>
-            <span class="tag">ETL / ELT</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <p class="skill-group-label">GenAI &amp; ML</p>
-          <div class="tag-row">
-            <span class="tag">LangChain</span>
-            <span class="tag">LangGraph</span>
-            <span class="tag">LangSmith</span>
-            <span class="tag">RAG</span>
-            <span class="tag">pgVector</span>
-            <span class="tag">LLMs</span>
-            <span class="tag">TensorFlow</span>
-            <span class="tag">Keras</span>
-            <span class="tag">Deep Learning</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <p class="skill-group-label">Cloud &amp; Platforms</p>
-          <div class="tag-row">
-            <span class="tag">AWS</span>
-            <span class="tag">GCP</span>
-            <span class="tag">Azure Databricks</span>
-            <span class="tag">Python</span>
-            <span class="tag">PySpark</span>
-            <span class="tag">Docker</span>
-          </div>
-        </div>
-
-        <div class="skill-group">
-          <p class="skill-group-label">Certifications</p>
-          <div class="cert-list">
-            <div class="cert-item">
-              <span class="cert-badge">&#10003;</span>
-              <span>Databricks Certified Data Engineer Professional</span>
-            </div>
-            <div class="cert-item">
-              <span class="cert-badge">&#10003;</span>
-              <span>Deep Learning Specialization — Sequence Models &middot; deeplearning.ai</span>
-            </div>
-            <div class="cert-item">
-              <span class="cert-badge">&#10003;</span>
-              <span>Deep Learning Specialization — Neural Networks &amp; Deep Learning</span>
-            </div>
-            <div class="cert-item">
-              <span class="cert-badge">&#10003;</span>
-              <span>Deep Learning Specialization — Structuring Machine Learning Projects</span>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- Publications -->
-  <section id="publications" class="section reveal">
-    <div class="section-inner">
-      <h2 class="section-label">Research &amp; Publications</h2>
-      <div class="pub-list">
-
-        <div class="pub-item">
-          <p class="pub-title">Design of a generic microgrid testbed with novel control and smart technologies</p>
-          <p class="pub-meta">Carnegie Mellon University &middot; Smart Grid Research</p>
-        </div>
-
-        <div class="pub-item">
-          <p class="pub-title">Design and simulation of communication architecture for differential protection in IEC 61850 based substations</p>
-          <p class="pub-meta">Substation Automation &middot; IEC 61850 Protection</p>
-        </div>
-
-        <div class="pub-item">
-          <p class="pub-title">A Review of New Trends in Power Systems: Microgrids for Rural Electrification and DC Microgrids</p>
-          <p class="pub-meta">Power Systems Review &middot; Renewable Energy</p>
-        </div>
-
-        <div class="pub-item">
-          <p class="pub-title">Wireless power grid: Leapfrogging in power infrastructure of developing countries</p>
-          <p class="pub-meta">Energy Access &middot; Developing Countries</p>
-        </div>
-
-      </div>
-
-      <div class="thesis-block">
-        <p class="thesis-label">MASc Thesis</p>
-        <p class="thesis-title">Adversarial Machine Learning on LSTM-based Smart Grid Fault Classifiers</p>
-        <a href="https://tspace.library.utoronto.ca/handle/1807/104992" target="_blank" rel="noopener" class="thesis-link">
-          View on UofT TSpace
-          <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-
+      <!--
+        REPLACE this placeholder form with your Kit embed code.
+        In Kit: Forms → your form → Embed → HTML or Script embed.
+        Paste the <script> tag in place of the <form> block below.
+      -->
+      <form class="newsletter-form" action="#" method="post" onsubmit="handleSubscribe(event)">
+        <input
+          type="email"
+          name="email_address"
+          class="newsletter-input"
+          placeholder="your@email.com"
+          required
+          aria-label="Email address"
+        />
+        <button type="submit" class="newsletter-btn">Subscribe</button>
+      </form>
+      <p class="newsletter-note">Free forever &middot; No spam &middot; Unsubscribe anytime</p>
     </div>
   </section>
 
@@ -422,6 +162,50 @@
     </div>
   </section>
 
+  <!-- Projects preview -->
+  <section id="projects-preview" class="section reveal">
+    <div class="section-inner section-inner-wide">
+      <div class="section-label-row">
+        <h2 class="section-label">Projects</h2>
+        <a href="projects.html" class="section-link">See all →</a>
+      </div>
+      <div class="project-grid">
+
+        <a href="kid-games/" class="project-card">
+          <span class="project-emoji">🎮</span>
+          <h3 class="project-title">Kid Games</h3>
+          <p class="project-desc">7 interactive educational games for children — alphabet, numbers, memory, shapes and more.</p>
+          <div class="tag-row">
+            <span class="tag">Education</span>
+            <span class="tag">Kids</span>
+            <span class="tag">Interactive</span>
+          </div>
+        </a>
+
+        <a href="vanshavali/" class="project-card">
+          <span class="project-emoji">🌳</span>
+          <h3 class="project-title">Vanshavali</h3>
+          <p class="project-desc">A family tree builder with Indian heritage design — preserve and share your family story.</p>
+          <div class="tag-row">
+            <span class="tag">Family</span>
+            <span class="tag">Heritage</span>
+          </div>
+        </a>
+
+        <a href="whats-your-dream/" class="project-card">
+          <span class="project-emoji">✨</span>
+          <h3 class="project-title">What's Your Dream</h3>
+          <p class="project-desc">A daily inspiration journal with quote slideshows and reflection prompts to keep your dreams alive.</p>
+          <div class="tag-row">
+            <span class="tag">Inspiration</span>
+            <span class="tag">Journaling</span>
+          </div>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
   <!-- Footer -->
   <footer id="footer">
     <div class="footer-inner">
@@ -429,6 +213,7 @@
       <div class="footer-links">
         <a href="https://github.com/AshokTak" target="_blank" rel="noopener">GitHub</a>
         <a href="https://www.linkedin.com/in/ashoktak" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.youtube.com/@AshokTak" target="_blank" rel="noopener">YouTube</a>
         <a href="https://x.com/AshokTak10" target="_blank" rel="noopener">X</a>
         <a href="mailto:ashoktak95@gmail.com">Email</a>
       </div>
@@ -437,5 +222,21 @@
   </footer>
 
   <script src="app.js"></script>
+  <script>
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const btn = e.target.querySelector('.newsletter-btn');
+      const input = e.target.querySelector('.newsletter-input');
+      btn.textContent = 'Thanks! 🎉';
+      btn.disabled = true;
+      input.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Subscribe';
+        btn.disabled = false;
+        input.disabled = false;
+        input.value = '';
+      }, 3000);
+    }
+  </script>
 </body>
 </html>
