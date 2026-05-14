@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dream Wall — What's Your Dream?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #FDF7EE;
+      --amber:   #E8950C;
+      --amber2:  #F5B93A;
+      --coral:   #DC3D6B;
+      --coral2:  #E8729A;
+      --teal:    #169C95;
+      --teal2:   #4DC8C1;
+      --black:   #1A1208;
+      --white:   #FFFFFF;
+      --grey:    #F5EEE3;
+      --text2:   #6B5744;
+      --shadow:  rgba(80,40,10,.10);
+      --radius:  16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.75rem;
+      background: var(--black);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: .55rem;
+      text-decoration: none;
+    }
+    .nav-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: .04em;
+      color: var(--amber2);
+      line-height: 1;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
+    .nav-links a {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--amber2); }
+
+    /* ── Hero ── */
+    .hero {
+      text-align: center;
+      padding: 4rem 1.5rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(232,149,12,.10) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--teal);
+      background: rgba(22,156,149,.08);
+      border: 1px solid rgba(22,156,149,.2);
+      border-radius: 999px;
+      padding: .35rem .9rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .hero h1 {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.8rem, 8vw, 5rem);
+      line-height: .95;
+      letter-spacing: .01em;
+      color: var(--black);
+      margin-bottom: .75rem;
+    }
+    .hero h1 em {
+      font-style: normal;
+      color: var(--amber);
+    }
+
+    .hero p {
+      font-size: .95rem;
+      color: var(--text2);
+      max-width: 420px;
+      margin: 0 auto 2rem;
+      line-height: 1.65;
+    }
+
+    /* ── Submit form ── */
+    .submit-wrap {
+      width: min(640px, 100% - 2.5rem);
+      margin: 0 auto 3rem;
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.1);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 6px 28px var(--shadow);
+    }
+
+    .submit-wrap h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: .03em;
+      color: var(--black);
+      margin-bottom: 1.25rem;
+    }
+    .submit-wrap h2 span { color: var(--coral); }
+
+    .form-row { display: flex; flex-direction: column; gap: .6rem; margin-bottom: .9rem; }
+
+    .form-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    .dream-text-input {
+      width: 100%;
+      background: var(--grey);
+      border: 1.5px solid rgba(80,40,10,.12);
+      border-radius: .75rem;
+      padding: .85rem 1rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--black);
+      outline: none;
+      transition: border-color .2s, box-shadow .2s;
+      line-height: 1.5;
+      resize: none;
+    }
+    .dream-text-input::placeholder { color: rgba(80,40,10,.3); }
+    .dream-text-input:focus {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(232,149,12,.12);
+    }
+
+    .category-row {
+      display: flex;
+      gap: .45rem;
+      flex-wrap: wrap;
+    }
+
+    .cat-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .4rem .85rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(80,40,10,.15);
+      background: var(--grey);
+      color: var(--text2);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s;
+    }
+    .cat-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .cat-btn.selected {
+      background: var(--amber);
+      border-color: var(--amber);
+      color: var(--white);
+    }
+
+    .submit-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    .name-input {
+      flex: 1;
+      min-width: 160px;
+      background: var(--grey);
+      border: 1.5px solid rgba(80,40,10,.12);
+      border-radius: .65rem;
+      padding: .7rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .88rem;
+      color: var(--black);
+      outline: none;
+      transition: border-color .2s;
+    }
+    .name-input::placeholder { color: rgba(80,40,10,.3); }
+    .name-input:focus { border-color: var(--amber); }
+
+    .post-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      background: var(--amber);
+      color: var(--white);
+      border: none;
+      border-radius: .75rem;
+      padding: .75rem 1.6rem;
+      font-family: 'Anton', sans-serif;
+      font-size: .95rem;
+      letter-spacing: .04em;
+      cursor: pointer;
+      transition: all .2s;
+      box-shadow: 0 4px 16px rgba(232,149,12,.35);
+      white-space: nowrap;
+    }
+    .post-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,149,12,.45); }
+    .post-btn:active { transform: translateY(0); }
+
+    /* ── Filter bar ── */
+    .filter-bar {
+      width: min(1100px, 100% - 2.5rem);
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-label {
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--text2);
+      margin-right: .25rem;
+    }
+
+    .filter-btn {
+      font-size: .72rem;
+      font-weight: 600;
+      padding: .4rem .9rem;
+      border-radius: 999px;
+      border: 1.5px solid rgba(80,40,10,.15);
+      background: var(--white);
+      color: var(--text2);
+      cursor: pointer;
+      font-family: inherit;
+      transition: all .15s;
+    }
+    .filter-btn:hover { border-color: var(--amber); color: var(--amber); }
+    .filter-btn.active {
+      background: var(--black);
+      border-color: var(--black);
+      color: var(--white);
+    }
+
+    .dream-count {
+      margin-left: auto;
+      font-size: .78rem;
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .dream-count strong { color: var(--amber); font-weight: 700; }
+
+    /* ── Dream grid ── */
+    .dream-grid {
+      width: min(1100px, 100% - 2.5rem);
+      margin: 0 auto;
+      columns: 3;
+      column-gap: 1.25rem;
+    }
+
+    @media (max-width: 900px) { .dream-grid { columns: 2; } }
+    @media (max-width: 560px) { .dream-grid { columns: 1; } }
+
+    .dream-card {
+      break-inside: avoid;
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 4px 18px var(--shadow);
+      transition: transform .2s, box-shadow .2s;
+      display: flex;
+      flex-direction: column;
+      gap: .9rem;
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      animation: cardIn .4s ease forwards;
+    }
+    .dream-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px var(--shadow); }
+
+    @keyframes cardIn { to { opacity: 1; } }
+
+    .dream-card-accent {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+    .cat-creative  .dream-card-accent { background: var(--coral); }
+    .cat-business  .dream-card-accent { background: var(--amber); }
+    .cat-fitness   .dream-card-accent { background: var(--teal); }
+    .cat-community .dream-card-accent { background: #8B72BE; }
+    .cat-personal  .dream-card-accent { background: #3D9B6A; }
+
+    .dream-card-quote {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--black);
+      padding-top: .2rem;
+    }
+
+    .dream-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: .5rem;
+    }
+
+    .dream-card-author {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--text2);
+    }
+
+    .dream-card-cat {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      padding: .25rem .65rem;
+      border-radius: 999px;
+      background: var(--grey);
+      color: var(--text2);
+    }
+    .cat-creative  .dream-card-cat { background: rgba(220,61,107,.1); color: var(--coral); }
+    .cat-business  .dream-card-cat { background: rgba(232,149,12,.1); color: var(--amber); }
+    .cat-fitness   .dream-card-cat { background: rgba(22,156,149,.1); color: var(--teal); }
+    .cat-community .dream-card-cat { background: rgba(139,114,190,.1); color: #8B72BE; }
+    .cat-personal  .dream-card-cat { background: rgba(61,155,106,.1); color: #3D9B6A; }
+
+    .dream-card-actions {
+      display: flex;
+      align-items: center;
+      gap: .75rem;
+    }
+
+    .heart-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--text2);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      padding: .35rem .6rem;
+      border-radius: .5rem;
+      transition: all .15s;
+    }
+    .heart-btn:hover { color: var(--coral); background: rgba(220,61,107,.06); }
+    .heart-btn.liked { color: var(--coral); }
+    .heart-btn .heart-icon { font-size: .9rem; transition: transform .2s; }
+    .heart-btn.liked .heart-icon { animation: heartPop .3s ease; }
+
+    @keyframes heartPop {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.4); }
+      100% { transform: scale(1); }
+    }
+
+    /* ── Empty state ── */
+    .empty-state {
+      text-align: center;
+      padding: 4rem 1.5rem;
+      color: var(--text2);
+      display: none;
+    }
+    .empty-state .empty-icon { font-size: 3.5rem; margin-bottom: 1rem; }
+    .empty-state p { font-size: .95rem; line-height: 1.6; }
+
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(120%);
+      background: var(--black);
+      color: var(--white);
+      font-size: .82rem;
+      font-weight: 600;
+      padding: .7rem 1.4rem;
+      border-radius: 999px;
+      box-shadow: 0 8px 28px rgba(26,18,8,.3);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+      z-index: 999;
+      white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 3rem 1.5rem 2rem;
+      font-size: .78rem;
+      color: var(--text2);
+    }
+    footer a { color: var(--amber); font-weight: 600; text-decoration: none; }
+
+    /* ── Scroll reveal ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 600px) {
+      nav { padding: .85rem 1.1rem; }
+      .nav-links { gap: .9rem; }
+      .submit-wrap { padding: 1.5rem 1.25rem; }
+      .hero { padding: 3rem 1.25rem 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <span class="nav-logo">WHAT'S YOUR DREAM?</span>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Today</a>
+      <a href="journey.html">Journey</a>
+      <a href="wall.html" class="active">Wall</a>
+      <a href="workbook.html">Workbook</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag">✨ Community Dream Wall</div>
+    <h1>What's <em>your</em><br/>dream?</h1>
+    <p>Dreams become real when we say them out loud. Share yours and inspire others.</p>
+  </section>
+
+  <!-- Submit form -->
+  <div class="submit-wrap reveal">
+    <h2>Share your <span>dream</span></h2>
+
+    <div class="form-row">
+      <label class="form-label" for="dream-input">Your dream</label>
+      <textarea id="dream-input" class="dream-text-input" rows="2"
+        placeholder="I dream of building a running club that transforms my city…"></textarea>
+    </div>
+
+    <div class="form-row">
+      <label class="form-label">Category</label>
+      <div class="category-row" id="cat-select">
+        <button class="cat-btn selected" data-cat="Creative">🎨 Creative</button>
+        <button class="cat-btn" data-cat="Business">💼 Business</button>
+        <button class="cat-btn" data-cat="Fitness">🏃 Fitness</button>
+        <button class="cat-btn" data-cat="Community">🤝 Community</button>
+        <button class="cat-btn" data-cat="Personal">🌱 Personal</button>
+      </div>
+    </div>
+
+    <div class="submit-row">
+      <input id="name-input" class="name-input" type="text" placeholder="Your first name (optional)" maxlength="30" />
+      <button class="post-btn" id="post-btn" onclick="postDream()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14m-7-7 7 7 7-7"/></svg>
+        Post Dream
+      </button>
+    </div>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar reveal">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-btn active" data-filter="All" onclick="setFilter(this)">All</button>
+    <button class="filter-btn" data-filter="Creative" onclick="setFilter(this)">🎨 Creative</button>
+    <button class="filter-btn" data-filter="Business" onclick="setFilter(this)">💼 Business</button>
+    <button class="filter-btn" data-filter="Fitness" onclick="setFilter(this)">🏃 Fitness</button>
+    <button class="filter-btn" data-filter="Community" onclick="setFilter(this)">🤝 Community</button>
+    <button class="filter-btn" data-filter="Personal" onclick="setFilter(this)">🌱 Personal</button>
+    <span class="dream-count"><strong id="count-num">0</strong> dreams shared</span>
+  </div>
+
+  <!-- Dream grid -->
+  <div class="dream-grid" id="dream-grid"></div>
+  <div class="empty-state" id="empty-state">
+    <div class="empty-icon">🌙</div>
+    <p>No dreams in this category yet.<br/>Be the first to share one!</p>
+  </div>
+
+  <footer>
+    <p>Inspired by <a href="index.html">What's Your Dream?</a> by Simon Squibb. Every dream starts with a declaration.</p>
+  </footer>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ── Seed dreams ── */
+    const SEEDS = [
+      { id:'s1', text:"I dream of opening a surf school in Portugal where I teach kids from low-income families for free.", author:"Priya", cat:"Community", hearts:24, liked:false, ts:Date.now()-86400000*3 },
+      { id:'s2', text:"I'm going to build a zero-waste restaurant that proves sustainable food can be delicious AND affordable.", author:"Marcus", cat:"Business", hearts:41, liked:false, ts:Date.now()-86400000*5 },
+      { id:'s3', text:"One day I'll run a marathon on every continent. Antarctica last.", author:"Yuki", cat:"Fitness", hearts:18, liked:false, ts:Date.now()-86400000*1 },
+      { id:'s4', text:"I want to write a children's book that helps kids understand grief through the story of a lighthouse keeper.", author:"Isabelle", cat:"Creative", hearts:32, liked:false, ts:Date.now()-86400000*7 },
+      { id:'s5', text:"My dream is to leave my corporate job and start a community garden in my neighbourhood.", author:"Omar", cat:"Personal", hearts:29, liked:false, ts:Date.now()-86400000*2 },
+      { id:'s6', text:"I'll design an app that helps first-generation university students find mentors who look like them.", author:"Anya", cat:"Business", hearts:55, liked:false, ts:Date.now()-86400000*4 },
+      { id:'s7', text:"I dream of composing a symphony that blends classical Indian ragas with orchestral jazz.", author:"Ravi", cat:"Creative", hearts:37, liked:false, ts:Date.now()-86400000*6 },
+      { id:'s8', text:"I want to cycle from London to Tokyo to raise money for clean water projects.", author:"James", cat:"Fitness", hearts:62, liked:false, ts:Date.now()-86400000*8 },
+      { id:'s9', text:"My dream is to build a co-living space for single mothers starting over — affordable, beautiful, safe.", author:"Lena", cat:"Community", hearts:48, liked:false, ts:Date.now()-86400000*2 },
+      { id:'s10', text:"I want to take sabbatical, move to Tuscany for six months, and learn to paint properly.", author:"Tom", cat:"Personal", hearts:21, liked:false, ts:Date.now()-86400000*9 },
+    ];
+
+    const STORAGE_KEY = 'dream-wall-v2';
+    let activeFilter = 'All';
+
+    function loadDreams() {
+      try {
+        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        // Merge seeds + user dreams
+        const seedMap = {};
+        SEEDS.forEach(d => { seedMap[d.id] = { ...d, ...( stored[d.id] || {} ) }; });
+        const userDreams = Object.entries(stored)
+          .filter(([k]) => !k.startsWith('s'))
+          .map(([,v]) => v);
+        return [...userDreams.reverse(), ...Object.values(seedMap)];
+      } catch(e) { return [...SEEDS]; }
+    }
+
+    function saveDreams(dreams) {
+      const map = {};
+      dreams.forEach(d => { map[d.id] = d; });
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+    }
+
+    function catSlug(cat) { return 'cat-' + cat.toLowerCase(); }
+
+    function renderCard(d, delay=0) {
+      const grid = document.getElementById('dream-grid');
+      const el = document.createElement('div');
+      el.className = `dream-card ${catSlug(d.cat)}`;
+      el.dataset.id = d.id;
+      el.dataset.cat = d.cat;
+      el.style.animationDelay = delay + 'ms';
+      el.innerHTML = `
+        <div class="dream-card-accent"></div>
+        <div class="dream-card-quote">"${escHtml(d.text)}"</div>
+        <div class="dream-card-meta">
+          <span class="dream-card-author">${d.author ? '— ' + escHtml(d.author) : '— Anonymous'}</span>
+          <span class="dream-card-cat">${d.cat}</span>
+        </div>
+        <div class="dream-card-actions">
+          <button class="heart-btn ${d.liked ? 'liked' : ''}" onclick="toggleHeart(event, '${d.id}')">
+            <span class="heart-icon">${d.liked ? '❤️' : '🤍'}</span>
+            <span class="heart-count">${d.hearts}</span>
+          </button>
+        </div>
+      `;
+      grid.appendChild(el);
+    }
+
+    function escHtml(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function renderAll() {
+      const dreams = loadDreams();
+      const grid = document.getElementById('dream-grid');
+      const empty = document.getElementById('empty-state');
+      grid.innerHTML = '';
+
+      const filtered = activeFilter === 'All' ? dreams : dreams.filter(d => d.cat === activeFilter);
+      document.getElementById('count-num').textContent = dreams.length;
+
+      if (filtered.length === 0) {
+        empty.style.display = 'block';
+      } else {
+        empty.style.display = 'none';
+        filtered.forEach((d, i) => renderCard(d, i * 60));
+      }
+    }
+
+    function setFilter(btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      activeFilter = btn.dataset.filter;
+      renderAll();
+    }
+
+    function toggleHeart(e, id) {
+      e.stopPropagation();
+      const dreams = loadDreams();
+      const d = dreams.find(x => x.id === id);
+      if (!d) return;
+      d.liked = !d.liked;
+      d.hearts += d.liked ? 1 : -1;
+      saveDreams(dreams);
+
+      const btn = e.currentTarget;
+      btn.classList.toggle('liked', d.liked);
+      btn.querySelector('.heart-icon').textContent = d.liked ? '❤️' : '🤍';
+      btn.querySelector('.heart-count').textContent = d.hearts;
+      if (d.liked) btn.classList.add('liked');
+    }
+
+    /* ── Category selection ── */
+    let selectedCat = 'Creative';
+    document.querySelectorAll('#cat-select .cat-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#cat-select .cat-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        selectedCat = btn.dataset.cat;
+      });
+    });
+
+    function postDream() {
+      const text = document.getElementById('dream-input').value.trim();
+      if (!text) { showToast('✏️ Please write your dream first!'); return; }
+      if (text.length < 10) { showToast('✏️ Make your dream a little more vivid!'); return; }
+
+      const author = document.getElementById('name-input').value.trim() || '';
+      const dream = {
+        id: 'u' + Date.now(),
+        text,
+        author,
+        cat: selectedCat,
+        hearts: 0,
+        liked: false,
+        ts: Date.now()
+      };
+
+      const dreams = loadDreams();
+      dreams.unshift(dream);
+      saveDreams(dreams);
+
+      document.getElementById('dream-input').value = '';
+      document.getElementById('name-input').value = '';
+      renderAll();
+      showToast('🌟 Your dream is on the wall!');
+      window.scrollTo({ top: document.querySelector('.filter-bar').offsetTop - 80, behavior: 'smooth' });
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), 2800);
+    }
+
+    /* ── Scroll reveal ── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    /* ── Init ── */
+    renderAll();
+
+    // Enter key on dream input
+    document.getElementById('dream-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); postDream(); }
+    });
+  </script>
+</body>
+</html>

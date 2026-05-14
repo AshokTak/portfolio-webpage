@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Journey — What's Your Dream?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #FDF7EE;
+      --amber:   #E8950C;
+      --amber2:  #F5B93A;
+      --coral:   #DC3D6B;
+      --coral2:  #E8729A;
+      --teal:    #169C95;
+      --teal2:   #4DC8C1;
+      --black:   #1A1208;
+      --white:   #FFFFFF;
+      --grey:    #F5EEE3;
+      --text2:   #6B5744;
+      --shadow:  rgba(80,40,10,.10);
+      --radius:  16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg);
+      color: var(--black);
+      min-height: 100vh;
+    }
+
+    /* ── Nav ── */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.75rem;
+      background: var(--black);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      gap: 1rem;
+    }
+    .nav-logo {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: .04em;
+      color: var(--amber2);
+      text-decoration: none;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+    }
+    .nav-links a {
+      font-size: .78rem;
+      font-weight: 600;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.5);
+      text-decoration: none;
+      transition: color .2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--amber2); }
+
+    /* ── Layout ── */
+    .page {
+      width: min(1000px, 100% - 2.5rem);
+      margin: 0 auto;
+      padding: 3rem 0 5rem;
+    }
+
+    /* ── Section ── */
+    .section { margin-bottom: 3rem; }
+
+    .section-header {
+      display: flex;
+      align-items: baseline;
+      gap: .75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: .03em;
+      color: var(--black);
+    }
+
+    .section-sub {
+      font-size: .78rem;
+      color: var(--text2);
+      font-weight: 500;
+    }
+
+    /* ── Dream statement hero ── */
+    .dream-hero {
+      background: var(--black);
+      border-radius: var(--radius);
+      padding: 2.5rem 2.5rem;
+      margin-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .dream-hero::before {
+      content: '"';
+      position: absolute;
+      top: -1rem; right: 1.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 10rem;
+      color: rgba(255,255,255,.04);
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .dream-hero-label {
+      font-size: .65rem;
+      font-weight: 700;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--amber2);
+      margin-bottom: .75rem;
+    }
+
+    .dream-hero-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: clamp(1.2rem, 3.5vw, 1.75rem);
+      color: rgba(255,255,255,.95);
+      line-height: 1.5;
+      margin-bottom: 1rem;
+    }
+    .dream-hero-text.empty { color: rgba(255,255,255,.3); }
+
+    .dream-edit-link {
+      font-size: .72rem;
+      font-weight: 600;
+      color: var(--teal2);
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: .3rem;
+      transition: color .2s;
+    }
+    .dream-edit-link:hover { color: var(--teal); }
+
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    @media (max-width: 700px) { .stats-row { grid-template-columns: repeat(2, 1fr); } }
+
+    .stat-card {
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 1.4rem 1.5rem;
+      box-shadow: 0 4px 18px var(--shadow);
+      text-align: center;
+    }
+
+    .stat-value {
+      font-family: 'Anton', sans-serif;
+      font-size: 2.2rem;
+      letter-spacing: .02em;
+      line-height: 1.1;
+      margin-bottom: .3rem;
+    }
+    .stat-label {
+      font-size: .7rem;
+      font-weight: 600;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--text2);
+    }
+
+    /* ── Streak heatmap ── */
+    .heatmap-card {
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 4px 18px var(--shadow);
+    }
+
+    .heatmap-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+
+    .heatmap-grid {
+      display: flex;
+      gap: 3px;
+      min-width: max-content;
+    }
+
+    .heatmap-col {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .heatmap-cell {
+      width: 13px;
+      height: 13px;
+      border-radius: 2px;
+      background: rgba(80,40,10,.08);
+      transition: transform .1s;
+    }
+    .heatmap-cell:hover { transform: scale(1.3); }
+    .heatmap-cell.l1 { background: rgba(232,149,12,.25); }
+    .heatmap-cell.l2 { background: rgba(232,149,12,.5); }
+    .heatmap-cell.l3 { background: rgba(232,149,12,.75); }
+    .heatmap-cell.l4 { background: var(--amber); }
+
+    .heatmap-months {
+      display: flex;
+      gap: 3px;
+      min-width: max-content;
+      margin-bottom: 4px;
+    }
+    .heatmap-month-label {
+      font-size: .62rem;
+      font-weight: 600;
+      color: var(--text2);
+      letter-spacing: .06em;
+      min-width: 13px;
+      text-align: left;
+    }
+
+    .heatmap-legend {
+      display: flex;
+      align-items: center;
+      gap: .4rem;
+      margin-top: .75rem;
+      font-size: .68rem;
+      color: var(--text2);
+      font-weight: 500;
+    }
+    .legend-cell {
+      width: 11px; height: 11px;
+      border-radius: 2px;
+    }
+
+    /* ── Milestones ── */
+    .milestones-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+    @media (max-width: 700px) { .milestones-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 440px) { .milestones-grid { grid-template-columns: 1fr; } }
+
+    .milestone-card {
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 4px 18px var(--shadow);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .6rem;
+      text-align: center;
+      position: relative;
+      transition: transform .2s, box-shadow .2s;
+      cursor: pointer;
+    }
+    .milestone-card:hover { transform: translateY(-3px); box-shadow: 0 10px 32px var(--shadow); }
+    .milestone-card.unlocked {
+      border-color: var(--amber);
+      background: linear-gradient(135deg, #FFFBF0 0%, var(--white) 100%);
+    }
+
+    .milestone-icon { font-size: 2.2rem; line-height: 1; filter: grayscale(1) opacity(.3); }
+    .milestone-card.unlocked .milestone-icon { filter: none; }
+
+    .milestone-name {
+      font-size: .8rem;
+      font-weight: 700;
+      color: var(--black);
+    }
+    .milestone-desc {
+      font-size: .7rem;
+      color: var(--text2);
+      line-height: 1.4;
+    }
+
+    .milestone-badge {
+      position: absolute;
+      top: -.4rem; right: -.4rem;
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      background: var(--amber);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: .65rem;
+      box-shadow: 0 2px 6px rgba(232,149,12,.4);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .milestone-card.unlocked .milestone-badge { opacity: 1; }
+
+    /* ── Workbook progress ── */
+    .wb-progress-card {
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 4px 18px var(--shadow);
+    }
+
+    .wb-days {
+      display: flex;
+      gap: .75rem;
+      flex-wrap: wrap;
+      margin-top: 1.25rem;
+    }
+
+    .wb-day-bubble {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .35rem;
+    }
+
+    .wb-day-ring {
+      width: 52px; height: 52px;
+      border-radius: 50%;
+      border: 3px solid rgba(80,40,10,.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Anton', sans-serif;
+      font-size: 1rem;
+      color: rgba(80,40,10,.25);
+      position: relative;
+      transition: all .3s;
+    }
+    .wb-day-ring svg {
+      position: absolute;
+      top: -3px; left: -3px;
+      width: 52px; height: 52px;
+      transform: rotate(-90deg);
+    }
+    .wb-day-ring.complete {
+      border-color: var(--teal);
+      color: var(--teal);
+    }
+    .wb-day-ring.in-progress {
+      border-color: var(--amber);
+      color: var(--amber);
+    }
+    .wb-day-ring circle {
+      fill: none;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    .wb-day-label {
+      font-size: .62rem;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text2);
+      text-align: center;
+      max-width: 56px;
+    }
+
+    .wb-action-link {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      margin-top: 1.5rem;
+      background: var(--amber);
+      color: var(--white);
+      padding: .7rem 1.5rem;
+      border-radius: .75rem;
+      font-family: 'Anton', sans-serif;
+      font-size: .9rem;
+      letter-spacing: .04em;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(232,149,12,.35);
+      transition: all .2s;
+    }
+    .wb-action-link:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,149,12,.45); }
+
+    /* ── Vision board ── */
+    .vision-card {
+      background: var(--white);
+      border: 1.5px solid rgba(80,40,10,.09);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      box-shadow: 0 4px 18px var(--shadow);
+    }
+
+    .vision-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1.25rem;
+    }
+    @media (max-width: 600px) { .vision-grid { grid-template-columns: repeat(2, 1fr); } }
+
+    .vision-tile {
+      background: var(--grey);
+      border: 1.5px dashed rgba(80,40,10,.2);
+      border-radius: .85rem;
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      cursor: pointer;
+      transition: all .2s;
+      position: relative;
+      overflow: hidden;
+      font-size: .78rem;
+      color: var(--text2);
+      font-weight: 500;
+      text-align: center;
+      padding: .75rem;
+    }
+    .vision-tile:hover { border-color: var(--amber); color: var(--amber); }
+    .vision-tile.filled {
+      border-style: solid;
+      border-color: rgba(80,40,10,.1);
+      background: var(--white);
+    }
+    .vision-tile .tile-add { font-size: 1.6rem; opacity: .4; }
+    .vision-tile .tile-label { font-size: .68rem; }
+    .vision-tile .tile-text {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: .88rem;
+      color: var(--black);
+      line-height: 1.4;
+    }
+    .vision-tile .tile-emoji { font-size: 1.6rem; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26,18,8,.6);
+      backdrop-filter: blur(4px);
+      z-index: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .25s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+
+    .modal {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 2rem 2.25rem;
+      width: min(460px, 100%);
+      box-shadow: 0 24px 64px rgba(26,18,8,.2);
+      transform: translateY(20px);
+      transition: transform .25s;
+    }
+    .modal-overlay.open .modal { transform: none; }
+
+    .modal h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.25rem;
+      letter-spacing: .03em;
+      margin-bottom: 1rem;
+    }
+
+    .modal textarea, .modal input[type=text] {
+      width: 100%;
+      background: var(--grey);
+      border: 1.5px solid rgba(80,40,10,.12);
+      border-radius: .65rem;
+      padding: .8rem 1rem;
+      font-family: 'Inter', sans-serif;
+      font-size: .9rem;
+      color: var(--black);
+      outline: none;
+      transition: border-color .2s;
+      margin-bottom: .75rem;
+      resize: none;
+    }
+    .modal textarea:focus, .modal input:focus { border-color: var(--amber); }
+
+    .modal-actions {
+      display: flex;
+      gap: .6rem;
+      justify-content: flex-end;
+      margin-top: .5rem;
+    }
+
+    .btn-cancel {
+      padding: .6rem 1.1rem;
+      border-radius: .65rem;
+      border: 1.5px solid rgba(80,40,10,.15);
+      background: none;
+      font-family: inherit;
+      font-size: .82rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text2);
+      transition: all .15s;
+    }
+    .btn-cancel:hover { border-color: var(--amber); color: var(--amber); }
+
+    .btn-save {
+      padding: .6rem 1.3rem;
+      border-radius: .65rem;
+      border: none;
+      background: var(--amber);
+      color: var(--white);
+      font-family: 'Anton', sans-serif;
+      font-size: .9rem;
+      letter-spacing: .03em;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(232,149,12,.35);
+      transition: all .15s;
+    }
+    .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(232,149,12,.45); }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 2.5rem 1.5rem 1.5rem;
+      font-size: .78rem;
+      color: var(--text2);
+    }
+    footer a { color: var(--amber); font-weight: 600; text-decoration: none; }
+
+    /* ── Reveal ── */
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+
+    @media (max-width: 600px) {
+      nav { padding: .85rem 1.1rem; }
+      .nav-links { gap: .9rem; }
+      .dream-hero { padding: 1.75rem 1.5rem; }
+      .page { padding: 2rem 0 4rem; }
+      .heatmap-card, .wb-progress-card, .vision-card { padding: 1.5rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">WHAT'S YOUR DREAM?</a>
+    <div class="nav-links">
+      <a href="index.html">Today</a>
+      <a href="journey.html" class="active">Journey</a>
+      <a href="wall.html">Wall</a>
+      <a href="workbook.html">Workbook</a>
+    </div>
+  </nav>
+
+  <div class="page">
+
+    <!-- Dream statement -->
+    <div class="dream-hero reveal">
+      <div class="dream-hero-label">🌟 My Dream</div>
+      <div class="dream-hero-text" id="dream-statement-text">Loading…</div>
+      <a href="workbook.html" class="dream-edit-link">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+        Edit in workbook
+      </a>
+    </div>
+
+    <!-- Stats row -->
+    <div class="stats-row reveal">
+      <div class="stat-card">
+        <div class="stat-value" id="stat-streak" style="color:var(--amber)">0🔥</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-days" style="color:var(--coral)">0</div>
+        <div class="stat-label">Days Active</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-wb" style="color:var(--teal)">0/7</div>
+        <div class="stat-label">Workbook Days</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="stat-dreams" style="color:var(--coral)">0</div>
+        <div class="stat-label">Wall Dreams</div>
+      </div>
+    </div>
+
+    <!-- Streak heatmap -->
+    <div class="section reveal reveal-delay-1">
+      <div class="section-header">
+        <span class="section-title">Check-in Heatmap</span>
+        <span class="section-sub">Last 6 months</span>
+      </div>
+      <div class="heatmap-card">
+        <div class="heatmap-scroll">
+          <div class="heatmap-months" id="heatmap-months"></div>
+          <div class="heatmap-grid" id="heatmap-grid"></div>
+        </div>
+        <div class="heatmap-legend">
+          <span>Less</span>
+          <div class="legend-cell" style="background:rgba(80,40,10,.08)"></div>
+          <div class="legend-cell" style="background:rgba(232,149,12,.25)"></div>
+          <div class="legend-cell" style="background:rgba(232,149,12,.5)"></div>
+          <div class="legend-cell" style="background:rgba(232,149,12,.75)"></div>
+          <div class="legend-cell" style="background:var(--amber)"></div>
+          <span>More</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Milestones -->
+    <div class="section reveal reveal-delay-1">
+      <div class="section-header">
+        <span class="section-title">Milestones</span>
+        <span class="section-sub">Unlock as you go</span>
+      </div>
+      <div class="milestones-grid" id="milestones-grid"></div>
+    </div>
+
+    <!-- Workbook progress -->
+    <div class="section reveal reveal-delay-2">
+      <div class="section-header">
+        <span class="section-title">7-Day Workbook</span>
+        <span class="section-sub">Your progress</span>
+      </div>
+      <div class="wb-progress-card">
+        <div class="wb-days" id="wb-days"></div>
+        <a href="workbook.html" class="wb-action-link">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Open Workbook
+        </a>
+      </div>
+    </div>
+
+    <!-- Vision board -->
+    <div class="section reveal reveal-delay-2">
+      <div class="section-header">
+        <span class="section-title">Vision Board</span>
+        <span class="section-sub">Click any tile to add your dream fragments</span>
+      </div>
+      <div class="vision-card">
+        <div class="vision-grid" id="vision-grid"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <p>Your journey. Your dream. Inspired by <a href="index.html">What's Your Dream?</a> by Simon Squibb.</p>
+  </footer>
+
+  <!-- Vision tile modal -->
+  <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+    <div class="modal">
+      <h3 id="modal-title">Add a vision</h3>
+      <input type="text" id="modal-emoji" placeholder="Emoji (e.g. 🌍)" maxlength="4" style="width:80px;margin-right:.5rem;display:inline-block;" />
+      <textarea id="modal-text" rows="3" placeholder="Describe this part of your dream…" style="margin-top:.5rem"></textarea>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button class="btn-save" onclick="saveTile()">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /* ─── Load data from localStorage ─── */
+    function getStreak() {
+      const raw = localStorage.getItem('checkin-dates');
+      if (!raw) return { streak: 0, days: 0, history: {} };
+      try { return JSON.parse(raw); } catch(e) { return { streak: 0, days: 0, history: {} }; }
+    }
+
+    function getWorkbookProgress() {
+      const DAYS = ['Declare','Reality','Obstacles','Vision','Practice','Tribe','Commit'];
+      const progress = [];
+      for (let d = 0; d < 7; d++) {
+        const doneFlagKey = `wb-done-${d}`;
+        const isDone = localStorage.getItem(doneFlagKey) === '1';
+        // Count answered questions
+        let answered = 0, total = 4;
+        for (let q = 0; q < 4; q++) {
+          const key = `wb-d${d}-q${q}`;
+          const val = localStorage.getItem(key) || '';
+          if (val.trim().length > 3) answered++;
+        }
+        progress.push({ label: DAYS[d], done: isDone, answered, total });
+      }
+      return progress;
+    }
+
+    function getDreamStatement() {
+      return localStorage.getItem('dream-declaration') || '';
+    }
+
+    function getWallCount() {
+      try {
+        const stored = JSON.parse(localStorage.getItem('dream-wall-v2') || '{}');
+        return Object.keys(stored).filter(k => !k.startsWith('s')).length;
+      } catch(e) { return 0; }
+    }
+
+    /* ─── Dream statement ─── */
+    const dreamText = getDreamStatement().trim();
+    const stEl = document.getElementById('dream-statement-text');
+    if (dreamText) {
+      stEl.textContent = '"' + dreamText + '"';
+    } else {
+      stEl.textContent = 'You haven\'t written your dream yet. Head to the workbook to start.';
+      stEl.classList.add('empty');
+    }
+
+    /* ─── Stats ─── */
+    const sd = getStreak();
+    document.getElementById('stat-streak').textContent = (sd.streak || 0) + '🔥';
+    document.getElementById('stat-days').textContent = sd.days || 0;
+
+    const wbProg = getWorkbookProgress();
+    const wbComplete = wbProg.filter(d => d.done).length;
+    document.getElementById('stat-wb').textContent = wbComplete + '/7';
+    document.getElementById('stat-dreams').textContent = getWallCount();
+
+    /* ─── Heatmap ─── */
+    (function buildHeatmap() {
+      const today = new Date();
+      const DAYS_BACK = 7 * 26; // 26 weeks
+      const history = sd.history || {};
+
+      // Build columns (weeks), 7 rows each
+      const startDate = new Date(today);
+      startDate.setDate(today.getDate() - DAYS_BACK + 1);
+      // Align to Monday
+      const dow = startDate.getDay();
+      const daysToMon = (dow + 6) % 7;
+      startDate.setDate(startDate.getDate() - daysToMon);
+
+      const grid = document.getElementById('heatmap-grid');
+      const monthsRow = document.getElementById('heatmap-months');
+      let prevMonth = -1;
+      let colEl = null;
+
+      const totalDays = Math.ceil((today - startDate) / 86400000) + 1;
+
+      for (let i = 0; i < totalDays; i++) {
+        const d = new Date(startDate);
+        d.setDate(startDate.getDate() + i);
+        const dow2 = d.getDay(); // 0=Sun
+
+        if (dow2 === 1 || i === 0) {
+          colEl = document.createElement('div');
+          colEl.className = 'heatmap-col';
+          grid.appendChild(colEl);
+
+          // Month label
+          const ml = document.createElement('div');
+          ml.className = 'heatmap-month-label';
+          if (d.getMonth() !== prevMonth) {
+            ml.textContent = d.toLocaleString('default', { month: 'short' });
+            prevMonth = d.getMonth();
+          }
+          monthsRow.appendChild(ml);
+        }
+
+        if (d > today) {
+          const spacer = document.createElement('div');
+          spacer.style.cssText = 'width:13px;height:13px;';
+          colEl.appendChild(spacer);
+          continue;
+        }
+
+        const key = d.toISOString().slice(0, 10);
+        const val = history[key] || 0;
+        const cell = document.createElement('div');
+        cell.className = 'heatmap-cell' + (val > 0 ? ` l${Math.min(val, 4)}` : '');
+        cell.title = key + (val > 0 ? ' ✓' : '');
+        colEl.appendChild(cell);
+      }
+
+      // Auto-scroll to end
+      const scroll = grid.parentElement;
+      setTimeout(() => { scroll.scrollLeft = scroll.scrollWidth; }, 100);
+    })();
+
+    /* ─── Milestones ─── */
+    const MILESTONES = [
+      { icon:'🌱', name:'First Step', desc:'Checked in for the first day', req: () => (sd.days || 0) >= 1 },
+      { icon:'🔥', name:'On Fire', desc:'3-day streak', req: () => (sd.streak || 0) >= 3 },
+      { icon:'📖', name:'Day One', desc:'Completed Workbook Day 1', req: () => wbProg[0].done },
+      { icon:'⚡', name:'Momentum', desc:'7-day streak', req: () => (sd.streak || 0) >= 7 },
+      { icon:'📚', name:'Half-Way', desc:'Completed 4 workbook days', req: () => wbComplete >= 4 },
+      { icon:'✍️', name:'Wall Dreamer', desc:'Posted a dream to the Wall', req: () => getWallCount() > 0 },
+      { icon:'🏆', name:'Full Journey', desc:'Completed all 7 workbook days', req: () => wbComplete >= 7 },
+      { icon:'💫', name:'Month Strong', desc:'30-day streak', req: () => (sd.streak || 0) >= 30 },
+      { icon:'🌍', name:'Dream Champion', desc:'100 days active', req: () => (sd.days || 0) >= 100 },
+    ];
+
+    const mg = document.getElementById('milestones-grid');
+    MILESTONES.forEach(m => {
+      const unlocked = m.req();
+      const el = document.createElement('div');
+      el.className = 'milestone-card' + (unlocked ? ' unlocked' : '');
+      el.innerHTML = `
+        <div class="milestone-badge">✓</div>
+        <div class="milestone-icon">${m.icon}</div>
+        <div class="milestone-name">${m.name}</div>
+        <div class="milestone-desc">${m.desc}</div>
+      `;
+      mg.appendChild(el);
+    });
+
+    /* ─── Workbook progress rings ─── */
+    const CIRCUMFERENCE = 2 * Math.PI * 22;
+    const wbDaysEl = document.getElementById('wb-days');
+    wbProg.forEach((d, i) => {
+      const pct = d.total > 0 ? d.answered / d.total : 0;
+      const offset = CIRCUMFERENCE * (1 - pct);
+      const cls = d.done ? 'complete' : (d.answered > 0 ? 'in-progress' : '');
+      const strokeColor = d.done ? 'var(--teal)' : 'var(--amber)';
+
+      wbDaysEl.innerHTML += `
+        <div class="wb-day-bubble">
+          <div class="wb-day-ring ${cls}">
+            <svg viewBox="0 0 52 52">
+              <circle cx="26" cy="26" r="22" stroke="rgba(80,40,10,.08)" stroke-dasharray="${CIRCUMFERENCE}" stroke-dashoffset="0" />
+              <circle cx="26" cy="26" r="22" stroke="${strokeColor}" stroke-dasharray="${CIRCUMFERENCE}" stroke-dashoffset="${offset}" style="opacity:${pct > 0 ? 1 : 0}" />
+            </svg>
+            ${i + 1}
+          </div>
+          <div class="wb-day-label">${d.label}</div>
+        </div>
+      `;
+    });
+
+    /* ─── Vision board ─── */
+    const VISION_TILES = 9;
+    const VISION_KEY = 'vision-board-v1';
+    let visionData = {};
+    try { visionData = JSON.parse(localStorage.getItem(VISION_KEY) || '{}'); } catch(e) {}
+
+    let editingTile = null;
+
+    function renderVision() {
+      const grid = document.getElementById('vision-grid');
+      grid.innerHTML = '';
+      for (let i = 0; i < VISION_TILES; i++) {
+        const tile = visionData[i];
+        const el = document.createElement('div');
+        el.className = 'vision-tile' + (tile ? ' filled' : '');
+        if (tile) {
+          el.innerHTML = `
+            <div class="tile-emoji">${tile.emoji || '✨'}</div>
+            <div class="tile-text">${escHtml(tile.text)}</div>
+          `;
+        } else {
+          el.innerHTML = `<div class="tile-add">+</div><div class="tile-label">Add vision</div>`;
+        }
+        el.addEventListener('click', () => openModal(i));
+        grid.appendChild(el);
+      }
+    }
+
+    function openModal(idx) {
+      editingTile = idx;
+      const tile = visionData[idx] || {};
+      document.getElementById('modal-emoji').value = tile.emoji || '';
+      document.getElementById('modal-text').value = tile.text || '';
+      document.getElementById('modal-title').textContent = tile.text ? 'Edit vision' : 'Add a vision';
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal-text').focus();
+    }
+
+    function closeModal(e) {
+      if (e && e.target !== document.getElementById('modal')) return;
+      document.getElementById('modal').classList.remove('open');
+      editingTile = null;
+    }
+
+    function saveTile() {
+      if (editingTile === null) return;
+      const emoji = document.getElementById('modal-emoji').value.trim() || '✨';
+      const text = document.getElementById('modal-text').value.trim();
+      if (text) {
+        visionData[editingTile] = { emoji, text };
+      } else {
+        delete visionData[editingTile];
+      }
+      localStorage.setItem(VISION_KEY, JSON.stringify(visionData));
+      document.getElementById('modal').classList.remove('open');
+      editingTile = null;
+      renderVision();
+    }
+
+    function escHtml(s) {
+      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    renderVision();
+
+    /* ─── Keyboard close modal ─── */
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') document.getElementById('modal').classList.remove('open');
+    });
+
+    /* ─── Scroll reveal ─── */
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
