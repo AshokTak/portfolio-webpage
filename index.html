@@ -5,10 +5,54 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ashok Tak — AI Engineer, Educator & Builder</title>
   <meta name="description" content="AI Engineer, Entrepreneur, Educator and YouTuber. Building intelligent systems, teaching what I learn, sharing ideas every Sunday." />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="canonical" href="https://www.ashoktak.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.ashoktak.com/" />
+  <meta property="og:title" content="Ashok Tak — AI Engineer, Educator & Builder" />
+  <meta property="og:description" content="AI Engineer, Entrepreneur, Educator and YouTuber. Building intelligent systems, teaching what I learn, sharing ideas every Sunday." />
+  <meta property="og:image" content="https://www.ashoktak.com/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AshokTak10" />
+  <meta name="twitter:title" content="Ashok Tak — AI Engineer, Educator & Builder" />
+  <meta name="twitter:description" content="AI Engineer, Entrepreneur, Educator and YouTuber. Building intelligent systems, teaching what I learn, sharing ideas every Sunday." />
+  <meta name="twitter:image" content="https://www.ashoktak.com/images/og-image.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Ashok Tak",
+    "url": "https://www.ashoktak.com/",
+    "image": "https://www.ashoktak.com/images/og-image.png",
+    "jobTitle": "Senior Data & GenAI Engineer",
+    "worksFor": {
+      "@type": "Organization",
+      "name": "Lumenalta"
+    },
+    "alumniOf": [
+      { "@type": "CollegeOrUniversity", "name": "University of Toronto" },
+      { "@type": "CollegeOrUniversity", "name": "IIT Roorkee" }
+    ],
+    "sameAs": [
+      "https://github.com/AshokTak",
+      "https://www.linkedin.com/in/ashoktak",
+      "https://www.youtube.com/@AshokTak",
+      "https://x.com/AshokTak10"
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -117,12 +161,7 @@
         Weekly insights on AI engineering, building products, and the ideas shaping our future.
         Honest, practical, and written for builders — not hype.
       </p>
-      <!--
-        REPLACE this placeholder form with your Kit embed code.
-        In Kit: Forms → your form → Embed → HTML or Script embed.
-        Paste the <script> tag in place of the <form> block below.
-      -->
-      <form class="newsletter-form" action="#" method="post" onsubmit="handleSubscribe(event)">
+      <form class="newsletter-form" action="https://app.kit.com/forms/9580172/subscriptions" method="post">
         <input
           type="email"
           name="email_address"
@@ -177,21 +216,5 @@
   </footer>
 
   <script src="app.js"></script>
-  <script>
-    function handleSubscribe(e) {
-      e.preventDefault();
-      const btn = e.target.querySelector('.newsletter-btn');
-      const input = e.target.querySelector('.newsletter-input');
-      btn.textContent = 'Thanks! 🎉';
-      btn.disabled = true;
-      input.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Subscribe';
-        btn.disabled = false;
-        input.disabled = false;
-        input.value = '';
-      }, 3000);
-    }
-  </script>
 </body>
 </html>
