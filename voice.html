@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="teal">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Virtual Coffee Chat — Ashok Tak</title>
+  <meta name="description" content="A live voice Q&A with Ashok Tak's virtual self. Ask anything about his work, background, or experience and get answered by voice in real time." />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="favicon.ico" sizes="any" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <link rel="canonical" href="https://www.ashoktak.com/voice.html" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.ashoktak.com/voice.html" />
+  <meta property="og:title" content="Virtual Coffee Chat — Ashok Tak" />
+  <meta property="og:description" content="A live voice Q&A with Ashok Tak's virtual self. Ask anything about his work, background, or experience and get answered by voice in real time." />
+  <meta property="og:image" content="https://www.ashoktak.com/images/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@AshokTak10" />
+  <meta name="twitter:title" content="Virtual Coffee Chat — Ashok Tak" />
+  <meta name="twitter:description" content="A live voice Q&A with Ashok Tak's virtual self. Ask anything about his work, background, or experience and get answered by voice in real time." />
+  <meta name="twitter:image" content="https://www.ashoktak.com/images/og-image.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .embed-frame {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 32px 100px;
+    }
+    .embed-card {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: var(--surface);
+      height: 640px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    .embed-card iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    .embed-fallback {
+      margin-top: 16px;
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .embed-fallback a { color: var(--ha); text-decoration: none; font-weight: 500; }
+    .embed-fallback a:hover { opacity: 0.75; }
+    .embed-swap {
+      margin-top: 28px;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .embed-frame { padding: 0 20px 64px; }
+      .embed-card { height: 70vh; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="/" class="nav-mark">AT</a>
+    <div class="nav-links">
+      <a href="about.html">About</a>
+      <a href="chat.html">Chat</a>
+      <a href="/#writing">Writing</a>
+    </div>
+    <button id="theme-toggle" aria-label="Toggle dark mode">
+      <svg class="icon-sun" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </nav>
+
+  <!-- Page Hero -->
+  <div class="page-hero">
+    <div class="page-hero-inner">
+      <p class="page-hero-eyebrow">Live voice Q&amp;A</p>
+      <h1 class="page-hero-title">Virtual Coffee Chat</h1>
+      <p class="page-hero-desc">
+        A real-time voice version of AshokAI — like a five-minute coffee chat, minus the coffee.
+        Best in Chrome or Edge, and a microphone is required.
+      </p>
+    </div>
+  </div>
+
+  <div class="embed-frame">
+    <div class="embed-card">
+      <iframe src="https://ashoktak.github.io/interview-me/" title="Virtual Coffee Chat with Ashok" loading="lazy" allow="microphone"></iframe>
+    </div>
+    <p class="embed-fallback">
+      Mic not working in the embed? <a href="https://ashoktak.github.io/interview-me/" target="_blank" rel="noopener">Open it in a new tab ↗</a>
+    </p>
+    <p class="embed-swap">
+      <a href="chat.html" class="link-pill">
+        Prefer to type instead? Chat with AshokAI
+        <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 9.5L9.5 2.5M9.5 2.5H4M9.5 2.5V8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </p>
+  </div>
+
+  <!-- Footer -->
+  <footer id="footer">
+    <div class="footer-inner">
+      <p class="footer-name">Ashok Tak</p>
+      <div class="footer-links">
+        <a href="https://github.com/AshokTak" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://www.linkedin.com/in/ashoktak" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="https://www.youtube.com/@AshokTak" target="_blank" rel="noopener">YouTube</a>
+        <a href="https://x.com/AshokTak10" target="_blank" rel="noopener">X</a>
+        <a href="mailto:ashoktak95@gmail.com">Email</a>
+      </div>
+      <p class="footer-copy">&copy; 2026</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
