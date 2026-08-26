@@ -862,13 +862,28 @@ const DAYS = [
 
 // ── Storage ────────────────────────────────────────────────────────────────────
 const KEY = 'wyd_workbook_v2';
-function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+function load() {
+  try {
+    return JSON.parse(localStorage.getItem(KEY)) || {};
+  } catch (err) {
+    console.warn('Could not read saved workbook answers, starting fresh:', err);
+    return {};
+  }
+}
 function save(data) {
-  localStorage.setItem(KEY, JSON.stringify(data));
+  let saved = true;
+  try {
+    localStorage.setItem(KEY, JSON.stringify(data));
+  } catch (err) {
+    saved = false;
+    console.error('Could not save workbook answers:', err);
+  }
   const el = document.getElementById('save-indicator');
+  if (!el) return;
+  el.textContent = saved ? '✓ Saved' : '⚠ Not saved — storage unavailable';
   el.classList.add('visible');
   clearTimeout(el._t);
-  el._t = setTimeout(() => el.classList.remove('visible'), 1800);
+  el._t = setTimeout(() => el.classList.remove('visible'), saved ? 1800 : 4000);
 }
 
 let state = load();

@@ -12,14 +12,29 @@
     return t === 'dark' || t === 'dark-teal';
   }
 
+  // Storage can throw when cookies are blocked or the quota is full; the theme
+  // still applies for the current page in that case.
+  function readSavedTheme() {
+    try {
+      return localStorage.getItem('portfolio-theme');
+    } catch (err) {
+      console.warn('Could not read saved theme:', err);
+      return null;
+    }
+  }
+
   function applyTheme(theme) {
     html.setAttribute('data-theme', theme);
-    localStorage.setItem('portfolio-theme', theme);
+    try {
+      localStorage.setItem('portfolio-theme', theme);
+    } catch (err) {
+      console.warn('Could not persist theme preference:', err);
+    }
     window._particleThemeChanged = true;
   }
 
   // Restore saved preference, default to light teal
-  const saved = localStorage.getItem('portfolio-theme');
+  const saved = readSavedTheme();
   applyTheme(saved && saved !== '' ? saved : LIGHT);
 
   btn && btn.addEventListener('click', () => {
@@ -29,9 +44,11 @@
 
 // ── Nav border on scroll ────────────────────────────────────────────────────
 const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
+if (nav) {
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+  }, { passive: true });
+}
 
 // ── Reveal sections on scroll ──────────────────────────────────────────────
 const revealObserver = new IntersectionObserver(
@@ -78,6 +95,10 @@ sections.forEach(s => navObserver.observe(s));
   const canvas = document.getElementById('particle-canvas');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
+  if (!ctx) {
+    console.warn('Particle canvas: 2d context unavailable, skipping animation.');
+    return;
+  }
   let particles = [];
   let animId;
   let rgb = { r: 13, g: 148, b: 136 };

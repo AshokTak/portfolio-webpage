@@ -534,6 +534,26 @@
     }
     .btn-save:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(232,149,12,.45); }
 
+    /* ── Toast ── */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%) translateY(160%);
+      background: var(--black);
+      color: var(--white);
+      padding: .75rem 1.25rem;
+      border-radius: .8rem;
+      font-size: .85rem;
+      font-weight: 500;
+      box-shadow: 0 10px 30px rgba(0,0,0,.2);
+      transition: transform .35s cubic-bezier(.34,1.56,.64,1);
+      z-index: 999;
+      max-width: min(90vw, 30rem);
+      text-align: center;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
     /* ── Footer ── */
     footer {
       text-align: center;
@@ -679,12 +699,29 @@
     </div>
   </div>
 
+  <div class="toast" id="toast"></div>
+
   <script>
     /* ─── Load data from localStorage ─── */
+    // localStorage itself throws when storage is blocked, so every read goes through here.
+    function readStored(key) {
+      try {
+        return localStorage.getItem(key);
+      } catch(e) {
+        console.warn(`Could not read "${key}" from localStorage:`, e);
+        return null;
+      }
+    }
+
     function getStreak() {
-      const raw = localStorage.getItem('checkin-dates');
+      const raw = readStored('checkin-dates');
       if (!raw) return { streak: 0, days: 0, history: {} };
-      try { return JSON.parse(raw); } catch(e) { return { streak: 0, days: 0, history: {} }; }
+      try {
+        return JSON.parse(raw);
+      } catch(e) {
+        console.warn('Check-in history is corrupt, treating it as empty:', e);
+        return { streak: 0, days: 0, history: {} };
+      }
     }
 
     function getWorkbookProgress() {
@@ -692,12 +729,12 @@
       const progress = [];
       for (let d = 0; d < 7; d++) {
         const doneFlagKey = `wb-done-${d}`;
-        const isDone = localStorage.getItem(doneFlagKey) === '1';
+        const isDone = readStored(doneFlagKey) === '1';
         // Count answered questions
         let answered = 0, total = 4;
         for (let q = 0; q < 4; q++) {
           const key = `wb-d${d}-q${q}`;
-          const val = localStorage.getItem(key) || '';
+          const val = readStored(key) || '';
           if (val.trim().length > 3) answered++;
         }
         progress.push({ label: DAYS[d], done: isDone, answered, total });
@@ -706,14 +743,17 @@
     }
 
     function getDreamStatement() {
-      return localStorage.getItem('dream-declaration') || '';
+      return readStored('dream-declaration') || '';
     }
 
     function getWallCount() {
       try {
-        const stored = JSON.parse(localStorage.getItem('dream-wall-v2') || '{}');
+        const stored = JSON.parse(readStored('dream-wall-v2') || '{}');
         return Object.keys(stored).filter(k => !k.startsWith('s')).length;
-      } catch(e) { return 0; }
+      } catch(e) {
+        console.warn('Dream wall data is corrupt, counting zero dreams:', e);
+        return 0;
+      }
     }
 
     /* ─── Dream statement ─── */
@@ -851,7 +891,11 @@
     const VISION_TILES = 9;
     const VISION_KEY = 'vision-board-v1';
     let visionData = {};
-    try { visionData = JSON.parse(localStorage.getItem(VISION_KEY) || '{}'); } catch(e) {}
+    try {
+      visionData = JSON.parse(readStored(VISION_KEY) || '{}');
+    } catch(e) {
+      console.warn('Vision board data is corrupt, starting with an empty board:', e);
+    }
 
     let editingTile = null;
 
@@ -900,10 +944,25 @@
       } else {
         delete visionData[editingTile];
       }
-      localStorage.setItem(VISION_KEY, JSON.stringify(visionData));
+      let saved = true;
+      try {
+        localStorage.setItem(VISION_KEY, JSON.stringify(visionData));
+      } catch(e) {
+        saved = false;
+        console.error('Could not save the vision board:', e);
+      }
       document.getElementById('modal').classList.remove('open');
       editingTile = null;
       renderVision();
+      if (!saved) showToast('⚠️ Couldn\'t save your vision board — storage is unavailable in this browser.');
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      clearTimeout(t._timer);
+      t._timer = setTimeout(() => t.classList.remove('show'), 4000);
     }
 
     function escHtml(s) {

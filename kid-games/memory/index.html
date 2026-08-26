@@ -231,11 +231,14 @@
         });
       }
 
-      let speechReady = false;
-      function primeSpeech() { if (speechReady) return; speechReady = true; try { const u = new SpeechSynthesisUtterance(""); u.volume = 0; speechSynthesis.speak(u); } catch {} }
-      function speak(t) { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.9; u.pitch = 1.2; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch {} }
+      let speechReady = false, speechWarned = false, audioWarned = false;
+      // Speech and audio are best-effort; log once so failures are visible without spamming.
+      function warnSpeech(err) { if (speechWarned) return; speechWarned = true; console.warn("Speech synthesis unavailable, continuing without narration:", err); }
+      function warnAudio(err) { if (audioWarned) return; audioWarned = true; console.warn("Sound effects unavailable, continuing without them:", err); }
+      function primeSpeech() { if (speechReady) return; speechReady = true; try { const u = new SpeechSynthesisUtterance(""); u.volume = 0; speechSynthesis.speak(u); } catch (err) { warnSpeech(err); } }
+      function speak(t) { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.9; u.pitch = 1.2; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch (err) { warnSpeech(err); } }
       let actx = null;
-      function beep(f) { try { actx ??= new AudioContext(); const o = actx.createOscillator(); const g = actx.createGain(); o.frequency.value = f; o.type = "sine"; g.gain.value = 0.08; o.connect(g).connect(actx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.25); o.stop(actx.currentTime + 0.26); } catch {} }
+      function beep(f) { try { actx ??= new AudioContext(); const o = actx.createOscillator(); const g = actx.createGain(); o.frequency.value = f; o.type = "sine"; g.gain.value = 0.08; o.connect(g).connect(actx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.25); o.stop(actx.currentTime + 0.26); } catch (err) { warnAudio(err); } }
 
       function onCard(card) {
         primeSpeech();
@@ -285,7 +288,9 @@
           const trimmed = {};
           Object.keys(days).sort().slice(-30).forEach(k => trimmed[k] = days[k]);
           localStorage.setItem(`kidgames:${SLUG}:days`, JSON.stringify(trimmed));
-        } catch {}
+        } catch (err) {
+          console.warn("Could not record play stats:", err);
+        }
       }
 
       document.getElementById("startBtn").addEventListener("click", () => {
