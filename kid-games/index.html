@@ -134,17 +134,10 @@
         Made with ❤️ — <a href="https://ashoktak.com">ashoktak.com</a>
       </footer>
     </div>
-    <script>
+    <script type="module">
+      import { getStats } from "./shared/game-kit.js";
+
       (function () {
-        function todayStr() { return new Date().toISOString().slice(0,10); }
-        function getStats(slug) {
-          try {
-            const total = parseInt(localStorage.getItem("kidgames:" + slug + ":total") || "0") || 0;
-            const days = JSON.parse(localStorage.getItem("kidgames:" + slug + ":days") || "{}");
-            const today = days[todayStr()] || 0;
-            return { total, today, days };
-          } catch { return { total: 0, today: 0, days: {} }; }
-        }
         function last7(days) {
           const out = [];
           const now = new Date();

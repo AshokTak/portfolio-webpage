@@ -424,6 +424,7 @@
   <a href="https://ashoktak.com" target="_blank" rel="noopener">ashoktak.com</a>
 </footer>
 
+<script src="../js/site.js"></script>
 <script>
 // ── DATA ────────────────────────────────────────────────────────────────────
 const entries=[
@@ -499,7 +500,6 @@ const dreamPillSeeds=[
 
 // ── Utils ──────────────────────────────────────────────────────────────────
 function getDOY(d){return Math.floor((d-new Date(d.getFullYear(),0,0))/86400000)}
-function todayKey(){const d=new Date();return`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`}
 function prevDay(k){const d=new Date(k+'T12:00:00');d.setDate(d.getDate()-1);return d.toISOString().slice(0,10)}
 
 // ── Populate ───────────────────────────────────────────────────────────────
@@ -527,9 +527,8 @@ document.getElementById('day-number').textContent=doy;
   const wrap=document.getElementById('dream-pills');
   // show 6 pills — mix seeded + any from localStorage wall
   let all=[...dreamPillSeeds];
-  try{const saved=JSON.parse(localStorage.getItem('wyd_wall_dreams')||'[]');
-    saved.slice(0,3).forEach(d=>all.unshift({e:'✨',t:d.dream.slice(0,36)}));
-  }catch(e){}
+  Site.readJSON('wyd_wall_dreams', []).slice(0,3)
+    .forEach(d=>all.unshift({e:'✨',t:d.dream.slice(0,36)}));
   all.slice(0,7).forEach(d=>{
     const p=document.createElement('div');p.className='dream-pill';
     p.innerHTML=`<span>${d.e}</span><span>${d.t}</span>`;
@@ -539,11 +538,11 @@ document.getElementById('day-number').textContent=doy;
 
 // ── Streak / done ──────────────────────────────────────────────────────────
 const STORE='wyd_done_dates';
-function getDates(){try{return JSON.parse(localStorage.getItem(STORE))||[]}catch{return[]}}
+function getDates(){return Site.readJSON(STORE, [])}
 function calcStreak(dates){
   if(!dates.length)return 0;
   const sorted=[...new Set(dates)].sort().reverse();
-  const today=todayKey();
+  const today=Site.dayKey();
   if(sorted[0]!==today&&sorted[0]!==prevDay(today))return 0;
   let s=0,cur=today;
   for(const d of sorted){if(d===cur){s++;cur=prevDay(cur)}else break}
@@ -554,13 +553,13 @@ function refreshStats(){
   document.getElementById('done-count').textContent=dates.length;
   document.getElementById('streak-tile').textContent=streak;
   document.getElementById('header-streak').textContent=streak;
-  const doneToday=dates.includes(todayKey());
+  const doneToday=dates.includes(Site.dayKey());
   const btn=document.getElementById('done-btn');
   if(doneToday){btn.classList.add('completed');btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Done for today ✓'}
 }
 window.markDone=function(){
-  const dates=getDates(),key=todayKey(),wasNew=!dates.includes(key);
-  if(wasNew){dates.push(key);localStorage.setItem(STORE,JSON.stringify(dates))}
+  const dates=getDates(),key=Site.dayKey(),wasNew=!dates.includes(key);
+  if(wasNew){dates.push(key);Site.writeJSON(STORE,dates)}
   refreshStats();
   if(wasNew){launchConfetti();const n=document.getElementById('header-streak');n.classList.remove('bump');void n.offsetWidth;n.classList.add('bump')}
 };
