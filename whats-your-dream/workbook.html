@@ -7,51 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg:      #FDF7EE;
-      --amber:   #E8950C;
-      --amber2:  #F5B93A;
-      --coral:   #DC3D6B;
-      --coral2:  #E8729A;
-      --teal:    #169C95;
-      --teal2:   #4DC8C1;
-      --black:   #1A1208;
-      --white:   #FFFFFF;
-      --grey:    #F5EEE3;
-      --text2:   #6B5744;
-      --shadow:  rgba(80,40,10,.10);
-      --radius:  16px;
       /* day accent colours — warm + muted */
       --d0: #E8950C; --d1: #DC3D6B; --d2: #169C95;
       --d3: #8B72BE; --d4: #D4681C; --d5: #3D9B6A; --d6: #B5446A;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--black);
-      min-height: 100vh;
     }
 
     #stars-canvas { display: none; }
     .page-wrap { position: relative; z-index: 1; }
 
     /* ── Top nav ── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.75rem;
-      background: var(--black);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
 
     .nav-back {
       display: inline-flex;
@@ -535,14 +502,12 @@
 
     /* ── Footer ── */
     footer {
-      text-align: center;
       padding: 2.5rem 1.5rem;
-      font-size: .78rem;
       font-weight: 500;
       color: var(--black);
       opacity: .5;
     }
-    footer a { color: var(--black); font-weight: 700; opacity: 1; }
+    footer a { color: var(--black); font-weight: 700; opacity: 1; text-decoration: underline; }
 
     @media (max-width: 600px) {
       nav { padding: .9rem 1.1rem; }
@@ -638,6 +603,7 @@
 
 </div>
 
+<script src="../js/site.js"></script>
 <script>
 // ── Workbook data ─────────────────────────────────────────────────────────────
 const DAYS = [
@@ -862,9 +828,9 @@ const DAYS = [
 
 // ── Storage ────────────────────────────────────────────────────────────────────
 const KEY = 'wyd_workbook_v2';
-function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
+function load() { return Site.readJSON(KEY, {}); }
 function save(data) {
-  localStorage.setItem(KEY, JSON.stringify(data));
+  Site.writeJSON(KEY, data);
   const el = document.getElementById('save-indicator');
   el.classList.add('visible');
   clearTimeout(el._t);

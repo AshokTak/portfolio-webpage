@@ -7,76 +7,18 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="base.css" />
   <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --bg:      #FDF7EE;
-      --amber:   #E8950C;
-      --amber2:  #F5B93A;
-      --coral:   #DC3D6B;
-      --coral2:  #E8729A;
-      --teal:    #169C95;
-      --teal2:   #4DC8C1;
-      --black:   #1A1208;
-      --white:   #FFFFFF;
-      --grey:    #F5EEE3;
-      --text2:   #6B5744;
-      --shadow:  rgba(80,40,10,.10);
-      --radius:  16px;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--black);
-      min-height: 100vh;
-    }
 
     /* ── Nav ── */
-    nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem 1.75rem;
-      background: var(--black);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      gap: 1rem;
-    }
-
+    .nav-logo { line-height: 1; }
     .nav-brand {
       display: flex;
       align-items: center;
       gap: .55rem;
       text-decoration: none;
     }
-    .nav-logo {
-      font-family: 'Anton', sans-serif;
-      font-size: 1.05rem;
-      letter-spacing: .04em;
-      color: var(--amber2);
-      line-height: 1;
-    }
 
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.4rem;
-    }
-    .nav-links a {
-      font-size: .78rem;
-      font-weight: 600;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.5);
-      text-decoration: none;
-      transition: color .2s;
-    }
-    .nav-links a:hover, .nav-links a.active { color: var(--amber2); }
 
     /* ── Hero ── */
     .hero {
@@ -445,17 +387,9 @@
     .toast.show { transform: translateX(-50%) translateY(0); }
 
     /* ── Footer ── */
-    footer {
-      text-align: center;
-      padding: 3rem 1.5rem 2rem;
-      font-size: .78rem;
-      color: var(--text2);
-    }
-    footer a { color: var(--amber); font-weight: 600; text-decoration: none; }
+    footer { padding: 3rem 1.5rem 2rem; }
 
     /* ── Scroll reveal ── */
-    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .5s ease, transform .5s ease; }
-    .reveal.visible { opacity: 1; transform: none; }
 
     @media (max-width: 600px) {
       nav { padding: .85rem 1.1rem; }
@@ -541,6 +475,7 @@
 
   <div class="toast" id="toast"></div>
 
+  <script src="../js/site.js"></script>
   <script>
     /* ── Seed dreams ── */
     const SEEDS = [
@@ -561,7 +496,7 @@
 
     function loadDreams() {
       try {
-        const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+        const stored = Site.readJSON(STORAGE_KEY, {});
         // Merge seeds + user dreams
         const seedMap = {};
         SEEDS.forEach(d => { seedMap[d.id] = { ...d, ...( stored[d.id] || {} ) }; });
@@ -575,7 +510,7 @@
     function saveDreams(dreams) {
       const map = {};
       dreams.forEach(d => { map[d.id] = d; });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+      Site.writeJSON(STORAGE_KEY, map);
     }
 
     function catSlug(cat) { return 'cat-' + cat.toLowerCase(); }
@@ -589,9 +524,9 @@
       el.style.animationDelay = delay + 'ms';
       el.innerHTML = `
         <div class="dream-card-accent"></div>
-        <div class="dream-card-quote">"${escHtml(d.text)}"</div>
+        <div class="dream-card-quote">"${Site.escapeHtml(d.text)}"</div>
         <div class="dream-card-meta">
-          <span class="dream-card-author">${d.author ? '— ' + escHtml(d.author) : '— Anonymous'}</span>
+          <span class="dream-card-author">${d.author ? '— ' + Site.escapeHtml(d.author) : '— Anonymous'}</span>
           <span class="dream-card-cat">${d.cat}</span>
         </div>
         <div class="dream-card-actions">
@@ -602,10 +537,6 @@
         </div>
       `;
       grid.appendChild(el);
-    }
-
-    function escHtml(s) {
-      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
     function renderAll() {
@@ -693,10 +624,7 @@
     }
 
     /* ── Scroll reveal ── */
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.1 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+    Site.revealOnScroll({ threshold: 0.1 });
 
     /* ── Init ── */
     renderAll();

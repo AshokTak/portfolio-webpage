@@ -28,17 +28,10 @@
 })();
 
 // ── Nav border on scroll ────────────────────────────────────────────────────
-const nav = document.getElementById('nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
+Site.initNavScroll();
 
 // ── Reveal sections on scroll ──────────────────────────────────────────────
-const revealObserver = new IntersectionObserver(
-  entries => entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-  { threshold: 0.12 }
-);
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+Site.revealOnScroll({ threshold: 0.12 });
 
 // ── Active nav link highlight ──────────────────────────────────────────────
 const sections = document.querySelectorAll('section[id]');

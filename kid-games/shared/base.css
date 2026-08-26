@@ -1,0 +1,53 @@
+/* Shared chrome for the hand-written kid games (dots, match, memory). */
+
+:root {
+  --green: #58cc02; --green-shadow: #58a700;
+  --blue: #1cb0f6; --blue-shadow: #1899d6;
+  --ink: #3c3c3c; --grey: #e5e5e5;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0; padding: 0; min-height: 100%;
+  font-family: "Nunito", system-ui, sans-serif; font-weight: 800;
+  color: var(--ink); background: #fff;
+  -webkit-user-select: none; user-select: none;
+}
+#app { max-width: 720px; margin: 0 auto; padding: 12px; min-height: 100vh; display: flex; flex-direction: column; gap: 10px; }
+header { padding: 8px 12px; border-bottom: 2px solid var(--grey); text-align: center; }
+h1 { margin: 0; font-size: clamp(20px, 4vw, 28px); font-weight: 900; }
+.sub { color: #888; font-size: 14px; margin-top: 4px; }
+#stars { font-size: 18px; min-height: 22px; display: inline-block; margin-top: 4px; color: #666; font-weight: 800; }
+
+.grid {
+  display: grid; grid-template-columns: repeat(2, 1fr);
+  gap: 10px; padding: 4px 0;
+  max-width: 420px; margin: 0 auto; width: 100%;
+}
+@media (max-width: 480px) {
+  .grid { gap: 8px; }
+}
+@keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
+
+footer { display: flex; gap: 12px; justify-content: center; padding: 12px; border-top: 2px solid var(--grey); margin-top: auto; }
+button {
+  font: inherit; font-weight: 800; font-size: 15px;
+  letter-spacing: .8px; text-transform: uppercase;
+  padding: 12px 22px; border: none; border-radius: 14px;
+  background: var(--green); color: #fff;
+  box-shadow: 0 4px 0 var(--green-shadow); cursor: pointer;
+}
+button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--green-shadow); }
+button.secondary { background: #fff; color: var(--blue); border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey); }
+button.secondary:active { box-shadow: 0 2px 0 var(--grey); }
+
+.more-games { margin: 16px 0 8px; text-align: center; color: #777; font-size: 14px; font-weight: 700; }
+.more-games a { color: var(--blue); border-bottom: 2px solid var(--blue); text-decoration: none; padding-bottom: 1px; }
+
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; animation: fadein .25s ease; }
+.overlay.hidden { display: none; }
+.overlay-card { background: #fff; border-radius: 24px; padding: 32px 28px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.25); animation: pop-in .4s ease; }
+@keyframes pop-in { 0% { transform: scale(.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes fadein { 0% { opacity: 0; } 100% { opacity: 1; } }
+.big-emoji { font-size: 72px; margin-bottom: 8px; }
+.overlay-card h2 { margin: 0 0 24px; font-size: 22px; font-weight: 900; }
+.overlay-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }

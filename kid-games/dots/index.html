@@ -5,26 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
     <title>Connect the Dots ✨</title>
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800;900&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="../shared/base.css" />
     <style>
       :root {
-        --green: #58cc02; --green-shadow: #58a700;
-        --blue: #1cb0f6; --blue-shadow: #1899d6;
         --orange: #ff9600; --orange-shadow: #cc6f00;
-        --ink: #3c3c3c; --grey: #e5e5e5;
       }
-      * { box-sizing: border-box; }
-      html, body {
-        margin: 0; padding: 0; min-height: 100%;
-        font-family: "Nunito", system-ui, sans-serif; font-weight: 800;
-        color: var(--ink); background: #fff;
-        -webkit-user-select: none; user-select: none;
-      }
-      #app { max-width: 720px; margin: 0 auto; padding: 12px; min-height: 100vh; display: flex; flex-direction: column; gap: 10px; }
-      header { padding: 8px 12px; border-bottom: 2px solid var(--grey); text-align: center; }
-      h1 { margin: 0; font-size: clamp(20px, 4vw, 28px); font-weight: 900; }
-      .sub { color: #888; font-size: 14px; margin-top: 4px; }
-      #stars { font-size: 18px; min-height: 22px; display: inline-block; margin-top: 4px; color: #666; font-weight: 800; }
-
       .stage {
         width: 100%; max-width: 540px; margin: 0 auto;
         aspect-ratio: 1/1;
@@ -44,6 +29,7 @@
       .dot.done { fill: var(--green); stroke: var(--green-shadow); }
       .dot.shake { animation: shake .35s ease; transform-box: fill-box; }
       @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.18); } }
+      /* Dots live in a 100x100 SVG viewBox, so the shared shake distance is far too wide. */
       @keyframes shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-2px); } 75% { transform: translateX(2px); } }
 
       .num { font-family: "Nunito"; font-weight: 900; font-size: 4px;
@@ -56,30 +42,11 @@
       .seg { stroke: var(--green); stroke-width: 0.9; stroke-linecap: round; fill: none; opacity: 0.9; }
       .pic { transition: opacity .55s ease; }
 
-      footer { display: flex; gap: 12px; justify-content: center; padding: 12px; border-top: 2px solid var(--grey); margin-top: auto; }
-      button {
-        font: inherit; font-weight: 800; font-size: 15px;
-        letter-spacing: .8px; text-transform: uppercase;
-        padding: 12px 22px; border: none; border-radius: 14px;
-        background: var(--green); color: #fff;
-        box-shadow: 0 4px 0 var(--green-shadow); cursor: pointer;
-      }
-      button:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--green-shadow); }
-      button.secondary { background: #fff; color: var(--blue); border: 2px solid var(--grey); box-shadow: 0 4px 0 var(--grey); }
-      button.secondary:active { box-shadow: 0 2px 0 var(--grey); }
+      .more-games { margin: 12px 0 4px; }
 
-      .more-games { margin: 12px 0 4px; text-align: center; color: #777; font-size: 14px; font-weight: 700; }
-      .more-games a { color: var(--blue); border-bottom: 2px solid var(--blue); text-decoration: none; padding-bottom: 1px; }
-
-      .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.45); display: flex; align-items: center; justify-content: center; z-index: 100; padding: 20px; animation: fadein .25s ease; }
-      .overlay.hidden { display: none; }
-      .overlay-card { background: #fff; border-radius: 24px; padding: 32px 28px; max-width: 420px; width: 100%; text-align: center; box-shadow: 0 12px 40px rgba(0,0,0,.25); animation: pop-in .4s ease; }
-      @keyframes pop-in { 0% { transform: scale(.7); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-      @keyframes fadein { 0% { opacity: 0; } 100% { opacity: 1; } }
-      .big-emoji { font-size: 72px; margin-bottom: 8px; }
-      .overlay-card h2 { margin: 0 0 12px; font-size: 22px; font-weight: 900; }
+      .overlay-card h2 { margin: 0 0 12px; }
       .overlay-card .sub { font-size: 18px; color: #666; font-weight: 800; margin-bottom: 16px; }
-      .overlay-buttons { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 14px; }
+      .overlay-buttons { margin-top: 14px; }
     </style>
   </head>
   <body>
@@ -125,6 +92,8 @@
       </div>
     </div>
     <script type="module">
+      import { beep, pickRoundOrder, primeSpeech, recordPlay, speak, wireControls } from "../shared/game-kit.js";
+
       const SVGNS = "http://www.w3.org/2000/svg";
 
       function starDots() {
@@ -180,22 +149,15 @@
       const finishOverlay = document.getElementById("finishOverlay");
 
       const TOTAL_ROUNDS = 5;
+      const SLUG = "dots";
       let order = [];
       let roundIdx = 0;
       let nextDot = 1;
       let pic;
       let lockBoard = false;
 
-      function shuffle(a) { for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
-
-      let speechReady = false;
-      function primeSpeech() { if (speechReady) return; speechReady = true; try { const u = new SpeechSynthesisUtterance(""); u.volume = 0; speechSynthesis.speak(u); } catch {} }
-      function speak(t) { try { const u = new SpeechSynthesisUtterance(t); u.lang = "en-US"; u.rate = 0.9; u.pitch = 1.2; speechSynthesis.cancel(); speechSynthesis.speak(u); } catch {} }
-      let actx = null;
-      function beep(f) { try { actx ??= new AudioContext(); const o = actx.createOscillator(); const g = actx.createGain(); o.frequency.value = f; o.type = "sine"; g.gain.value = 0.08; o.connect(g).connect(actx.destination); o.start(); g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + 0.25); o.stop(actx.currentTime + 0.26); } catch {} }
-
       function startGame() {
-        order = shuffle(PICTURES.map((_, i) => i)).slice(0, TOTAL_ROUNDS);
+        order = pickRoundOrder(PICTURES.length, TOTAL_ROUNDS);
         roundIdx = 0;
         showRoundIntro();
       }
@@ -305,7 +267,7 @@
 
         const isLast = roundIdx >= order.length - 1;
         if (isLast) {
-          recordPlay();
+          recordPlay(SLUG);
           setTimeout(() => {
             finishOverlay.classList.remove("hidden");
             speak("Yay! You connected them all!");
@@ -315,28 +277,7 @@
         }
       }
 
-      const SLUG = "dots";
-      function recordPlay() {
-        try {
-          const today = new Date().toISOString().slice(0,10);
-          const total = (parseInt(localStorage.getItem(`kidgames:${SLUG}:total`) || "0") || 0) + 1;
-          localStorage.setItem(`kidgames:${SLUG}:total`, String(total));
-          const days = JSON.parse(localStorage.getItem(`kidgames:${SLUG}:days`) || "{}");
-          days[today] = (days[today] || 0) + 1;
-          const trimmed = {};
-          Object.keys(days).sort().slice(-30).forEach(k => trimmed[k] = days[k]);
-          localStorage.setItem(`kidgames:${SLUG}:days`, JSON.stringify(trimmed));
-        } catch {}
-      }
-
-      document.getElementById("startBtn").addEventListener("click", () => {
-        primeSpeech();
-        document.getElementById("startOverlay").classList.add("hidden");
-        startGame();
-      });
-      document.getElementById("reset").addEventListener("click", () => { primeSpeech(); startGame(); });
-      document.getElementById("overlayAgain").addEventListener("click", () => { primeSpeech(); startGame(); });
-      document.getElementById("overlayMore").addEventListener("click", () => { location.href = "/kid-games/"; });
+      wireControls(startGame);
     </script>
   </body>
 </html>
