@@ -569,13 +569,23 @@
           .filter(([k]) => !k.startsWith('s'))
           .map(([,v]) => v);
         return [...userDreams.reverse(), ...Object.values(seedMap)];
-      } catch(e) { return [...SEEDS]; }
+      } catch(e) {
+        console.warn('Could not read saved dreams, showing seed dreams only:', e);
+        return [...SEEDS];
+      }
     }
 
+    // Returns false when the dream could not be persisted so callers can tell the user.
     function saveDreams(dreams) {
       const map = {};
       dreams.forEach(d => { map[d.id] = d; });
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
+        return true;
+      } catch(e) {
+        console.error('Could not save dreams:', e);
+        return false;
+      }
     }
 
     function catSlug(cat) { return 'cat-' + cat.toLowerCase(); }
@@ -639,7 +649,7 @@
       if (!d) return;
       d.liked = !d.liked;
       d.hearts += d.liked ? 1 : -1;
-      saveDreams(dreams);
+      if (!saveDreams(dreams)) showToast('⚠️ Couldn\'t save that — storage is unavailable in this browser.');
 
       const btn = e.currentTarget;
       btn.classList.toggle('liked', d.liked);
@@ -676,7 +686,10 @@
 
       const dreams = loadDreams();
       dreams.unshift(dream);
-      saveDreams(dreams);
+      if (!saveDreams(dreams)) {
+        showToast('⚠️ Couldn\'t save your dream — storage is unavailable in this browser.');
+        return;
+      }
 
       document.getElementById('dream-input').value = '';
       document.getElementById('name-input').value = '';

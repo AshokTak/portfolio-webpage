@@ -529,7 +529,7 @@ document.getElementById('day-number').textContent=doy;
   let all=[...dreamPillSeeds];
   try{const saved=JSON.parse(localStorage.getItem('wyd_wall_dreams')||'[]');
     saved.slice(0,3).forEach(d=>all.unshift({e:'✨',t:d.dream.slice(0,36)}));
-  }catch(e){}
+  }catch(e){console.warn('Could not read dreams from the wall, showing seeded pills only:',e)}
   all.slice(0,7).forEach(d=>{
     const p=document.createElement('div');p.className='dream-pill';
     p.innerHTML=`<span>${d.e}</span><span>${d.t}</span>`;
@@ -539,7 +539,8 @@ document.getElementById('day-number').textContent=doy;
 
 // ── Streak / done ──────────────────────────────────────────────────────────
 const STORE='wyd_done_dates';
-function getDates(){try{return JSON.parse(localStorage.getItem(STORE))||[]}catch{return[]}}
+function getDates(){try{return JSON.parse(localStorage.getItem(STORE))||[]}catch(e){console.warn('Could not read check-in history:',e);return[]}}
+function setDates(dates){try{localStorage.setItem(STORE,JSON.stringify(dates));return true}catch(e){console.error('Could not save today\'s check-in:',e);return false}}
 function calcStreak(dates){
   if(!dates.length)return 0;
   const sorted=[...new Set(dates)].sort().reverse();
@@ -560,8 +561,11 @@ function refreshStats(){
 }
 window.markDone=function(){
   const dates=getDates(),key=todayKey(),wasNew=!dates.includes(key);
-  if(wasNew){dates.push(key);localStorage.setItem(STORE,JSON.stringify(dates))}
+  // Only celebrate once the check-in is actually persisted.
+  let saved=true;
+  if(wasNew){dates.push(key);saved=setDates(dates)}
   refreshStats();
+  if(wasNew&&!saved){const b=document.getElementById('done-btn');b.textContent='Couldn\'t save — storage unavailable';return}
   if(wasNew){launchConfetti();const n=document.getElementById('header-streak');n.classList.remove('bump');void n.offsetWidth;n.classList.add('bump')}
 };
 refreshStats();
@@ -582,14 +586,25 @@ function launchConfetti(){
 const shareText=`"${entry.quote}" — What's Your Dream?, Simon Squibb\n\n👉 ashoktak.com/whats-your-dream`;
 window.shareTwitter=()=>window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText),'_blank');
 window.copyLink=function(){
-  navigator.clipboard.writeText('https://ashoktak.com/whats-your-dream').then(()=>{
-    const btn=event.currentTarget,orig=btn.innerHTML;btn.textContent='Copied!';
-    setTimeout(()=>btn.innerHTML=orig,1800);
-  });
+  // May be called from a click handler or from the share fallback, where there is no event.
+  const btn=(typeof event!=='undefined'&&event)?event.currentTarget:null,orig=btn?btn.innerHTML:'';
+  function flash(msg,ms){if(!btn)return;btn.textContent=msg;setTimeout(()=>btn.innerHTML=orig,ms)}
+  if(!navigator.clipboard){
+    console.warn('Clipboard API unavailable in this context.');
+    flash('Copy manually: ashoktak.com/whats-your-dream',4000);
+    return;
+  }
+  navigator.clipboard.writeText('https://ashoktak.com/whats-your-dream')
+    .then(()=>flash('Copied!',1800))
+    .catch(err=>{
+      console.error('Clipboard write failed:',err);
+      flash('Copy failed — ashoktak.com/whats-your-dream',4000);
+    });
 };
 window.shareNative=function(){
-  if(navigator.share)navigator.share({title:"What's Your Dream?",text:shareText,url:'https://ashoktak.com/whats-your-dream'});
-  else window.copyLink();
+  if(!navigator.share){window.copyLink();return}
+  navigator.share({title:"What's Your Dream?",text:shareText,url:'https://ashoktak.com/whats-your-dream'})
+    .catch(err=>{if(err&&err.name==='AbortError')return;console.warn('Native share failed, falling back to copy:',err);window.copyLink()});
 };
 
 // ── Slideshow ──────────────────────────────────────────────────────────────
@@ -607,7 +622,8 @@ window.shareNative=function(){
   function goTo(n){
     const slides=track.querySelectorAll('.slide'),dots=dotsEl.querySelectorAll('.ss-dot');
     slides[cur].classList.add('exit');slides[cur].classList.remove('active');dots[cur].classList.remove('active');
-    setTimeout(()=>{try{slides[cur].classList.remove('exit')}catch(e){}},550);
+    const exiting=slides[cur];
+    setTimeout(()=>exiting.classList.remove('exit'),550);
     cur=(n+slideshowQuotes.length)%slideshowQuotes.length;
     slides[cur].classList.add('active');dots[cur].classList.add('active');
     clearTimeout(timer);timer=setTimeout(()=>goTo(cur+1),5500);

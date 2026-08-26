@@ -143,7 +143,10 @@
             const days = JSON.parse(localStorage.getItem("kidgames:" + slug + ":days") || "{}");
             const today = days[todayStr()] || 0;
             return { total, today, days };
-          } catch { return { total: 0, today: 0, days: {} }; }
+          } catch (err) {
+            console.warn('Could not read play stats for "' + slug + '":', err);
+            return { total: 0, today: 0, days: {} };
+          }
         }
         function last7(days) {
           const out = [];
