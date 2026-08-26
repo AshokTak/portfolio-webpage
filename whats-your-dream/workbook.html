@@ -860,6 +860,13 @@ const DAYS = [
   }
 ];
 
+// ── Escaping ───────────────────────────────────────────────────────────────────
+function escHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 // ── Storage ────────────────────────────────────────────────────────────────────
 const KEY = 'wyd_workbook_v2';
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch { return {}; } }
@@ -911,11 +918,11 @@ function buildUI() {
         inputHTML = `
           <div class="rating-row">${ratingBtns}</div>
           <textarea class="answer-area" rows="3" id="inp-${di}-${qi}"
-            placeholder="${q.placeholder}" oninput="saveAnswer(${di},${qi})">${savedVal}</textarea>
+            placeholder="${escHtml(q.placeholder)}" oninput="saveAnswer(${di},${qi})">${escHtml(savedVal)}</textarea>
         `;
       } else {
         inputHTML = `<textarea class="answer-area" rows="4" id="inp-${di}-${qi}"
-          placeholder="${q.placeholder}" oninput="saveAnswer(${di},${qi})">${savedVal}</textarea>`;
+          placeholder="${escHtml(q.placeholder)}" oninput="saveAnswer(${di},${qi})">${escHtml(savedVal)}</textarea>`;
       }
 
       return `
@@ -1021,7 +1028,7 @@ function buildSummary() {
   let html = `
     <div class="summary-day-card" style="border-color:rgba(212,168,67,.3); background:linear-gradient(135deg,rgba(212,168,67,.08),transparent);">
       <div class="summary-day-title">My Dream</div>
-      <div class="summary-a" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;">"${dream}"</div>
+      <div class="summary-a" style="font-family:'Playfair Display',serif;font-style:italic;font-size:1.05rem;">"${escHtml(dream)}"</div>
     </div>
   `;
 
@@ -1031,7 +1038,7 @@ function buildSummary() {
       const a = state[`d${di}_q${qi}`];
       const r = state[`d${di}_q${qi}_rating`];
       if (!a && !r) return '';
-      return `<div class="summary-entry"><div class="summary-q">${q.q}</div><div class="summary-a">${r ? `Rating: ${r}/10${a ? ' — ' + a : ''}` : a}</div></div>`;
+      return `<div class="summary-entry"><div class="summary-q">${escHtml(q.q)}</div><div class="summary-a">${r ? `Rating: ${escHtml(r)}/10${a ? ' — ' + escHtml(a) : ''}` : escHtml(a)}</div></div>`;
     }).filter(Boolean).join('');
 
     if (!answers) return;

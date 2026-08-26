@@ -578,7 +578,7 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(map));
     }
 
-    function catSlug(cat) { return 'cat-' + cat.toLowerCase(); }
+    function catSlug(cat) { return 'cat-' + String(cat || '').toLowerCase().replace(/[^a-z0-9-]/g, ''); }
 
     function renderCard(d, delay=0) {
       const grid = document.getElementById('dream-grid');
@@ -592,20 +592,23 @@
         <div class="dream-card-quote">"${escHtml(d.text)}"</div>
         <div class="dream-card-meta">
           <span class="dream-card-author">${d.author ? '— ' + escHtml(d.author) : '— Anonymous'}</span>
-          <span class="dream-card-cat">${d.cat}</span>
+          <span class="dream-card-cat">${escHtml(d.cat)}</span>
         </div>
         <div class="dream-card-actions">
-          <button class="heart-btn ${d.liked ? 'liked' : ''}" onclick="toggleHeart(event, '${d.id}')">
+          <button class="heart-btn ${d.liked ? 'liked' : ''}">
             <span class="heart-icon">${d.liked ? '❤️' : '🤍'}</span>
-            <span class="heart-count">${d.hearts}</span>
+            <span class="heart-count">${Number(d.hearts) || 0}</span>
           </button>
         </div>
       `;
+      el.querySelector('.heart-btn').addEventListener('click', e => toggleHeart(e, d.id));
       grid.appendChild(el);
     }
 
     function escHtml(s) {
-      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
     function renderAll() {

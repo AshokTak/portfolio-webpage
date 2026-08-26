@@ -522,17 +522,24 @@ document.getElementById('day-number').textContent=doy;
   });
 })();
 
+// ── Escaping ───────────────────────────────────────────────────────────────
+function escHtml(s){
+  return String(s==null?'':s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ── Dream pills ────────────────────────────────────────────────────────────
 ;(function(){
   const wrap=document.getElementById('dream-pills');
   // show 6 pills — mix seeded + any from localStorage wall
   let all=[...dreamPillSeeds];
   try{const saved=JSON.parse(localStorage.getItem('wyd_wall_dreams')||'[]');
-    saved.slice(0,3).forEach(d=>all.unshift({e:'✨',t:d.dream.slice(0,36)}));
+    saved.slice(0,3).forEach(d=>all.unshift({e:'✨',t:String(d&&d.dream||'').slice(0,36)}));
   }catch(e){}
   all.slice(0,7).forEach(d=>{
     const p=document.createElement('div');p.className='dream-pill';
-    p.innerHTML=`<span>${d.e}</span><span>${d.t}</span>`;
+    p.innerHTML=`<span>${escHtml(d.e)}</span><span>${escHtml(d.t)}</span>`;
     wrap.appendChild(p);
   });
 })();
@@ -580,7 +587,7 @@ function launchConfetti(){
 
 // ── Share ──────────────────────────────────────────────────────────────────
 const shareText=`"${entry.quote}" — What's Your Dream?, Simon Squibb\n\n👉 ashoktak.com/whats-your-dream`;
-window.shareTwitter=()=>window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText),'_blank');
+window.shareTwitter=()=>window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(shareText),'_blank','noopener,noreferrer');
 window.copyLink=function(){
   navigator.clipboard.writeText('https://ashoktak.com/whats-your-dream').then(()=>{
     const btn=event.currentTarget,orig=btn.innerHTML;btn.textContent='Copied!';
@@ -600,7 +607,7 @@ window.shareNative=function(){
   slideshowQuotes.forEach((q,i)=>{
     const s=document.createElement('div');
     s.className=`slide ${bgs[i%4]}${i===0?' active':''}`;
-    s.innerHTML=`<p class="slide-q">${q}</p><p class="slide-attr">— What's Your Dream?, Simon Squibb</p>`;
+    s.innerHTML=`<p class="slide-q">${escHtml(q)}</p><p class="slide-attr">— What's Your Dream?, Simon Squibb</p>`;
     track.appendChild(s);
     const d=document.createElement('button');d.className='ss-dot'+(i===0?' active':'');d.onclick=()=>goTo(i);dotsEl.appendChild(d);
   });
