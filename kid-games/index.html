@@ -141,7 +141,7 @@
           try {
             const total = parseInt(localStorage.getItem("kidgames:" + slug + ":total") || "0") || 0;
             const days = JSON.parse(localStorage.getItem("kidgames:" + slug + ":days") || "{}");
-            const today = days[todayStr()] || 0;
+            const today = Number(days[todayStr()]) || 0;
             return { total, today, days };
           } catch { return { total: 0, today: 0, days: {} }; }
         }
@@ -151,7 +151,7 @@
           for (let i = 6; i >= 0; i--) {
             const d = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
             const k = d.toISOString().slice(0,10);
-            out.push(days[k] || 0);
+            out.push(Number(days[k]) || 0);
           }
           return out;
         }

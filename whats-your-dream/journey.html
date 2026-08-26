@@ -864,7 +864,7 @@
         el.className = 'vision-tile' + (tile ? ' filled' : '');
         if (tile) {
           el.innerHTML = `
-            <div class="tile-emoji">${tile.emoji || '✨'}</div>
+            <div class="tile-emoji">${escHtml(tile.emoji) || '✨'}</div>
             <div class="tile-text">${escHtml(tile.text)}</div>
           `;
         } else {
@@ -907,7 +907,9 @@
     }
 
     function escHtml(s) {
-      return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      return String(s == null ? '' : s)
+        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
     renderVision();
