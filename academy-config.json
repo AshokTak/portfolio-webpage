@@ -1,0 +1,29 @@
+{
+  "workshop": {
+    "title": "Build Your First AI Agent — Live Weekend Workshop",
+    "earlyBirdPrice": "$49",
+    "regularPrice": "$79",
+    "currency": "USD",
+    "seatLimit": 30,
+    "sessions": [
+      {
+        "day": "Saturday",
+        "date": "Oct 24, 2026",
+        "time": "11:00 AM–2:00 PM ET"
+      },
+      {
+        "day": "Sunday",
+        "date": "Oct 25, 2026",
+        "time": "11:00 AM–2:00 PM ET"
+      }
+    ],
+    "checkoutUrl": "REPLACE_WITH_STRIPE_PAYMENT_LINK"
+  },
+  "starterKit": {
+    "title": "Agent Engineering Starter Kit",
+    "price": "$29",
+    "currency": "USD",
+    "checkoutUrl": "REPLACE_WITH_GUMROAD_LINK"
+  },
+  "notifyMeEndpoint": "REPLACE_WITH_FORM_ENDPOINT_URL"
+}
