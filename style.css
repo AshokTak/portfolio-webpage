@@ -1315,3 +1315,400 @@ body {
 @media (max-width: 480px) {
   .pillar-grid { grid-template-columns: 1fr; }
 }
+
+/* ── Academy Page ────────────────────────────────────────────────────────── */
+
+.academy-hero {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.workshop-hero,
+.kit-hero {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 56px;
+}
+
+.workshop-title,
+.kit-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+
+.workshop-tagline,
+.kit-tagline {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.workshop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.workshop-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.workshop-card-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.workshop-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.workshop-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.workshop-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--ha);
+  font-weight: 600;
+}
+
+.agenda-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 48px;
+}
+
+.agenda-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 32px;
+}
+
+.agenda-session-header {
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.agenda-day {
+  display: block;
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.agenda-datetime {
+  display: block;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.agenda-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.agenda-list li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 10px;
+  line-height: 1.6;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.agenda-list li::before {
+  content: '•';
+  position: absolute;
+  left: 8px;
+  color: var(--ha);
+  font-weight: bold;
+}
+
+.workshop-includes {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  margin-bottom: 48px;
+}
+
+.includes-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+.includes-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.includes-item svg {
+  flex-shrink: 0;
+  color: var(--ha);
+}
+
+.includes-item span {
+  line-height: 1.5;
+  color: var(--muted);
+}
+
+.instructor-block {
+  margin-bottom: 48px;
+}
+
+.instructor-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.instructor-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+}
+
+.instructor-name {
+  font-weight: 600;
+  font-size: 1.125rem;
+  margin-bottom: 12px;
+}
+
+.instructor-bio {
+  line-height: 1.65;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+.faq-block {
+  margin-bottom: 56px;
+}
+
+.faq-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  text-align: center;
+}
+
+.faq-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.faq-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.faq-question {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 8px;
+}
+
+.faq-answer {
+  line-height: 1.6;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  font-weight: 300;
+}
+
+.workshop-cta {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+}
+
+.pricing-block {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+
+.pricing-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.pricing-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.pricing-amount {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2.5rem;
+  font-weight: 400;
+  color: var(--ha);
+}
+
+.cta-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 48px;
+  background: var(--ha);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px var(--ha-ring);
+}
+
+.cta-button:active {
+  transform: translateY(0);
+}
+
+.cta-note {
+  margin-top: 16px;
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+.kit-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 24px;
+  margin-bottom: 56px;
+}
+
+.kit-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+}
+
+.kit-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ha-ring);
+  color: var(--ha);
+  border-radius: calc(var(--radius) - 1px);
+  margin-bottom: 16px;
+}
+
+.kit-item-title {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.kit-item-desc {
+  line-height: 1.6;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  font-weight: 300;
+}
+
+.kit-cta {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 40px;
+  text-align: center;
+}
+
+.kit-pricing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+}
+
+.kit-price {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3rem;
+  font-weight: 400;
+  color: var(--ha);
+}
+
+.kit-price-note {
+  font-size: 0.875rem;
+  color: var(--muted);
+}
+
+@media (max-width: 768px) {
+  .workshop-grid,
+  .agenda-grid,
+  .includes-grid,
+  .faq-grid,
+  .kit-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pricing-block {
+    gap: 28px;
+  }
+
+  .agenda-block,
+  .workshop-includes,
+  .workshop-cta,
+  .kit-cta {
+    padding: 28px 20px;
+  }
+}
