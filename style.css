@@ -165,7 +165,16 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.6;
+  opacity: 1;
+  /* CSS mesh — used before JS runs and when WebGL is unavailable */
+  background:
+    radial-gradient(ellipse 58% 52% at 78% 46%, var(--ha-ring), transparent 72%),
+    radial-gradient(ellipse 42% 38% at 16% 78%, var(--ha-ring), transparent 70%),
+    radial-gradient(ellipse 36% 32% at 52% 14%, var(--ha-ring), transparent 68%);
+}
+
+#particle-canvas.hero-canvas-webgl {
+  background: none;
 }
 
 #hero {
@@ -195,7 +204,9 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 55% 60% at 75% 50%, var(--ha-ring), transparent 70%);
+  background:
+    radial-gradient(ellipse 40% 48% at 28% 46%, var(--bg), transparent 72%),
+    radial-gradient(ellipse 55% 60% at 78% 48%, var(--ha-ring), transparent 72%);
   pointer-events: none;
   z-index: 0;
   transition: background 0.35s;
@@ -317,6 +328,20 @@ body {
 .section {
   padding: 96px 32px;
   border-top: 1px solid var(--border);
+  position: relative;
+}
+
+.section::after {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  width: min(280px, 42%);
+  height: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, transparent, var(--ha), transparent);
+  pointer-events: none;
+  opacity: 0.72;
 }
 
 .section-inner {
@@ -997,8 +1022,14 @@ body {
   overflow: hidden;
   border: 1px solid var(--border);
   background: var(--surface);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px var(--ha-ring);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px var(--ha-ring), 0 0 32px var(--ha-ring);
   transition: box-shadow 0.35s, border-color 0.25s, background 0.35s;
+  animation: frame-glow 9s ease-in-out infinite;
+}
+
+@keyframes frame-glow {
+  0%, 100% { box-shadow: 0 20px 60px rgba(0,0,0,0.1), 0 0 0 1px var(--ha-ring), 0 0 28px var(--ha-ring); }
+  50%      { box-shadow: 0 20px 60px rgba(0,0,0,0.12), 0 0 0 1px var(--ha-ring), 0 0 52px var(--ha-ring); }
 }
 
 .headshot {
@@ -1056,7 +1087,7 @@ body {
 .pillar-card:hover {
   border-color: var(--ha);
   transform: translateY(-3px);
-  box-shadow: 0 8px 28px var(--ha-ring);
+  box-shadow: 0 8px 28px var(--ha-ring), 0 0 24px var(--ha-ring);
 }
 
 .pillar-icon {
@@ -1314,4 +1345,33 @@ body {
 
 @media (max-width: 480px) {
   .pillar-grid { grid-template-columns: 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .hero-badge,
+  .hero-eyebrow,
+  .hero-name,
+  .hero-bio,
+  .hero-links,
+  .page-hero-eyebrow,
+  .page-hero-title,
+  .page-hero-desc {
+    opacity: 1;
+    animation: none;
+  }
+
+  .hero-badge-dot,
+  .deco-ring,
+  .tw-cursor,
+  .photo-frame {
+    animation: none;
+  }
 }
